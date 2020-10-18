@@ -157,7 +157,9 @@
     <ClCompile Include="MinecleanerBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="assets.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="MinecleanerApp.h" />
     <ClInclude Include="MinecleanerBoard.h" />
   </ItemGroup>

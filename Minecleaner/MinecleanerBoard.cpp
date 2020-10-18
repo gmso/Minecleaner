@@ -1,12 +1,13 @@
 #include "MinecleanerBoard.h"
-#include "config.cpp"
+#include "config.h"
+#include "assets.h"
 
 MinecleanerBoard::MinecleanerBoard()
 {
 	cells.resize(
-		config::game::cellsVertical,
-		std::vector<Cell>(config::game::cellsHorizontal));
-	initialize(config::game::cellsVertical, config::game::cellsHorizontal);
+		config::game_cellsVertical,
+		std::vector<Cell>(config::game_cellsHorizontal));
+	initialize(config::game_cellsVertical, config::game_cellsHorizontal);
 }
 
 MinecleanerBoard::~MinecleanerBoard()
@@ -16,8 +17,8 @@ MinecleanerBoard::~MinecleanerBoard()
 void MinecleanerBoard::initialize(unsigned int rows, unsigned int cols)
 {
 	bombsTotal = 
-		std::rand() % (config::game::bombsMaximum - config::game::bombsMinimum) +
-		config::game::bombsMinimum;
+		std::rand() % (config::game_bombsMaximum - config::game_bombsMinimum) +
+		config::game_bombsMinimum;
 	unsigned int bombsLeft = bombsTotal;
 	while (bombsLeft > 0)
 	{
@@ -77,7 +78,19 @@ void MinecleanerBoard::initialize(unsigned int rows, unsigned int cols)
 	}
 }
 
-void MinecleanerBoard::draw(sf::Window& window)
+void MinecleanerBoard::draw(sf::RenderWindow& window)
 {
-
+	for (size_t r = 0; r < config::game_cellsVertical; r++)
+	{
+		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+		{
+			assets::shapes_cell_closed.setPosition(
+				config::game_cellSizeSide * c + config::game_paddingCell,
+				config::game_cellSizeSide * r + config::game_paddingCell
+			);
+			window.draw(assets::shapes_cell_closed);
+		}
+	}
+	
+	
 }

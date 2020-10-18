@@ -9,10 +9,12 @@ public:
 	MinecleanerApp();
 	~MinecleanerApp();
 
-	bool isRunning();
-	void processEvent(sf::Event& event);
+	void draw(sf::RenderWindow& window);
+
+	//bool isRunning();
+	//void processEvent(sf::Event& event);
 private:
-	sf::RenderWindow window;
+	//sf::RenderWindow window;
 	MinecleanerBoard board;
 	enum class gameState{None,Playing,Lost,Won} currentGameState;
 };

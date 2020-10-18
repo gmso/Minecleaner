@@ -7,23 +7,22 @@
 // Project headers ////////////
 ///////////////////////////////
 #include "MinecleanerApp.h"
+#include "assets.h"
+#include "config.h"
 
 ///////////////////////////////
 // Main routine ///////////////
 ///////////////////////////////
 int main()
 {
+    assets::intialize();
     MinecleanerApp app;
-
-    while (app.isRunning())
-    {
-        sf::Event event;
-        app.processEvent(event);
-    }
-    /*
-    sf::RenderWindow window(sf::VideoMode(200, 200), "Minecleaner by gmso");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+          
+    sf::RenderWindow window(
+        sf::VideoMode(config::window_width, config::window_height), 
+        config::window_title);
+    //sf::CircleShape shape(100.f);
+    //shape.setFillColor(sf::Color::Green);
 
     while (window.isOpen())
     {
@@ -34,10 +33,11 @@ int main()
                 window.close();
         }
 
-        window.clear();
-        window.draw(shape);
+        window.clear(assets::color_grey_medium);
+        app.draw(window);
+        //window.draw(shape);
         window.display();
     }
-    */
+    
     return 0;
 }

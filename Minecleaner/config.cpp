@@ -1,25 +1,19 @@
-#include <SFML\System.hpp>
+#include "config.h"
+#include <SFML/Graphics.hpp>
 
-namespace config
+unsigned int config::game_cellsHorizontal = 20;
+unsigned int config::game_cellsVertical = 10;
+float config::game_cellSizeSide = 40;
+//float config::game_marginSize = 15;
+unsigned int config::game_totalCells = game_cellsHorizontal * game_cellsVertical;
+float config::game_paddingCell= 2;
+unsigned int config::game_bombsMinimum = game_totalCells / 10; //10% of cells are bombs
+unsigned int config::game_bombsMaximum = game_totalCells / 5; //20% of cells are bombs
+
+unsigned int config::window_height = config::game_cellsVertical * config::game_cellSizeSide;
+unsigned int config::window_width =	config::game_cellsHorizontal * config::game_cellSizeSide;
+sf::String config::window_title = "Minecleaner by gmso";
+
+config::config() 
 {
-	namespace game
-	{
-		constexpr unsigned int cellsHorizontal = 20;
-		constexpr unsigned int cellsVertical = 10;
-		constexpr unsigned int cellSizeSide = 40;
-		constexpr unsigned int marginSize = 15;
-		constexpr unsigned int totalCells = cellsHorizontal * cellsVertical;
-		constexpr unsigned int bombsMinimum = totalCells / 10; //10% of cells are bombs
-		constexpr unsigned int bombsMaximum = totalCells / 5; //20% of cells are bombs
-	}
-	namespace window
-	{
-		constexpr unsigned int height =
-			config::game::cellsVertical * config::game::cellSizeSide + 
-			2 * (config::game::marginSize);
-		constexpr unsigned int width =
-			config::game::cellsHorizontal * config::game::cellSizeSide +
-			2*(config::game::marginSize);
-		const sf::String title = "Minecleaner by gmso";
-	}
 }

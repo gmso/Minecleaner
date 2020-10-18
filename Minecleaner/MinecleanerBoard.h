@@ -10,7 +10,7 @@ public:
 	MinecleanerBoard();
 	~MinecleanerBoard();
 
-	void draw(sf::Window& window);
+	void draw(sf::RenderWindow& window);
 private:
 	std::vector<std::vector<Cell>> cells;
 	unsigned int bombsTotal;

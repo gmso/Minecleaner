@@ -1,15 +1,17 @@
 #include "MinecleanerApp.h"
-#include "config.cpp"
-#include "assets.cpp"
+#include "config.h"
+//#include "assets.h"
 
 MinecleanerApp::MinecleanerApp()
 {
-	window.create(sf::VideoMode(1, 1), " ");
+	//assets::intialize();
+
+	//window.create(sf::VideoMode(1, 1), " ");
 	//window.create(
 	//	sf::VideoMode(config::window::width, config::window::height),
 	//	config::window::title);
-	window.setSize(sf::Vector2u(config::window::width,config::window::height));
-	window.setTitle(config::window::title);
+	//window.setSize(sf::Vector2u(config::window_width,config::window_height));
+	//window.setTitle(config::window_title);
 	currentGameState = MinecleanerApp::gameState::None;
 }
 
@@ -17,7 +19,16 @@ MinecleanerApp::~MinecleanerApp()
 {
 }
 
-bool MinecleanerApp::isRunning()
+void MinecleanerApp::draw(sf::RenderWindow& window)
+{
+	//sf::CircleShape shape(100.f);
+	//shape.setFillColor(sf::Color::Green);
+	//window.draw(shape);
+
+	board.draw(window);
+}
+
+/*bool MinecleanerApp::isRunning()
 {
 	return (window.isOpen());
 }
@@ -30,7 +41,11 @@ void MinecleanerApp::processEvent(sf::Event& event)
 			window.close();
 	}
 
-	window.clear(assets::colors::grey_medium);
-	//window.draw(shape);
+	window.clear(assets::color_grey_medium);
+	board.draw(window);
+	sf::CircleShape shape(50.f);
+	shape.setFillColor(sf::Color(100, 250, 50));
+	window.draw(shape);
 	window.display();
 }
+*/
