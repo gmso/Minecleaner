@@ -21,8 +21,6 @@ int main()
     sf::RenderWindow window(
         sf::VideoMode(config::window_width, config::window_height), 
         config::window_title);
-    //sf::CircleShape shape(100.f);
-    //shape.setFillColor(sf::Color::Green);
 
     while (window.isOpen())
     {
@@ -35,7 +33,6 @@ int main()
 
         window.clear(assets::color_grey_medium);
         app.draw(window);
-        //window.draw(shape);
         window.display();
     }
     
