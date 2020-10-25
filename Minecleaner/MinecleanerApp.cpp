@@ -12,7 +12,7 @@ MinecleanerApp::MinecleanerApp()
 	//	config::window::title);
 	//window.setSize(sf::Vector2u(config::window_width,config::window_height));
 	//window.setTitle(config::window_title);
-	currentGameState = MinecleanerApp::gameState::None;
+	currentGameState = MinecleanerApp::gameState::Playing/*None*/;
 }
 
 MinecleanerApp::~MinecleanerApp()
@@ -25,17 +25,31 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 	//shape.setFillColor(sf::Color::Green);
 	//window.draw(shape);
 
-	board.draw(window);
+	board.draw(
+		window, 
+		currentGameState == MinecleanerApp::gameState::Lost);
 }
 
 void MinecleanerApp::processLeftClick(int x, int y)
 {
-	if (x >= config::game_offsetBoard_x && 
-		y >= config::game_offsetBoard_y)
+	if (currentGameState == MinecleanerApp::gameState::Playing)
 	{
-		board.processLeftClick(
-			config::game_offsetBoard_x + x,
-			config::game_offsetBoard_y + y);
+		if (x >= config::game_offsetBoard_x && 
+			y >= config::game_offsetBoard_y)
+		{
+			if (board.processLeftClick(
+				config::game_offsetBoard_x + x,
+				config::game_offsetBoard_y + y))
+			{
+				//game lost
+				currentGameState = MinecleanerApp::gameState::Lost;
+			}
+			else
+			{
+				//game continues
+
+			}
+		}
 	}
 }
 

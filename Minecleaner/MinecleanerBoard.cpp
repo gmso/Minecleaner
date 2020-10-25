@@ -79,18 +79,21 @@ void MinecleanerBoard::initialize(unsigned int rows, unsigned int cols)
 	}
 }
 
-void MinecleanerBoard::draw(sf::RenderWindow& window)
+void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
 {
 	for (size_t r = 0; r < config::game_cellsVertical; r++)
 	{
 		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
 		{
-			sf::RectangleShape shape_cell =
-				cells.at(r).at(c).isRevealed() ?
-				(cells.at(r).at(c).hasMine() ?
-					assets::shapes_cell_openedWithMine :
-					assets::shapes_cell_opened)	:
-				assets::shapes_cell_closed;
+			sf::RectangleShape shape_cell = assets::shapes_cell_closed;
+			if (showMines && cells.at(r).at(c).hasMine())
+			{
+				shape_cell = assets::shapes_cell_openedWithMine;
+			}
+			else if (cells.at(r).at(c).isRevealed())
+			{
+				shape_cell = assets::shapes_cell_opened;
+			}
 
 			shape_cell.setPosition(
 				config::game_cellSizeSide * c + config::game_paddingCell,
@@ -111,17 +114,17 @@ bool MinecleanerBoard::processLeftClick(int x, int y)
 	if (colClicked > config::game_cellsHorizontal ||
 		rowClicked > config::game_cellsVertical)
 	{
-		return true; //click ignored: game continues
+		return false; //click ignored: game continues
 	}
 	if (cells.at(rowClicked).at(colClicked).reveal())
 	{
 		//Clicked on cell with mine
-		return false;
+		return true;
 	}
 	else
 	{
 		//Clicked on cell without mine
-		return true;
+		return false;
 	}
 
 }

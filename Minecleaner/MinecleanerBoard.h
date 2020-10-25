@@ -10,7 +10,7 @@ public:
 	MinecleanerBoard();
 	~MinecleanerBoard();
 
-	void draw(sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window, bool showMines = false);
 	bool processLeftClick(int x, int y);
 private:
 	std::vector<std::vector<Cell>> cells;
