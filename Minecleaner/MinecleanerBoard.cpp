@@ -16,6 +16,7 @@ MinecleanerBoard::~MinecleanerBoard()
 
 void MinecleanerBoard::initialize(unsigned int rows, unsigned int cols)
 {
+	srand(time(0));	//randomize seed for rand()
 	bombsTotal = 
 		std::rand() % (config::game_bombsMaximum - config::game_bombsMinimum) +
 		config::game_bombsMinimum;
@@ -86,7 +87,9 @@ void MinecleanerBoard::draw(sf::RenderWindow& window)
 		{
 			sf::RectangleShape shape_cell =
 				cells.at(r).at(c).isRevealed() ?
-				assets::shapes_cell_opened :
+				(cells.at(r).at(c).hasMine() ?
+					assets::shapes_cell_openedWithMine :
+					assets::shapes_cell_opened)	:
 				assets::shapes_cell_closed;
 
 			shape_cell.setPosition(
