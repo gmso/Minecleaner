@@ -21,6 +21,8 @@ public:
 		);
 	bool isRevealed();
 	bool reveal();
+	bool isNumber();
+	unsigned int getAdjacentBombs();
 
 private:
 	cellType type;

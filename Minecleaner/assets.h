@@ -14,10 +14,20 @@ struct assets
 	static sf::Color color_grey_darkest;
 	static sf::Color color_black;
 	static sf::Color color_red;
+	static sf::Color color_blue;
+	static sf::Color color_green;
+	static sf::Color color_blue_dark;
+	static sf::Color color_maroon;
+	static sf::Color color_cyan;
+	static sf::Color color_green_dark;
+	static sf::Color color_orange;
 
 	static sf::RectangleShape shapes_cell_closed;
 	static sf::RectangleShape shapes_cell_opened;
 	static sf::RectangleShape shapes_cell_openedWithMine;
+
+	static sf::Font font;
+	static sf::Text cellNumber;
 
 	static void intialize();
 };

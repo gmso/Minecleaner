@@ -99,7 +99,63 @@ void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
 				config::game_cellSizeSide * c + config::game_paddingCell,
 				config::game_cellSizeSide * r + config::game_paddingCell
 			);
+
 			window.draw(shape_cell);
+
+			if (cells.at(r).at(c).isRevealed())
+			{
+				if (showMines && cells.at(r).at(c).hasMine())
+				{
+					// draw mine
+				}
+				else if (
+					cells.at(r).at(c).isRevealed() &&
+					cells.at(r).at(c).isNumber())
+				{
+					//draw number
+					sf::Text text = assets::cellNumber;
+					text.setPosition(
+						config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.27,
+						config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.07
+					);
+					switch (cells.at(r).at(c).getAdjacentBombs())
+					{
+					case 1:
+						text.setString("1");
+						text.setFillColor(assets::color_blue);
+						break;
+					case 2:
+						text.setString("2");
+						text.setFillColor(assets::color_green);
+						break;
+					case 3:
+						text.setString("3");
+						text.setFillColor(assets::color_red);
+						break;
+					case 4:
+						text.setString("4");
+						text.setFillColor(assets::color_blue_dark);
+						break;
+					case 5:
+						text.setString("5");
+						text.setFillColor(assets::color_maroon);
+						break;
+					case 6:
+						text.setString("6");
+						text.setFillColor(assets::color_cyan);
+						break;
+					case 7:
+						text.setString("7");
+						text.setFillColor(assets::color_green_dark);
+						break;
+					default:
+						text.setString("8");
+						text.setFillColor(assets::color_orange);
+						break;
+					}
+					window.draw(text);
+				}
+			}
 		}
 	}
 	
