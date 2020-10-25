@@ -20,7 +20,8 @@ int main()
           
     sf::RenderWindow window(
         sf::VideoMode(config::window_width, config::window_height), 
-        config::window_title);
+        config::window_title,
+        sf::Style::Titlebar | sf::Style::Close);
 
     while (window.isOpen())
     {
@@ -29,6 +30,13 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    app.processLeftClick(event.mouseButton.x, event.mouseButton.y);
+                }
+            }
         }
 
         window.clear(assets::color_grey_medium);

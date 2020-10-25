@@ -84,13 +84,41 @@ void MinecleanerBoard::draw(sf::RenderWindow& window)
 	{
 		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
 		{
-			assets::shapes_cell_closed.setPosition(
+			sf::RectangleShape shape_cell =
+				cells.at(r).at(c).isRevealed() ?
+				assets::shapes_cell_opened :
+				assets::shapes_cell_closed;
+
+			shape_cell.setPosition(
 				config::game_cellSizeSide * c + config::game_paddingCell,
 				config::game_cellSizeSide * r + config::game_paddingCell
 			);
-			window.draw(assets::shapes_cell_closed);
+			window.draw(shape_cell);
 		}
 	}
 	
 	
+}
+
+bool MinecleanerBoard::processLeftClick(int x, int y)
+{
+	unsigned int colClicked = x / config::game_cellSizeSide;
+	unsigned int rowClicked = y / config::game_cellSizeSide;
+	
+	if (colClicked > config::game_cellsHorizontal ||
+		rowClicked > config::game_cellsVertical)
+	{
+		return true; //click ignored: game continues
+	}
+	if (cells.at(rowClicked).at(colClicked).reveal())
+	{
+		//Clicked on cell with mine
+		return false;
+	}
+	else
+	{
+		//Clicked on cell without mine
+		return true;
+	}
+
 }

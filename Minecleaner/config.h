@@ -12,6 +12,8 @@ struct config
 	//static float game_marginSize;
 	static unsigned int game_totalCells;
 	static float game_paddingCell;
+	static int game_offsetBoard_x;
+	static int game_offsetBoard_y;
 	static unsigned int game_bombsMinimum;
 	static unsigned int game_bombsMaximum;
 

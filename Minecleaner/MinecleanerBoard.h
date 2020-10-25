@@ -11,6 +11,7 @@ public:
 	~MinecleanerBoard();
 
 	void draw(sf::RenderWindow& window);
+	bool processLeftClick(int x, int y);
 private:
 	std::vector<std::vector<Cell>> cells;
 	unsigned int bombsTotal;

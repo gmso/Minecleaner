@@ -7,6 +7,8 @@ float config::game_cellSizeSide = 40;
 //float config::game_marginSize = 15;
 unsigned int config::game_totalCells = game_cellsHorizontal * game_cellsVertical;
 float config::game_paddingCell= 2;
+int config::game_offsetBoard_x = 0;
+int config::game_offsetBoard_y = 0;
 unsigned int config::game_bombsMinimum = game_totalCells / 10; //10% of cells are bombs
 unsigned int config::game_bombsMaximum = game_totalCells / 5; //20% of cells are bombs
 

@@ -19,6 +19,8 @@ public:
 		unsigned int rightCenter,
 		unsigned int rightBottom
 		);
+	bool isRevealed();
+	bool reveal();
 
 private:
 	cellType type;

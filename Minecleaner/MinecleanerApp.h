@@ -10,6 +10,7 @@ public:
 	~MinecleanerApp();
 
 	void draw(sf::RenderWindow& window);
+	void processLeftClick(int x, int y);
 
 	//bool isRunning();
 	//void processEvent(sf::Event& event);

@@ -28,6 +28,17 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 	board.draw(window);
 }
 
+void MinecleanerApp::processLeftClick(int x, int y)
+{
+	if (x >= config::game_offsetBoard_x && 
+		y >= config::game_offsetBoard_y)
+	{
+		board.processLeftClick(
+			config::game_offsetBoard_x + x,
+			config::game_offsetBoard_y + y);
+	}
+}
+
 /*bool MinecleanerApp::isRunning()
 {
 	return (window.isOpen());

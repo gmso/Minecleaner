@@ -27,3 +27,14 @@ void Cell::addNumber(unsigned int leftTop, unsigned int leftCenter, unsigned int
 	adjacentBombs = leftTop + leftCenter + leftBottom + top + bottom +
 		rightTop + rightCenter + rightBottom;
 }
+
+bool Cell::isRevealed()
+{
+	return revealed;
+}
+
+bool Cell::reveal()
+{
+	revealed = true;
+	return (this->hasMine());
+}
