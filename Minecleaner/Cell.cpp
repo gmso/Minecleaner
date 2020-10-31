@@ -41,6 +41,11 @@ bool Cell::isNumber()
 	return (type == Cell::cellType::number);
 }
 
+bool Cell::isEmpty()
+{
+	return (type == Cell::cellType::empty);
+}
+
 bool Cell::reveal()
 {
 	revealed = true;
@@ -57,4 +62,65 @@ unsigned int Cell::getAdjacentBombs()
 	{
 		return 0;
 	}
+}
+
+void Cell::initializeNeighbors(
+	bool leftTop, 
+	bool leftCenter, 
+	bool leftBottom, 
+	bool top, 
+	bool bottom, 
+	bool rightTop, 
+	bool rightCenter, 
+	bool rightBottom)
+{
+	existingNeighbors.leftTop = leftTop;
+	existingNeighbors.leftCenter = leftCenter;
+	existingNeighbors.leftBottom = leftBottom;
+	existingNeighbors.top = top;
+	existingNeighbors.bottom = bottom;
+	existingNeighbors.rightTop = rightTop;
+	existingNeighbors.rightCenter = rightCenter;
+	existingNeighbors.rightBottom = rightBottom;
+}
+
+bool Cell::neighborExists(int offsetRow, int offsetCol)
+{
+	if (offsetRow == -1 && offsetCol == -1)
+	{
+		return existingNeighbors.leftTop;
+	}
+	else if (offsetRow == 0 && offsetCol == -1)
+	{
+		return existingNeighbors.leftCenter;
+	}
+	else if (offsetRow == 1 && offsetCol == -1)
+	{
+		return existingNeighbors.leftBottom;
+	}
+	else if (offsetRow == -1 && offsetCol == 0)
+	{
+		return existingNeighbors.top;
+	}
+	else if (offsetRow == 1 && offsetCol == 0)
+	{
+		return existingNeighbors.bottom;
+	}
+	else if (offsetRow == -1 && offsetCol == 1)
+	{
+		return existingNeighbors.rightTop;
+	}
+	else if (offsetRow == 0 && offsetCol == 1)
+	{
+		return existingNeighbors.rightCenter;
+	}
+	else if (offsetRow == 1 && offsetCol == 1)
+	{
+		return existingNeighbors.rightBottom;
+	}
+	else
+	{
+		return false;
+	}
+
 }

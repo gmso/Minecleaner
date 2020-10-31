@@ -22,10 +22,44 @@ public:
 	bool isRevealed();
 	bool reveal();
 	bool isNumber();
+	bool isEmpty();
 	unsigned int getAdjacentBombs();
+	void initializeNeighbors(
+		bool leftTop,
+		bool leftCenter,
+		bool leftBottom,
+		bool top,
+		bool bottom,
+		bool rightTop,
+		bool rightCenter,
+		bool rightBottom);
+	bool neighborExists(int offsetRow, int offsetCol);
 
 private:
 	cellType type;
 	bool revealed;
 	unsigned int adjacentBombs;
+	struct neighbors
+	{
+		bool leftTop;
+		bool leftCenter;
+		bool leftBottom;
+		bool top;
+		bool bottom;
+		bool rightTop;
+		bool rightCenter;
+		bool rightBottom;
+		neighbors()
+		{
+			leftTop = false;
+			leftCenter = false;
+			leftBottom = false;
+			top = false;
+			bottom = false;
+			rightTop = false;
+			rightCenter = false;
+			rightBottom = false;
+		}
+	} existingNeighbors;
+
 };

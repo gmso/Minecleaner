@@ -36,6 +36,17 @@ void MinecleanerBoard::initialize(unsigned int rows, unsigned int cols)
 	{
 		for (size_t c = 0; c < cols; c++)
 		{
+			cells.at(r).at(c).initializeNeighbors(
+				(r != 0) && (c != 0),
+				(c != 0),
+				(r != rows - 1) && (c != 0),
+				(r != 0),
+				(r != rows - 1),
+				(r != 0) && (c != cols - 1),
+				(c != cols - 1),
+				(r != rows - 1) && (c != cols - 1)
+				);
+
 			if (!(cells.at(r).at(c).hasMine()))
 			{
 				const unsigned int leftTop = 
@@ -85,22 +96,7 @@ void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
 	{
 		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
 		{
-			sf::RectangleShape shape_cell = assets::shapes_cell_closed;
-			if (showMines && cells.at(r).at(c).hasMine())
-			{
-				shape_cell = assets::shapes_cell_openedWithMine;
-			}
-			else if (cells.at(r).at(c).isRevealed())
-			{
-				shape_cell = assets::shapes_cell_opened;
-			}
-
-			shape_cell.setPosition(
-				config::game_cellSizeSide * c + config::game_paddingCell,
-				config::game_cellSizeSide * r + config::game_paddingCell
-			);
-
-			window.draw(shape_cell);
+			drawCell(window, r, c, showMines);
 
 			if (cells.at(r).at(c).isRevealed())
 			{
@@ -112,48 +108,7 @@ void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
 					cells.at(r).at(c).isRevealed() &&
 					cells.at(r).at(c).isNumber())
 				{
-					//draw number
-					sf::Text text = assets::cellNumber;
-					text.setPosition(
-						config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.27,
-						config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.07
-					);
-					switch (cells.at(r).at(c).getAdjacentBombs())
-					{
-					case 1:
-						text.setString("1");
-						text.setFillColor(assets::color_blue);
-						break;
-					case 2:
-						text.setString("2");
-						text.setFillColor(assets::color_green);
-						break;
-					case 3:
-						text.setString("3");
-						text.setFillColor(assets::color_red);
-						break;
-					case 4:
-						text.setString("4");
-						text.setFillColor(assets::color_blue_dark);
-						break;
-					case 5:
-						text.setString("5");
-						text.setFillColor(assets::color_maroon);
-						break;
-					case 6:
-						text.setString("6");
-						text.setFillColor(assets::color_cyan);
-						break;
-					case 7:
-						text.setString("7");
-						text.setFillColor(assets::color_green_dark);
-						break;
-					default:
-						text.setString("8");
-						text.setFillColor(assets::color_orange);
-						break;
-					}
-					window.draw(text);
+					drawNumber(window, r, c);
 				}
 			}
 		}
@@ -162,13 +117,86 @@ void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
 	
 }
 
+void MinecleanerBoard::drawCell(
+	sf::RenderWindow& window,
+	size_t r,
+	size_t c,
+	bool showMines)
+{
+	sf::RectangleShape shape_cell = assets::shapes_cell_closed;
+	if (showMines && cells.at(r).at(c).hasMine())
+	{
+		shape_cell = assets::shapes_cell_openedWithMine;
+	}
+	else if (cells.at(r).at(c).isRevealed())
+	{
+		shape_cell = assets::shapes_cell_opened;
+	}
+
+	shape_cell.setPosition(
+		config::game_cellSizeSide * c + config::game_paddingCell,
+		config::game_cellSizeSide * r + config::game_paddingCell
+	);
+
+	window.draw(shape_cell);
+}
+
+void MinecleanerBoard::drawNumber(
+	sf::RenderWindow& window,
+	size_t r,
+	size_t c)
+{
+	sf::Text text = assets::cellNumber;
+	text.setPosition(
+		config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.27,
+		config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.07
+	);
+	switch (cells.at(r).at(c).getAdjacentBombs())
+	{
+	case 1:
+		text.setString("1");
+		text.setFillColor(assets::color_blue);
+		break;
+	case 2:
+		text.setString("2");
+		text.setFillColor(assets::color_green);
+		break;
+	case 3:
+		text.setString("3");
+		text.setFillColor(assets::color_red);
+		break;
+	case 4:
+		text.setString("4");
+		text.setFillColor(assets::color_blue_dark);
+		break;
+	case 5:
+		text.setString("5");
+		text.setFillColor(assets::color_maroon);
+		break;
+	case 6:
+		text.setString("6");
+		text.setFillColor(assets::color_cyan);
+		break;
+	case 7:
+		text.setString("7");
+		text.setFillColor(assets::color_green_dark);
+		break;
+	default:
+		text.setString("8");
+		text.setFillColor(assets::color_orange);
+		break;
+	}
+	window.draw(text);
+}
+
 bool MinecleanerBoard::processLeftClick(int x, int y)
 {
 	unsigned int colClicked = x / config::game_cellSizeSide;
 	unsigned int rowClicked = y / config::game_cellSizeSide;
 	
 	if (colClicked > config::game_cellsHorizontal ||
-		rowClicked > config::game_cellsVertical)
+		rowClicked > config::game_cellsVertical ||
+		cells.at(rowClicked).at(colClicked).isRevealed())
 	{
 		return false; //click ignored: game continues
 	}
@@ -180,7 +208,44 @@ bool MinecleanerBoard::processLeftClick(int x, int y)
 	else
 	{
 		//Clicked on cell without mine
+		if (cells.at(rowClicked).at(colClicked).isEmpty())
+		{
+			propagateClickEmptyCell(rowClicked, colClicked);
+		}
 		return false;
 	}
 
 }
+
+void MinecleanerBoard::propagateClickEmptyCell(unsigned int row, unsigned int col)
+{
+	if (cells.at(row).at(col).reveal())
+	{
+		//ERROR: Mine should not be present in adjacent cell!
+	}
+	else
+	{
+		for (int adjRow = -1; adjRow < 2; adjRow++)
+		{
+			for (int adjCol = -1; adjCol < 2; adjCol++)
+			{
+				if (
+					//(adjRow != 0) && (adjCol != 0) && //skip this cell
+					(cells.at(row).at(col).neighborExists(adjRow,adjCol)) &&
+					!(cells.at(row + adjRow).at(col + adjCol).isRevealed())//skip revealed cells
+					)  
+				{
+					if (cells.at(row + adjRow).at(col + adjCol).isEmpty())
+					{
+						propagateClickEmptyCell(row + adjRow, col + adjCol);
+					}
+					else //if (cells.at(row + adjRow).at(col + adjCol).isNumber())
+					{
+						cells.at(row + adjRow).at(col + adjCol).reveal();
+					}
+				}
+			}
+		}
+	}
+}
+
