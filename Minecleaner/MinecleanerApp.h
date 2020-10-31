@@ -11,6 +11,7 @@ public:
 
 	void draw(sf::RenderWindow& window);
 	void processLeftClick(int x, int y);
+	void processRightClick(int x, int y);
 
 	//bool isRunning();
 	//void processEvent(sf::Event& event);

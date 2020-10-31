@@ -36,6 +36,10 @@ int main()
                 {
                     app.processLeftClick(event.mouseButton.x, event.mouseButton.y);
                 }
+                else if (event.mouseButton.button == sf::Mouse::Right)
+                {
+                    app.processRightClick(event.mouseButton.x, event.mouseButton.y);
+                }
             }
         }
 

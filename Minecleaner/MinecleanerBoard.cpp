@@ -111,17 +111,17 @@ void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
 					drawNumber(window, r, c);
 				}
 			}
+			else
+			{
+				drawMark(window, r, c);
+			}
 		}
 	}
 	
 	
 }
 
-void MinecleanerBoard::drawCell(
-	sf::RenderWindow& window,
-	size_t r,
-	size_t c,
-	bool showMines)
+void MinecleanerBoard::drawCell(sf::RenderWindow& window, size_t r,	size_t c, bool showMines)
 {
 	sf::RectangleShape shape_cell = assets::shapes_cell_closed;
 	if (showMines && cells.at(r).at(c).hasMine())
@@ -141,10 +141,7 @@ void MinecleanerBoard::drawCell(
 	window.draw(shape_cell);
 }
 
-void MinecleanerBoard::drawNumber(
-	sf::RenderWindow& window,
-	size_t r,
-	size_t c)
+void MinecleanerBoard::drawNumber(sf::RenderWindow& window, size_t r,size_t c)
 {
 	sf::Text text = assets::cellNumber;
 	text.setPosition(
@@ -189,6 +186,42 @@ void MinecleanerBoard::drawNumber(
 	window.draw(text);
 }
 
+void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
+{
+	if (cells.at(r).at(c).markIsFlag())
+	{
+		sf::RectangleShape pole = assets::shapes_flag_pole;
+		sf::CircleShape flag = assets::shapes_flag_flag;
+		sf::CircleShape flagBorder = assets::shapes_flag_flagBorder;
+
+		pole.setPosition(
+			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.42,
+			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.2
+		);
+		flag.setPosition(
+			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.18,
+			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.5
+		);
+		flagBorder.setPosition(
+			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.1,
+			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.57
+		);
+
+		window.draw(pole);
+		window.draw(flagBorder);
+		window.draw(flag);
+	}
+	else if (cells.at(r).at(c).markIsQuestion())
+	{
+		sf::Text text = assets::questionMark;
+		text.setPosition(
+			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.27,
+			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.07
+		);
+		window.draw(text);
+	}
+}
+
 bool MinecleanerBoard::processLeftClick(int x, int y)
 {
 	unsigned int colClicked = x / config::game_cellSizeSide;
@@ -214,7 +247,6 @@ bool MinecleanerBoard::processLeftClick(int x, int y)
 		}
 		return false;
 	}
-
 }
 
 void MinecleanerBoard::propagateClickEmptyCell(unsigned int row, unsigned int col)
@@ -249,3 +281,17 @@ void MinecleanerBoard::propagateClickEmptyCell(unsigned int row, unsigned int co
 	}
 }
 
+void MinecleanerBoard::processRightClick(int x, int y)
+{
+	const unsigned int colClicked = x / config::game_cellSizeSide;
+	const unsigned int rowClicked = y / config::game_cellSizeSide;
+
+	if (colClicked > config::game_cellsHorizontal ||
+		rowClicked > config::game_cellsVertical ||
+		cells.at(rowClicked).at(colClicked).isRevealed())
+	{
+		return; //click ignored: game continues
+	}
+	
+	cells.at(rowClicked).at(colClicked).toggleMark();
+}

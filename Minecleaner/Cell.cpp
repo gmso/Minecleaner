@@ -3,6 +3,7 @@
 Cell::Cell()
 {
 	type = Cell::cellType::empty;
+	mark = markType::none;
 	revealed = false;
 	adjacentBombs = 0;
 }
@@ -123,4 +124,32 @@ bool Cell::neighborExists(int offsetRow, int offsetCol)
 		return false;
 	}
 
+}
+
+void Cell::toggleMark()
+{
+	switch (mark)
+	{
+	case Cell::markType::none:
+		mark = Cell::markType::flag;
+		break;
+	case Cell::markType::flag:
+		mark = Cell::markType::question;
+		break;
+	case Cell::markType::question:
+		mark = Cell::markType::none;
+		break;
+	default:
+		break;
+	}
+}
+
+bool Cell::markIsFlag()
+{
+	return (mark == Cell::markType::flag);
+}
+
+bool Cell::markIsQuestion()
+{
+	return (mark == Cell::markType::question);
 }

@@ -18,13 +18,19 @@ sf::Color assets::color_maroon = sf::Color::Color(119, 19, 77, 255);
 sf::Color assets::color_cyan = sf::Color::Color(23, 173, 158, 255);
 sf::Color assets::color_green_dark = sf::Color::Color(8, 94, 57, 255);
 sf::Color assets::color_orange= sf::Color::Color(153, 88, 13, 255);
+sf::Color assets::color_red_light = sf::Color::Color(234, 82, 82, 255);
 
 sf::RectangleShape assets::shapes_cell_closed;
 sf::RectangleShape assets::shapes_cell_opened;
 sf::RectangleShape assets::shapes_cell_openedWithMine;
 
+sf::CircleShape assets::shapes_flag_flag;
+sf::CircleShape assets::shapes_flag_flagBorder;
+sf::RectangleShape assets::shapes_flag_pole;
+
 sf::Font assets::font;
 sf::Text assets::cellNumber;
+sf::Text assets::questionMark;
 
 assets::assets()
 {
@@ -55,6 +61,22 @@ void assets::intialize()
 	shapes_cell_opened.setFillColor(assets::color_grey_lightest);
 	shapes_cell_openedWithMine.setFillColor(assets::color_red);
 
+	shapes_flag_flag.setRadius(config::game_cellSizeSide / 5);
+	shapes_flag_flag.setPointCount(3);
+	shapes_flag_flag.setFillColor(assets::color_red_light);
+	shapes_flag_flag.setRotation(270);
+
+	shapes_flag_flagBorder = assets::shapes_flag_flag;
+	shapes_flag_flagBorder.setRadius(shapes_flag_flag.getRadius() * 1.4);
+	shapes_flag_flagBorder.setFillColor(assets::color_grey_lightest);
+		
+	shapes_flag_pole.setSize(
+		sf::Vector2f(
+			config::game_cellSizeSide * 0.1, 
+			config::game_cellSizeSide * 0.6)
+		);
+	shapes_flag_pole.setFillColor(assets::color_grey_lightest);
+
 	if (!font.loadFromFile("segoeui.ttf"))
 	{
 		// error...
@@ -63,5 +85,10 @@ void assets::intialize()
 	cellNumber.setString("1");
 	cellNumber.setCharacterSize(24); // in pixels, not points!
 	cellNumber.setFillColor(assets::color_grey_darkest);
-	//cellNumber.setStyle(sf::Text::Bold);
+
+	questionMark.setFont(font);
+	questionMark.setString("?");
+	questionMark.setCharacterSize(24); // in pixels, not points!
+	questionMark.setFillColor(assets::color_grey_lightest);
+	questionMark.setStyle(sf::Text::Bold);
 }

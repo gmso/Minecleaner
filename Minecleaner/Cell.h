@@ -6,7 +6,8 @@ public:
 	Cell();
 	~Cell();
 
-	enum class cellType{empty,number,mine};
+	enum class cellType { empty, number, mine };
+	enum class markType{ none, flag, question};
 	bool hasMine();
 	void addMine();
 	void addNumber(
@@ -34,9 +35,13 @@ public:
 		bool rightCenter,
 		bool rightBottom);
 	bool neighborExists(int offsetRow, int offsetCol);
+	void toggleMark();
+	bool markIsFlag();
+	bool markIsQuestion();
 
 private:
 	cellType type;
+	markType mark;
 	bool revealed;
 	unsigned int adjacentBombs;
 	struct neighbors

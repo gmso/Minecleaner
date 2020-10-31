@@ -53,6 +53,20 @@ void MinecleanerApp::processLeftClick(int x, int y)
 	}
 }
 
+void MinecleanerApp::processRightClick(int x, int y)
+{
+	if (currentGameState == MinecleanerApp::gameState::Playing)
+	{
+		if (x >= config::game_offsetBoard_x &&
+			y >= config::game_offsetBoard_y)
+		{
+			board.processRightClick(
+				config::game_offsetBoard_x + x,
+				config::game_offsetBoard_y + y);
+		}
+	}
+}
+
 /*bool MinecleanerApp::isRunning()
 {
 	return (window.isOpen());

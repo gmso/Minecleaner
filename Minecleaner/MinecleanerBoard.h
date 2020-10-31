@@ -20,7 +20,12 @@ public:
 		sf::RenderWindow& window,
 		size_t r,
 		size_t c);
+	void drawMark(
+		sf::RenderWindow& window,
+		size_t r,
+		size_t c);
 	bool processLeftClick(int x, int y);
+	void processRightClick(int x, int y);
 private:
 	std::vector<std::vector<Cell>> cells;
 	unsigned int bombsTotal;
