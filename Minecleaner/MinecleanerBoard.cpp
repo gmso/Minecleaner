@@ -224,12 +224,13 @@ void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
 
 bool MinecleanerBoard::processLeftClick(int x, int y)
 {
-	unsigned int colClicked = x / config::game_cellSizeSide;
-	unsigned int rowClicked = y / config::game_cellSizeSide;
+	const unsigned int colClicked = x / config::game_cellSizeSide;
+	const unsigned int rowClicked = y / config::game_cellSizeSide;
 	
-	if (colClicked > config::game_cellsHorizontal ||
-		rowClicked > config::game_cellsVertical ||
-		cells.at(rowClicked).at(colClicked).isRevealed())
+	if (colClicked >= config::game_cellsHorizontal ||
+		rowClicked >= config::game_cellsVertical ||
+		cells.at(rowClicked).at(colClicked).isRevealed() ||
+		cells.at(rowClicked).at(colClicked).markIsFlag())
 	{
 		return false; //click ignored: game continues
 	}
