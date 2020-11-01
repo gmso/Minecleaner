@@ -327,6 +327,31 @@ bool MinecleanerBoard::propagateClickNumberedCell(unsigned int row, unsigned int
 
 bool MinecleanerBoard::allAdjacentMinesAreMarked(unsigned int row, unsigned int col)
 {
+	/*auto accumulator = cells.at(row).at(col).getAdjacentBombs() * 0;
+
+	for (int adjRow = -1; adjRow < 2; adjRow++)
+	{
+		for (int adjCol = -1; adjCol < 2; adjCol++)
+		{
+			if (
+				!(adjRow == 0 && adjCol == 0) && //skip clicked cell
+				(cells.at(row).at(col).neighborExists(adjRow, adjCol)) &&
+				!(cells.at(row + adjRow).at(col + adjCol).isRevealed())//skip revealed cells
+				)
+			{
+				if (cells.at(row + adjRow).at(col + adjCol).markIsFlag())
+				{
+					accumulator++;
+				}
+			}
+		}
+	}
+	*/
+	return (getAdjacentFlags(row,col) == cells.at(row).at(col).getAdjacentBombs());
+}
+
+unsigned int MinecleanerBoard::getAdjacentFlags(unsigned int row, unsigned int col)
+{
 	auto accumulator = cells.at(row).at(col).getAdjacentBombs() * 0;
 
 	for (int adjRow = -1; adjRow < 2; adjRow++)
@@ -347,7 +372,51 @@ bool MinecleanerBoard::allAdjacentMinesAreMarked(unsigned int row, unsigned int 
 		}
 	}
 
-	return (accumulator == cells.at(row).at(col).getAdjacentBombs());
+	return accumulator;
+}
+
+void MinecleanerBoard::flagAllNeighbors(unsigned int row, unsigned int col)
+{
+	for (int adjRow = -1; adjRow < 2; adjRow++)
+	{
+		for (int adjCol = -1; adjCol < 2; adjCol++)
+		{
+			if (
+				!(adjRow == 0 && adjCol == 0) && //skip clicked cell
+				(cells.at(row).at(col).neighborExists(adjRow, adjCol)) &&
+				!(cells.at(row + adjRow).at(col + adjCol).isRevealed()) && //skip revealed cells
+				(cells.at(row + adjRow).at(col + adjCol).markIsNone())
+				)
+			{
+				cells.at(row + adjRow).at(col + adjCol).toggleMark();
+			}
+		}
+	}
+}
+
+unsigned int MinecleanerBoard::getAdjacentHiddenCells(unsigned int row, unsigned int col)
+{
+	unsigned int accumulator = 0;
+
+	for (int adjRow = -1; adjRow < 2; adjRow++)
+	{
+		for (int adjCol = -1; adjCol < 2; adjCol++)
+		{
+			if (
+				!(adjRow == 0 && adjCol == 0) && //skip clicked cell
+				(cells.at(row).at(col).neighborExists(adjRow, adjCol)) &&
+				!(cells.at(row + adjRow).at(col + adjCol).isRevealed())//skip revealed cells
+				)
+			{
+				//if (cells.at(row + adjRow).at(col + adjCol).markIsFlag())
+				//{
+					accumulator++;
+				//}
+			}
+		}
+	}
+
+	return accumulator;
 }
 
 void MinecleanerBoard::processRightClick(int x, int y)
@@ -356,11 +425,24 @@ void MinecleanerBoard::processRightClick(int x, int y)
 	const unsigned int rowClicked = y / config::game_cellSizeSide;
 
 	if (colClicked >= config::game_cellsHorizontal ||
-		rowClicked >= config::game_cellsVertical ||
-		cells.at(rowClicked).at(colClicked).isRevealed())
+		rowClicked >= config::game_cellsVertical /*||
+		cells.at(rowClicked).at(colClicked).isRevealed()*/)
 	{
 		return; //click ignored: game continues
 	}
+
+	if (cells.at(rowClicked).at(colClicked).isRevealed() &&
+		cells.at(rowClicked).at(colClicked).isNumber())
+	{
+		if (getAdjacentHiddenCells(rowClicked,colClicked) ==
+			cells.at(rowClicked).at(colClicked).getAdjacentBombs())
+		{
+			flagAllNeighbors(rowClicked, colClicked);
+		}
+	}
+	else
+	{
+		cells.at(rowClicked).at(colClicked).toggleMark();
+	}
 	
-	cells.at(rowClicked).at(colClicked).toggleMark();
 }

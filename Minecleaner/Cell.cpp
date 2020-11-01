@@ -6,6 +6,7 @@ Cell::Cell()
 	mark = markType::none;
 	revealed = false;
 	adjacentBombs = 0;
+	totalNeighbors = 0;
 }
 
 Cell::~Cell()
@@ -83,6 +84,9 @@ void Cell::initializeNeighbors(
 	existingNeighbors.rightTop = rightTop;
 	existingNeighbors.rightCenter = rightCenter;
 	existingNeighbors.rightBottom = rightBottom;
+
+	totalNeighbors = leftTop + leftCenter + leftBottom + top + bottom +
+		rightTop + rightCenter + rightBottom;
 }
 
 bool Cell::neighborExists(int offsetRow, int offsetCol)
@@ -126,6 +130,11 @@ bool Cell::neighborExists(int offsetRow, int offsetCol)
 
 }
 
+unsigned int Cell::getTotalNeighbors()
+{
+	return totalNeighbors;
+}
+
 void Cell::toggleMark()
 {
 	switch (mark)
@@ -152,4 +161,9 @@ bool Cell::markIsFlag()
 bool Cell::markIsQuestion()
 {
 	return (mark == Cell::markType::question);
+}
+
+bool Cell::markIsNone()
+{
+	return (mark == Cell::markType::none);
 }

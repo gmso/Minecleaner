@@ -35,9 +35,11 @@ public:
 		bool rightCenter,
 		bool rightBottom);
 	bool neighborExists(int offsetRow, int offsetCol);
+	unsigned int getTotalNeighbors();
 	void toggleMark();
 	bool markIsFlag();
 	bool markIsQuestion();
+	bool markIsNone();
 
 private:
 	cellType type;
@@ -66,5 +68,5 @@ private:
 			rightBottom = false;
 		}
 	} existingNeighbors;
-
+	unsigned int totalNeighbors;
 };

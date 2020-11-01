@@ -37,4 +37,8 @@ private:
 	bool propagateClickNumberedCell(unsigned int row, unsigned int col);
 
 	bool allAdjacentMinesAreMarked(unsigned int row, unsigned int col);
+	unsigned int getAdjacentFlags(unsigned int row, unsigned int col);
+	void flagAllNeighbors(unsigned int row, unsigned int col);
+	
+	unsigned int getAdjacentHiddenCells(unsigned int row, unsigned int col);
 };
