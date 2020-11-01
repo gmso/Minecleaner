@@ -315,6 +315,10 @@ bool MinecleanerBoard::propagateClickNumberedCell(unsigned int row, unsigned int
 				{
 					accumulator++;
 				}
+				if (cells.at(row + adjRow).at(col + adjCol).isEmpty())
+				{
+					propagateClickEmptyCell(row + adjRow, col + adjCol);
+				}
 			}
 		}
 	}
