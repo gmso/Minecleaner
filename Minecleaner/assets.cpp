@@ -28,9 +28,17 @@ sf::CircleShape assets::shapes_flag_flag;
 sf::CircleShape assets::shapes_flag_flagBorder;
 sf::RectangleShape assets::shapes_flag_pole;
 
+unsigned int assets::shapes_button_restart_upperLeft_X = 0;
+unsigned int assets::shapes_button_restart_upperLeft_Y = 0;
+unsigned int assets::shapes_button_restart_lowerRight_X = 0;
+unsigned int assets::shapes_button_restart_lowerRight_Y = 0;
+sf::RectangleShape assets::shapes_button_restart;
+sf::RectangleShape assets::shapes_button_restart_border;
+
 sf::Font assets::font;
 sf::Text assets::cellNumber;
 sf::Text assets::questionMark;
+sf::Text assets::restartButton;
 
 assets::assets()
 {
@@ -77,18 +85,59 @@ void assets::intialize()
 		);
 	shapes_flag_pole.setFillColor(assets::color_grey_lightest);
 
+	shapes_button_restart_upperLeft_X =
+		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2 - 4;
+	shapes_button_restart_upperLeft_Y =
+		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2;
+	shapes_button_restart_lowerRight_X =
+		shapes_button_restart_upperLeft_X + config::controlPanel_restartButtonBorder_width;
+	shapes_button_restart_lowerRight_Y =
+		shapes_button_restart_upperLeft_Y + config::controlPanel_restartButtonBorder_width;
+
+	shapes_button_restart.setSize(sf::Vector2f(
+		config::controlPanel_restartButton_width, 
+		config::controlPanel_restartButton_height
+		));
+	shapes_button_restart.setFillColor(assets::color_red_light);
+	shapes_button_restart.setPosition(
+		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2,
+		config::controlPanel_height / 2 - config::controlPanel_restartButton_height / 2
+		);
+
+	shapes_button_restart_border.setSize(sf::Vector2f(
+		config::controlPanel_restartButtonBorder_width,
+		config::controlPanel_restartButtonBorder_height
+	));
+	shapes_button_restart_border.setFillColor(assets::color_grey_light);
+	shapes_button_restart_border.setPosition(
+		shapes_button_restart_upperLeft_X,
+		shapes_button_restart_upperLeft_Y
+	);
+
 	if (!font.loadFromFile("segoeui.ttf"))
 	{
 		// error...
 	}
 	cellNumber.setFont(font);
 	cellNumber.setString("1");
-	cellNumber.setCharacterSize(24); // in pixels, not points!
+	cellNumber.setCharacterSize(config::pixelCharSize); // in pixels, not points!
 	cellNumber.setFillColor(assets::color_grey_darkest);
 
 	questionMark.setFont(font);
 	questionMark.setString("?");
-	questionMark.setCharacterSize(24); // in pixels, not points!
+	questionMark.setCharacterSize(config::pixelCharSize); // in pixels, not points!
 	questionMark.setFillColor(assets::color_grey_lightest);
 	questionMark.setStyle(sf::Text::Bold);
+
+	restartButton.setFont(font);
+	restartButton.setString("Restart");
+	restartButton.setCharacterSize(config::pixelCharSize); // in pixels, not points!
+	restartButton.setFillColor(assets::color_grey_lightest);
+	restartButton.setPosition(
+		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+			+ config::controlPanel_restartButtonBorder_width * 0.2,
+		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
+		+ config::controlPanel_restartButtonBorder_height * 0.2
+	);
+	//restartButton.setStyle(sf::Text::Bold);
 }

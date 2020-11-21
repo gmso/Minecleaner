@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "MinecleanerBoard.h"
+#include "ControlPanel.h"
 
 class MinecleanerApp
 {
@@ -18,5 +19,6 @@ public:
 private:
 	//sf::RenderWindow window;
 	MinecleanerBoard board;
+	ControlPanel panel;
 	enum class gameState{None,Playing,Lost,Won} currentGameState;
 };

@@ -152,6 +152,7 @@
     <ClCompile Include="assets.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="ControlPanel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MinecleanerApp.cpp" />
     <ClCompile Include="MinecleanerBoard.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="assets.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="ControlPanel.h" />
     <ClInclude Include="MinecleanerApp.h" />
     <ClInclude Include="MinecleanerBoard.h" />
   </ItemGroup>

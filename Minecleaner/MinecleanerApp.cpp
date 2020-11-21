@@ -1,6 +1,6 @@
 #include "MinecleanerApp.h"
 #include "config.h"
-//#include "assets.h"
+#include "assets.h"
 
 MinecleanerApp::MinecleanerApp()
 {
@@ -24,7 +24,7 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 	//sf::CircleShape shape(100.f);
 	//shape.setFillColor(sf::Color::Green);
 	//window.draw(shape);
-
+	panel.draw(window);
 	board.draw(
 		window, 
 		currentGameState == MinecleanerApp::gameState::Lost);
@@ -38,8 +38,8 @@ void MinecleanerApp::processLeftClick(int x, int y)
 			y >= config::game_offsetBoard_y)
 		{
 			if (board.processLeftClick(
-				config::game_offsetBoard_x + x,
-				config::game_offsetBoard_y + y))
+				x - config::game_offsetBoard_x,
+				y - config::game_offsetBoard_y))
 			{
 				//game lost
 				currentGameState = MinecleanerApp::gameState::Lost;
@@ -51,6 +51,14 @@ void MinecleanerApp::processLeftClick(int x, int y)
 			}
 		}
 	}
+	if (assets::shapes_button_restart_upperLeft_X <= x &&
+		x <= assets::shapes_button_restart_lowerRight_X &&
+		assets::shapes_button_restart_upperLeft_Y <= y &&
+		y <= assets::shapes_button_restart_lowerRight_Y)
+	{
+		//Restart button clicked
+
+	}
 }
 
 void MinecleanerApp::processRightClick(int x, int y)
@@ -61,8 +69,8 @@ void MinecleanerApp::processRightClick(int x, int y)
 			y >= config::game_offsetBoard_y)
 		{
 			board.processRightClick(
-				config::game_offsetBoard_x + x,
-				config::game_offsetBoard_y + y);
+				x - config::game_offsetBoard_x,
+				y - config::game_offsetBoard_y);
 		}
 	}
 }

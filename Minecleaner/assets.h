@@ -31,9 +31,17 @@ struct assets
 	static sf::CircleShape shapes_flag_flagBorder;
 	static sf::RectangleShape shapes_flag_pole;
 
+	static unsigned int shapes_button_restart_upperLeft_X;
+	static unsigned int shapes_button_restart_upperLeft_Y;
+	static unsigned int shapes_button_restart_lowerRight_X;
+	static unsigned int shapes_button_restart_lowerRight_Y;
+	static sf::RectangleShape shapes_button_restart;
+	static sf::RectangleShape shapes_button_restart_border;
+
 	static sf::Font font;
 	static sf::Text cellNumber;
 	static sf::Text questionMark;
+	static sf::Text restartButton;
 
 	static void intialize();
 };
