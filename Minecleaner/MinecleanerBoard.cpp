@@ -135,7 +135,7 @@ void MinecleanerBoard::drawCell(sf::RenderWindow& window, size_t r,	size_t c, bo
 
 	shape_cell.setPosition(
 		config::game_cellSizeSide * c + config::game_paddingCell,
-		config::game_cellSizeSide * r + config::game_paddingCell
+		config::game_cellSizeSide * r + config::game_paddingCell + config::controlPanel_height
 	);
 
 	window.draw(shape_cell);
@@ -146,7 +146,8 @@ void MinecleanerBoard::drawNumber(sf::RenderWindow& window, size_t r,size_t c)
 	sf::Text text = assets::cellNumber;
 	text.setPosition(
 		config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.27,
-		config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.07
+		config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.07 + 
+			config::controlPanel_height
 	);
 	switch (cells.at(r).at(c).getAdjacentBombs())
 	{
@@ -197,14 +198,17 @@ void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
 		pole.setPosition(
 			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.42,
 			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.2
+				+ config::controlPanel_height
 		);
 		flag.setPosition(
 			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.18,
 			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.5
+				+ config::controlPanel_height
 		);
 		flagBorder.setPosition(
 			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.1,
 			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.57
+				+ config::controlPanel_height
 		);
 
 		window.draw(pole);
@@ -217,6 +221,7 @@ void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
 		text.setPosition(
 			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.27,
 			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.07
+				+ config::controlPanel_height
 		);
 		window.draw(text);
 	}
@@ -225,7 +230,7 @@ void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
 bool MinecleanerBoard::processLeftClick(int x, int y)
 {
 	const unsigned int colClicked = x / config::game_cellSizeSide;
-	const unsigned int rowClicked = y / config::game_cellSizeSide;
+	const unsigned int rowClicked = (y - config::controlPanel_height) / config::game_cellSizeSide;
 
 	const auto wasRevealed = cells.at(rowClicked).at(colClicked).isRevealed();
 	const auto wasEmpty = cells.at(rowClicked).at(colClicked).isEmpty();
@@ -422,7 +427,7 @@ unsigned int MinecleanerBoard::getAdjacentHiddenCells(unsigned int row, unsigned
 void MinecleanerBoard::processRightClick(int x, int y)
 {
 	const unsigned int colClicked = x / config::game_cellSizeSide;
-	const unsigned int rowClicked = y / config::game_cellSizeSide;
+	const unsigned int rowClicked = (y - config::controlPanel_height) / config::game_cellSizeSide;
 
 	if (colClicked >= config::game_cellsHorizontal ||
 		rowClicked >= config::game_cellsVertical /*||

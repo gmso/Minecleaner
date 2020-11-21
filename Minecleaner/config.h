@@ -6,6 +6,9 @@ struct config
 {
 	config();
 
+	static unsigned int controlPanel_height;
+	//static unsigned int controlPanel_width;
+
 	static unsigned int game_cellsHorizontal;
 	static unsigned int game_cellsVertical;
 	static float game_cellSizeSide;

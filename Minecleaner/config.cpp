@@ -1,6 +1,9 @@
 #include "config.h"
 #include <SFML/Graphics.hpp>
 
+unsigned int config::controlPanel_height = 100;
+//unsigned int config::controlPanel_width = 0;
+
 unsigned int config::game_cellsHorizontal = 20;
 unsigned int config::game_cellsVertical = 10;
 float config::game_cellSizeSide = 40;
@@ -12,7 +15,9 @@ int config::game_offsetBoard_y = 0;
 unsigned int config::game_bombsMinimum = game_totalCells / 10; //10% of cells are bombs
 unsigned int config::game_bombsMaximum = game_totalCells / 5; //20% of cells are bombs
 
-unsigned int config::window_height = config::game_cellsVertical * config::game_cellSizeSide;
+unsigned int config::window_height = 
+	config::game_cellsVertical * config::game_cellSizeSide +
+	config::controlPanel_height;
 unsigned int config::window_width =	config::game_cellsHorizontal * config::game_cellSizeSide;
 sf::String config::window_title = "Minecleaner by gmso";
 
