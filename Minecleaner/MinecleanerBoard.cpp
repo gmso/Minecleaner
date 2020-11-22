@@ -8,6 +8,7 @@ MinecleanerBoard::MinecleanerBoard()
 		config::game_cellsVertical,
 		std::vector<Cell>(config::game_cellsHorizontal));
 	initialize(config::game_cellsVertical, config::game_cellsHorizontal);
+	validClicks = 0;
 }
 
 MinecleanerBoard::~MinecleanerBoard()
@@ -276,6 +277,7 @@ MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(int x, int 
 	}
 	else 
 	{
+		validClicks += 1;
 		if (cells.at(rowClicked).at(colClicked).reveal())
 		{
 			//Clicked on cell with mine
@@ -493,6 +495,7 @@ void MinecleanerBoard::processRightClick(int x, int y)
 		return; //click ignored: game continues
 	}
 
+	validClicks += 1;
 	if (cells.at(rowClicked).at(colClicked).isRevealed() &&
 		cells.at(rowClicked).at(colClicked).isNumber())
 	{
@@ -556,4 +559,10 @@ void MinecleanerBoard::reset()
 		config::game_cellsVertical,
 		std::vector<Cell>(config::game_cellsHorizontal));
 	initialize(config::game_cellsVertical, config::game_cellsHorizontal);
+	validClicks = 0;
+}
+
+unsigned int MinecleanerBoard::getValidClicks()
+{
+	return validClicks;
 }

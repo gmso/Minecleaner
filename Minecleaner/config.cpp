@@ -22,6 +22,7 @@ unsigned int config::window_width =	config::game_cellsHorizontal * config::game_
 sf::String config::window_title = "Minecleaner by gmso";
 
 unsigned int config::pixelCharSize = 24;
+unsigned int config::pixelCharSize_small = 20;
 
 unsigned int config::controlPanel_restartButton_width = config::pixelCharSize * 5;
 unsigned int config::controlPanel_restartButton_height = config::pixelCharSize * 2;

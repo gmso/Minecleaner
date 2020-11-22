@@ -25,6 +25,7 @@ struct config
 	static sf::String window_title;
 
 	static unsigned int pixelCharSize;
+	static unsigned int pixelCharSize_small;
 
 	static unsigned int controlPanel_restartButton_width;
 	static unsigned int controlPanel_restartButton_height;

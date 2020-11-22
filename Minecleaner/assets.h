@@ -47,6 +47,7 @@ struct assets
 	static sf::Text cellNumber;
 	static sf::Text questionMark;
 	static sf::Text restartButton;
+	static sf::Text clickCounter;
 
 	static void intialize();
 
@@ -54,4 +55,7 @@ struct assets
 	static void restartButton_notHovered();
 	static void restartButton_gameWon();
 	static void restartButton_gameLost();
+
+	static void clickCounter_update(unsigned int count);
+
 };

@@ -10,9 +10,10 @@ ControlPanel::~ControlPanel()
 {
 }
 
-void ControlPanel::draw(sf::RenderWindow& window, unsigned int gameState)
+void ControlPanel::draw(sf::RenderWindow& window, unsigned int gameState, unsigned int clicks)
 {
 	drawRestartButton(window, gameState);
+	drawClickCounter(window,clicks);
 }
 
 int ControlPanel::processLeftClick(int x, int y)
@@ -71,5 +72,11 @@ void ControlPanel::drawRestartButton(sf::RenderWindow& window, unsigned int game
 		break;
 	}
 	window.draw(assets::restartButton);
+}
+
+void ControlPanel::drawClickCounter(sf::RenderWindow& window, unsigned int clicks)
+{
+	assets::clickCounter_update(clicks);
+	window.draw(assets::clickCounter);
 }
 

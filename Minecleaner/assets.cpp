@@ -45,6 +45,7 @@ sf::Font assets::font;
 sf::Text assets::cellNumber;
 sf::Text assets::questionMark;
 sf::Text assets::restartButton;
+sf::Text assets::clickCounter;
 
 assets::assets()
 {
@@ -159,6 +160,14 @@ void assets::intialize()
 	);
 	//restartButton.setStyle(sf::Text::Bold);
 
+	clickCounter.setFont(font);
+	clickCounter.setString("Clicks: ");
+	clickCounter.setCharacterSize(config::pixelCharSize_small); // in pixels, not points!
+	clickCounter.setPosition(
+		config::window_width * 3 / 4,
+		config::controlPanel_height / 4
+	);
+
 	assets::restartButton_notHovered();
 
 }
@@ -217,4 +226,11 @@ void assets::restartButton_gameLost()
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
 		+ config::controlPanel_restartButtonBorder_height * 0.2
 	);
+}
+
+void assets::clickCounter_update(unsigned int count)
+{
+	std::string str = "Clicks: ";
+	str.append(std::to_string(count));
+	clickCounter.setString(str);
 }

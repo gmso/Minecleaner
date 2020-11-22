@@ -42,10 +42,13 @@ public:
 
 	void reset();
 
+	unsigned int getValidClicks();
+
 private:
 	std::vector<std::vector<Cell>> cells;
 	unsigned int bombsTotal;
 	unsigned int revealedCells;
+	unsigned int validClicks;
 
 	void initialize(unsigned int h, unsigned int w);
 	void hideAllCells();
