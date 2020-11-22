@@ -90,6 +90,17 @@ void MinecleanerBoard::initialize(unsigned int rows, unsigned int cols)
 	}
 }
 
+void MinecleanerBoard::hideAllCells()
+{
+	for (size_t r = 0; r < config::game_cellsVertical; r++)
+	{
+		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+		{
+			cells.at(r).at(c).hide();
+		}
+	}
+}
+
 void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
 {
 	for (size_t r = 0; r < config::game_cellsVertical; r++)
@@ -450,4 +461,14 @@ void MinecleanerBoard::processRightClick(int x, int y)
 		cells.at(rowClicked).at(colClicked).toggleMark();
 	}
 	
+}
+
+void MinecleanerBoard::reset()
+{
+	//hideAllCells();
+	cells.clear();
+	cells.resize(
+		config::game_cellsVertical,
+		std::vector<Cell>(config::game_cellsHorizontal));
+	initialize(config::game_cellsVertical, config::game_cellsHorizontal);
 }

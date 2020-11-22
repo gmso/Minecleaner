@@ -41,6 +41,10 @@ int main()
                     app.processRightClick(event.mouseButton.x, event.mouseButton.y);
                 }
             }
+            if (event.type == sf::Event::MouseMoved)
+            {
+                app.processMousePosition(event.mouseMove.x, event.mouseMove.y);
+            }
         }
 
         window.clear(assets::color_grey_medium);

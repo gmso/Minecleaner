@@ -57,7 +57,9 @@ void MinecleanerApp::processLeftClick(int x, int y)
 		y <= assets::shapes_button_restart_lowerRight_Y)
 	{
 		//Restart button clicked
-
+		currentGameState = MinecleanerApp::gameState::Restarting;
+		board.reset();
+		currentGameState = MinecleanerApp::gameState::Playing;
 	}
 }
 
@@ -73,6 +75,12 @@ void MinecleanerApp::processRightClick(int x, int y)
 				y - config::game_offsetBoard_y);
 		}
 	}
+}
+
+void MinecleanerApp::processMousePosition(int x, int y)
+{
+	panel.processMousePosition(x, y);
+		
 }
 
 /*bool MinecleanerApp::isRunning()

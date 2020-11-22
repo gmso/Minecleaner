@@ -22,6 +22,7 @@ public:
 		);
 	bool isRevealed();
 	bool reveal();
+	void hide();
 	bool isNumber();
 	bool isEmpty();
 	unsigned int getAdjacentBombs();

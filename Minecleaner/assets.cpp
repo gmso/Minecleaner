@@ -92,13 +92,12 @@ void assets::intialize()
 	shapes_button_restart_lowerRight_X =
 		shapes_button_restart_upperLeft_X + config::controlPanel_restartButtonBorder_width;
 	shapes_button_restart_lowerRight_Y =
-		shapes_button_restart_upperLeft_Y + config::controlPanel_restartButtonBorder_width;
+		shapes_button_restart_upperLeft_Y + config::controlPanel_restartButtonBorder_height;
 
 	shapes_button_restart.setSize(sf::Vector2f(
 		config::controlPanel_restartButton_width, 
 		config::controlPanel_restartButton_height
 		));
-	shapes_button_restart.setFillColor(assets::color_red_light);
 	shapes_button_restart.setPosition(
 		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2,
 		config::controlPanel_height / 2 - config::controlPanel_restartButton_height / 2
@@ -108,11 +107,11 @@ void assets::intialize()
 		config::controlPanel_restartButtonBorder_width,
 		config::controlPanel_restartButtonBorder_height
 	));
-	shapes_button_restart_border.setFillColor(assets::color_grey_light);
 	shapes_button_restart_border.setPosition(
 		shapes_button_restart_upperLeft_X,
 		shapes_button_restart_upperLeft_Y
 	);
+
 
 	if (!font.loadFromFile("segoeui.ttf"))
 	{
@@ -132,12 +131,28 @@ void assets::intialize()
 	restartButton.setFont(font);
 	restartButton.setString("Restart");
 	restartButton.setCharacterSize(config::pixelCharSize); // in pixels, not points!
-	restartButton.setFillColor(assets::color_grey_lightest);
 	restartButton.setPosition(
 		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
-			+ config::controlPanel_restartButtonBorder_width * 0.2,
+			+ config::controlPanel_restartButtonBorder_width * 0.17,
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
 		+ config::controlPanel_restartButtonBorder_height * 0.2
 	);
 	//restartButton.setStyle(sf::Text::Bold);
+
+	assets::restartButton_notHovered();
+
+}
+
+void assets::restartButton_hovered()
+{
+	shapes_button_restart.setFillColor(assets::color_red_light);
+	shapes_button_restart_border.setFillColor(assets::color_grey_light);
+	restartButton.setFillColor(assets::color_grey_lightest);
+}
+
+void assets::restartButton_notHovered()
+{
+	shapes_button_restart.setFillColor(assets::color_grey_light);
+	shapes_button_restart_border.setFillColor(assets::color_grey_dark);
+	restartButton.setFillColor(assets::color_grey_dark);
 }

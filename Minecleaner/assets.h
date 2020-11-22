@@ -44,4 +44,7 @@ struct assets
 	static sf::Text restartButton;
 
 	static void intialize();
+
+	static void restartButton_hovered();
+	static void restartButton_notHovered();
 };

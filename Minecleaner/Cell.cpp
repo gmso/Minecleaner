@@ -54,6 +54,11 @@ bool Cell::reveal()
 	return (this->hasMine());
 }
 
+void Cell::hide()
+{
+	revealed = true;
+}
+
 unsigned int Cell::getAdjacentBombs()
 {
 	if (type == Cell::cellType::number)
