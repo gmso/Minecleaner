@@ -24,8 +24,13 @@ public:
 		sf::RenderWindow& window,
 		size_t r,
 		size_t c);
+	
+	enum class leftClickResult
+	{
+		NoMine,Mine,CellsCleared
+	};
 
-	bool processLeftClick(int x, int y);
+	leftClickResult processLeftClick(int x, int y);
 	void processRightClick(int x, int y);
 
 	void reset();
@@ -33,11 +38,14 @@ public:
 private:
 	std::vector<std::vector<Cell>> cells;
 	unsigned int bombsTotal;
+	unsigned int revealedCells;
 
 	void initialize(unsigned int h, unsigned int w);
 	void hideAllCells();
 	void propagateClickEmptyCell(unsigned int row, unsigned int col);
 	bool propagateClickNumberedCell(unsigned int row, unsigned int col);
+
+	bool boardHasBeenCleared();
 
 	bool allAdjacentMinesAreMarked(unsigned int row, unsigned int col);
 	unsigned int getAdjacentFlags(unsigned int row, unsigned int col);

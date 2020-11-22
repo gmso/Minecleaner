@@ -47,4 +47,6 @@ struct assets
 
 	static void restartButton_hovered();
 	static void restartButton_notHovered();
+	static void restartButton_gameWon();
+	static void restartButton_gameLost();
 };

@@ -10,7 +10,6 @@ sf::Color assets::color_grey_medium = sf::Color::Color(147, 147, 147, 255);
 sf::Color assets::color_grey_dark = sf::Color::Color(102, 102, 102, 255);
 sf::Color assets::color_grey_darkest = sf::Color::Color(58, 58, 58, 255);
 sf::Color assets::color_black = sf::Color::Black;
-sf::Color assets::color_red = sf::Color::Color(237, 51, 14, 255);
 sf::Color assets::color_blue = sf::Color::Color(14, 29, 237, 255);
 sf::Color assets::color_green = sf::Color::Color(44, 170, 52, 255);
 sf::Color assets::color_blue_dark = sf::Color::Color(2, 23, 127, 255);
@@ -19,6 +18,8 @@ sf::Color assets::color_cyan = sf::Color::Color(23, 173, 158, 255);
 sf::Color assets::color_green_dark = sf::Color::Color(8, 94, 57, 255);
 sf::Color assets::color_orange= sf::Color::Color(153, 88, 13, 255);
 sf::Color assets::color_red_light = sf::Color::Color(234, 82, 82, 255);
+//sf::Color assets::color_red = sf::Color::Color(237, 51, 14, 255);
+sf::Color assets::color_red = color_red_light;
 
 sf::RectangleShape assets::shapes_cell_closed;
 sf::RectangleShape assets::shapes_cell_opened;
@@ -135,7 +136,7 @@ void assets::intialize()
 		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
 			+ config::controlPanel_restartButtonBorder_width * 0.17,
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
-		+ config::controlPanel_restartButtonBorder_height * 0.2
+			+ config::controlPanel_restartButtonBorder_height * 0.2
 	);
 	//restartButton.setStyle(sf::Text::Bold);
 
@@ -145,9 +146,16 @@ void assets::intialize()
 
 void assets::restartButton_hovered()
 {
-	shapes_button_restart.setFillColor(assets::color_red_light);
+	shapes_button_restart.setFillColor(assets::color_grey_medium);
 	shapes_button_restart_border.setFillColor(assets::color_grey_light);
 	restartButton.setFillColor(assets::color_grey_lightest);
+	restartButton.setString("Restart");
+	restartButton.setPosition(
+		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+		+ config::controlPanel_restartButtonBorder_width * 0.17,
+		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
+		+ config::controlPanel_restartButtonBorder_height * 0.2
+	);
 }
 
 void assets::restartButton_notHovered()
@@ -155,4 +163,39 @@ void assets::restartButton_notHovered()
 	shapes_button_restart.setFillColor(assets::color_grey_light);
 	shapes_button_restart_border.setFillColor(assets::color_grey_dark);
 	restartButton.setFillColor(assets::color_grey_dark);
+	restartButton.setString("Restart");
+	restartButton.setPosition(
+		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+		+ config::controlPanel_restartButtonBorder_width * 0.17,
+		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
+		+ config::controlPanel_restartButtonBorder_height * 0.2
+	);
+}
+
+void assets::restartButton_gameWon()
+{
+	shapes_button_restart.setFillColor(assets::color_green);
+	shapes_button_restart_border.setFillColor(assets::color_grey_light);
+	restartButton.setFillColor(assets::color_grey_lightest);
+	restartButton.setString("You won!");
+	restartButton.setPosition(
+		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+		+ config::controlPanel_restartButtonBorder_width * 0.09,
+		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
+		+ config::controlPanel_restartButtonBorder_height * 0.2
+	);
+}
+
+void assets::restartButton_gameLost()
+{
+	shapes_button_restart.setFillColor(assets::color_red);
+	shapes_button_restart_border.setFillColor(assets::color_grey_light);
+	restartButton.setFillColor(assets::color_grey_lightest);
+	restartButton.setString("You lost");
+	restartButton.setPosition(
+		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+		+ config::controlPanel_restartButtonBorder_width * 0.13,
+		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
+		+ config::controlPanel_restartButtonBorder_height * 0.2
+	);
 }

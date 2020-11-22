@@ -238,7 +238,7 @@ void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
 	}
 }
 
-bool MinecleanerBoard::processLeftClick(int x, int y)
+MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(int x, int y)
 {
 	const unsigned int colClicked = x / config::game_cellSizeSide;
 	const unsigned int rowClicked = y / config::game_cellSizeSide;
@@ -248,31 +248,46 @@ bool MinecleanerBoard::processLeftClick(int x, int y)
 	const auto wasNumber = cells.at(rowClicked).at(colClicked).isNumber();
 	const auto wasFlagged= cells.at(rowClicked).at(colClicked).markIsFlag();
 	
+	MinecleanerBoard::leftClickResult clickResult = MinecleanerBoard::leftClickResult::NoMine;
 	if (colClicked >= config::game_cellsHorizontal ||
 		rowClicked >= config::game_cellsVertical ||
 		(wasRevealed && wasEmpty) ||
 		wasFlagged)
 	{
-		return false; //click ignored: game continues
+		//click ignored: game continues
 	}
-	if (cells.at(rowClicked).at(colClicked).reveal())
+	else 
 	{
-		//Clicked on cell with mine
-		return true;
+		if (cells.at(rowClicked).at(colClicked).reveal())
+		{
+			//Clicked on cell with mine
+			clickResult = MinecleanerBoard::leftClickResult::Mine;
+		}
+		else
+		{
+			//Clicked on cell without mine
+			if (wasEmpty)
+			{
+				propagateClickEmptyCell(rowClicked, colClicked);
+				//click ignored: game continues
+			}
+			else if (wasNumber && wasRevealed)
+			{
+				if (propagateClickNumberedCell(rowClicked, colClicked))
+				{
+					clickResult = MinecleanerBoard::leftClickResult::Mine;
+				}
+			}
+		}
+	}
+
+	if (boardHasBeenCleared())
+	{
+		return MinecleanerBoard::leftClickResult::CellsCleared;
 	}
 	else
 	{
-		//Clicked on cell without mine
-		if (wasEmpty)
-		{
-			propagateClickEmptyCell(rowClicked, colClicked);
-			return false;
-		}
-		else if (wasNumber && wasRevealed)
-		{
-			return (propagateClickNumberedCell(rowClicked, colClicked));
-		}
-		return false;
+		return clickResult;
 	}
 }
 
@@ -339,6 +354,19 @@ bool MinecleanerBoard::propagateClickNumberedCell(unsigned int row, unsigned int
 		}
 	}
 	return (accumulator > 0);
+}
+
+bool MinecleanerBoard::boardHasBeenCleared()
+{
+	unsigned int accum = 0;
+	for (size_t r = 0; r < config::game_cellsVertical; r++)
+	{
+		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+		{
+			accum += cells.at(r).at(c).isRevealed();
+		}
+	}
+	return (bombsTotal + accum == config::game_totalCells);
 }
 
 bool MinecleanerBoard::allAdjacentMinesAreMarked(unsigned int row, unsigned int col)

@@ -3,15 +3,16 @@
 ControlPanel::ControlPanel()
 {
 	restartButton_hovered = false;
+	restartButton_overrideUnhovered = false;
 }
 
 ControlPanel::~ControlPanel()
 {
 }
 
-void ControlPanel::draw(sf::RenderWindow& window)
+void ControlPanel::draw(sf::RenderWindow& window, unsigned int gameState)
 {
-	drawRestartButton(window);
+	drawRestartButton(window, gameState);
 }
 
 int ControlPanel::processLeftClick(int x, int y)
@@ -33,14 +34,42 @@ void ControlPanel::processMousePosition(int x, int y)
 	else
 	{
 		restartButton_hovered = false;
-		assets::restartButton_notHovered();
+		if (!(restartButton_overrideUnhovered))
+		{
+			assets::restartButton_notHovered();
+		}
 	}
 }
 
-void ControlPanel::drawRestartButton(sf::RenderWindow& window)
+void ControlPanel::drawRestartButton(sf::RenderWindow& window, unsigned int gameState)
 {
 	window.draw(assets::shapes_button_restart_border);
 	window.draw(assets::shapes_button_restart);
+
+	switch (gameState)
+	{
+	case 2: // Lost
+		if (!(restartButton_hovered))
+		{
+			restartButton_overrideUnhovered = true;
+			assets::restartButton_gameLost();
+		}
+		break;
+	case 3: // Won
+		if (!(restartButton_hovered))
+		{
+			restartButton_overrideUnhovered = true;
+			assets::restartButton_gameWon();
+		}
+		break;
+	default:
+		if (restartButton_overrideUnhovered)
+		{
+			assets::restartButton_hovered();
+		}
+		restartButton_overrideUnhovered = false;
+		break;
+	}
 	window.draw(assets::restartButton);
 }
 

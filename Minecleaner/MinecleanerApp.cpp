@@ -24,7 +24,7 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 	//sf::CircleShape shape(100.f);
 	//shape.setFillColor(sf::Color::Green);
 	//window.draw(shape);
-	panel.draw(window);
+	panel.draw(window, static_cast<unsigned int>(currentGameState));
 	board.draw(
 		window, 
 		currentGameState == MinecleanerApp::gameState::Lost);
@@ -37,17 +37,18 @@ void MinecleanerApp::processLeftClick(int x, int y)
 		if (x >= config::game_offsetBoard_x && 
 			y >= config::game_offsetBoard_y)
 		{
-			if (board.processLeftClick(
+			switch (board.processLeftClick(
 				x - config::game_offsetBoard_x,
 				y - config::game_offsetBoard_y))
 			{
-				//game lost
+			case MinecleanerBoard::leftClickResult::Mine:
 				currentGameState = MinecleanerApp::gameState::Lost;
-			}
-			else
-			{
-				//game continues
-
+				break;
+			case MinecleanerBoard::leftClickResult::CellsCleared:
+				currentGameState = MinecleanerApp::gameState::Won;
+				break;
+			default:
+				break;
 			}
 		}
 	}
