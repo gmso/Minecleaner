@@ -23,6 +23,9 @@ public:
 	bool isRevealed();
 	bool reveal();
 	void hide();
+	void hover();
+	void unhover();
+	bool isBeingHovered();
 	bool isNumber();
 	bool isEmpty();
 	unsigned int getAdjacentBombs();
@@ -46,6 +49,7 @@ private:
 	cellType type;
 	markType mark;
 	bool revealed;
+	bool hovered;
 	unsigned int adjacentBombs;
 	struct neighbors
 	{

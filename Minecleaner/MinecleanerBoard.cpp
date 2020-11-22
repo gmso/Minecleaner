@@ -143,6 +143,10 @@ void MinecleanerBoard::drawCell(sf::RenderWindow& window, size_t r,	size_t c, bo
 	{
 		shape_cell = assets::shapes_cell_opened;
 	}
+	else if (cells.at(r).at(c).isBeingHovered())
+	{
+		shape_cell = assets::shapes_cell_hovered;
+	}
 
 	shape_cell.setPosition(
 		config::game_cellSizeSide * c + config::game_paddingCell,
@@ -489,6 +493,45 @@ void MinecleanerBoard::processRightClick(int x, int y)
 		cells.at(rowClicked).at(colClicked).toggleMark();
 	}
 	
+}
+
+void MinecleanerBoard::processMousePosition(int x, int y)
+{
+	if (x >= config::game_offsetBoard_x &&
+		y >= config::game_offsetBoard_y)
+	{
+		const unsigned int hoveredCol = std::min(
+			static_cast<unsigned int>((x - config::game_offsetBoard_x) / config::game_cellSizeSide),
+			config::game_cellsHorizontal - 1);
+		const unsigned int hoveredRow = std::min(
+			static_cast<unsigned int>((y - config::game_offsetBoard_y) / config::game_cellSizeSide),
+			config::game_cellsVertical - 1);
+
+		for (size_t r = 0; r < config::game_cellsVertical; r++)
+		{
+			for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+			{
+				if (r == hoveredRow && c == hoveredCol)
+				{
+					cells.at(r).at(c).hover();
+				}
+				else
+				{
+					cells.at(r).at(c).unhover();
+				}
+			}
+		}
+	}
+	else
+	{
+		for (size_t r = 0; r < config::game_cellsVertical; r++)
+		{
+			for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+			{
+				cells.at(r).at(c).unhover();
+			}
+		}
+	}
 }
 
 void MinecleanerBoard::reset()

@@ -5,6 +5,7 @@ Cell::Cell()
 	type = Cell::cellType::empty;
 	mark = markType::none;
 	revealed = false;
+	hovered = false;
 	adjacentBombs = 0;
 	totalNeighbors = 0;
 }
@@ -57,6 +58,21 @@ bool Cell::reveal()
 void Cell::hide()
 {
 	revealed = true;
+}
+
+void Cell::hover()
+{
+	hovered = true;
+}
+
+void Cell::unhover()
+{
+	hovered = false;
+}
+
+bool Cell::isBeingHovered()
+{
+	return hovered;
 }
 
 unsigned int Cell::getAdjacentBombs()

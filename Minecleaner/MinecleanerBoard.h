@@ -33,6 +33,8 @@ public:
 	leftClickResult processLeftClick(int x, int y);
 	void processRightClick(int x, int y);
 
+	void processMousePosition(int x, int y);
+
 	void reset();
 
 private:

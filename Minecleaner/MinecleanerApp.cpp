@@ -81,7 +81,10 @@ void MinecleanerApp::processRightClick(int x, int y)
 void MinecleanerApp::processMousePosition(int x, int y)
 {
 	panel.processMousePosition(x, y);
-		
+	if (currentGameState == MinecleanerApp::gameState::Playing)
+	{
+		board.processMousePosition(x, y);
+	}
 }
 
 /*bool MinecleanerApp::isRunning()

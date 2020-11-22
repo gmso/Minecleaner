@@ -7,6 +7,7 @@ sf::Color assets::color_white = sf::Color::White;
 sf::Color assets::color_grey_lightest = sf::Color::Color(226, 226, 226, 255);
 sf::Color assets::color_grey_light = sf::Color::Color(183, 183, 183, 255);
 sf::Color assets::color_grey_medium = sf::Color::Color(147, 147, 147, 255);
+sf::Color assets::color_grey_medium_dark = sf::Color::Color(125, 125, 125, 255);
 sf::Color assets::color_grey_dark = sf::Color::Color(102, 102, 102, 255);
 sf::Color assets::color_grey_darkest = sf::Color::Color(58, 58, 58, 255);
 sf::Color assets::color_black = sf::Color::Black;
@@ -24,6 +25,7 @@ sf::Color assets::color_red = color_red_light;
 sf::RectangleShape assets::shapes_cell_closed;
 sf::RectangleShape assets::shapes_cell_opened;
 sf::RectangleShape assets::shapes_cell_openedWithMine;
+sf::RectangleShape assets::shapes_cell_hovered;
 
 sf::CircleShape assets::shapes_flag_flag;
 sf::CircleShape assets::shapes_flag_flagBorder;
@@ -66,9 +68,16 @@ void assets::intialize()
 			config::game_cellSizeSide - 2 * config::game_paddingCell
 		)
 	);
+	shapes_cell_hovered.setSize(
+		sf::Vector2f(
+			config::game_cellSizeSide - 2 * config::game_paddingCell,
+			config::game_cellSizeSide - 2 * config::game_paddingCell
+		)
+	);
 	shapes_cell_closed.setFillColor(assets::color_grey_dark);
 	shapes_cell_opened.setFillColor(assets::color_grey_lightest);
 	shapes_cell_openedWithMine.setFillColor(assets::color_red);
+	shapes_cell_hovered.setFillColor(assets::color_grey_medium_dark);
 
 	shapes_flag_flag.setRadius(config::game_cellSizeSide / 5);
 	shapes_flag_flag.setPointCount(3);
