@@ -27,7 +27,8 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 	panel.draw(window, static_cast<unsigned int>(currentGameState));
 	board.draw(
 		window, 
-		currentGameState == MinecleanerApp::gameState::Lost);
+		currentGameState == MinecleanerApp::gameState::Lost,
+		currentGameState == MinecleanerApp::gameState::Won);
 }
 
 void MinecleanerApp::processLeftClick(int x, int y)

@@ -101,17 +101,22 @@ void MinecleanerBoard::hideAllCells()
 	}
 }
 
-void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
+void MinecleanerBoard::draw(
+	sf::RenderWindow& window, 
+	bool showMines_lost,
+	bool showMines_won
+	)
 {
 	for (size_t r = 0; r < config::game_cellsVertical; r++)
 	{
 		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
 		{
-			drawCell(window, r, c, showMines);
+			drawCell(window, r, c, showMines_lost, showMines_won);
 
 			if (cells.at(r).at(c).isRevealed())
 			{
-				if (showMines && cells.at(r).at(c).hasMine())
+				if ((showMines_lost || showMines_won) && 
+					cells.at(r).at(c).hasMine())
 				{
 					// draw mine
 				}
@@ -132,12 +137,21 @@ void MinecleanerBoard::draw(sf::RenderWindow& window, bool showMines)
 	
 }
 
-void MinecleanerBoard::drawCell(sf::RenderWindow& window, size_t r,	size_t c, bool showMines)
+void MinecleanerBoard::drawCell(
+	sf::RenderWindow& window, 
+	size_t r,	
+	size_t c, 
+	bool showMines_lost,
+	bool showMines_won)
 {
 	sf::RectangleShape shape_cell = assets::shapes_cell_closed;
-	if (showMines && cells.at(r).at(c).hasMine())
+	if (showMines_lost && cells.at(r).at(c).hasMine())
 	{
 		shape_cell = assets::shapes_cell_openedWithMine;
+	}
+	else if (showMines_won && cells.at(r).at(c).hasMine())
+	{
+		shape_cell = assets::shapes_cell_openedWithMine_gameWon;
 	}
 	else if (cells.at(r).at(c).isRevealed())
 	{

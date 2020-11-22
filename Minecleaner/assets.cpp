@@ -21,11 +21,14 @@ sf::Color assets::color_orange= sf::Color::Color(153, 88, 13, 255);
 sf::Color assets::color_red_light = sf::Color::Color(234, 82, 82, 255);
 //sf::Color assets::color_red = sf::Color::Color(237, 51, 14, 255);
 sf::Color assets::color_red = color_red_light;
+sf::Color assets::color_green_light = sf::Color::Color(125, 242, 82, 255);
+sf::Color assets::color_green_medium = sf::Color::Color(81, 160, 53, 255);
 
 sf::RectangleShape assets::shapes_cell_closed;
 sf::RectangleShape assets::shapes_cell_opened;
 sf::RectangleShape assets::shapes_cell_openedWithMine;
 sf::RectangleShape assets::shapes_cell_hovered;
+sf::RectangleShape assets::shapes_cell_openedWithMine_gameWon;
 
 sf::CircleShape assets::shapes_flag_flag;
 sf::CircleShape assets::shapes_flag_flagBorder;
@@ -74,10 +77,17 @@ void assets::intialize()
 			config::game_cellSizeSide - 2 * config::game_paddingCell
 		)
 	);
+	shapes_cell_openedWithMine_gameWon.setSize(
+		sf::Vector2f(
+			config::game_cellSizeSide - 2 * config::game_paddingCell,
+			config::game_cellSizeSide - 2 * config::game_paddingCell
+		)
+	);
 	shapes_cell_closed.setFillColor(assets::color_grey_dark);
 	shapes_cell_opened.setFillColor(assets::color_grey_lightest);
 	shapes_cell_openedWithMine.setFillColor(assets::color_red);
 	shapes_cell_hovered.setFillColor(assets::color_grey_medium_dark);
+	shapes_cell_openedWithMine_gameWon.setFillColor(assets::color_green_medium);
 
 	shapes_flag_flag.setRadius(config::game_cellSizeSide / 5);
 	shapes_flag_flag.setPointCount(3);
@@ -183,7 +193,7 @@ void assets::restartButton_notHovered()
 
 void assets::restartButton_gameWon()
 {
-	shapes_button_restart.setFillColor(assets::color_green);
+	shapes_button_restart.setFillColor(assets::color_green_medium);
 	shapes_button_restart_border.setFillColor(assets::color_grey_light);
 	restartButton.setFillColor(assets::color_grey_lightest);
 	restartButton.setString("You won!");

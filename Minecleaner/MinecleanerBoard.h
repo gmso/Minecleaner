@@ -10,12 +10,17 @@ public:
 	MinecleanerBoard();
 	~MinecleanerBoard();
 
-	void draw(sf::RenderWindow& window, bool showMines = false);
+	void draw(
+		sf::RenderWindow& window,
+		bool showMines_lost = false,
+		bool showMines_won = false
+		);
 	void drawCell(
 		sf::RenderWindow& window,
 		size_t r,
 		size_t c,
-		bool showMines);
+		bool showMines_lost,
+		bool showMines_won);
 	void drawNumber(
 		sf::RenderWindow& window,
 		size_t r,

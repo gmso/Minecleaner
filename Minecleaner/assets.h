@@ -23,11 +23,14 @@ struct assets
 	static sf::Color color_green_dark;
 	static sf::Color color_orange;
 	static sf::Color color_red_light;
+	static sf::Color color_green_light;
+	static sf::Color color_green_medium;
 
 	static sf::RectangleShape shapes_cell_closed;
 	static sf::RectangleShape shapes_cell_opened;
 	static sf::RectangleShape shapes_cell_openedWithMine;
 	static sf::RectangleShape shapes_cell_hovered;
+	static sf::RectangleShape shapes_cell_openedWithMine_gameWon;
 
 	static sf::CircleShape shapes_flag_flag;
 	static sf::CircleShape shapes_flag_flagBorder;
