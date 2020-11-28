@@ -118,12 +118,10 @@
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST $(SolutionDir)LatestRelease RMDIR /S /Q $(SolutionDir)LatestRelease
-md $(SolutionDir)LatestRelease
-md $(SolutionDir)LatestRelease\Minecleaner
-xcopy /s /i $(SolutionDir)x64\Release $(SolutionDir)LatestRelease\Minecleaner
-xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)LatestRelease\Minecleaner
-"C:\Program Files\7-Zip\7z.exe" a -tzip "$(SolutionDir)LatestRelease\Minecleaner.zip" "$(SolutionDir)LatestRelease\Minecleaner"</Command>
+      <Command>IF EXIST $(SolutionDir)Release RMDIR /S /Q $(SolutionDir)Release
+md $(SolutionDir)Release
+xcopy /s /i $(SolutionDir)x64\Release\Minecleaner.exe $(SolutionDir)Release
+xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)Release</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -160,12 +158,10 @@ xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)LatestRelease\Minecleaner
       <AdditionalLibraryDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\build\lib\Release</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST $(SolutionDir)LatestRelease RMDIR /S /Q $(SolutionDir)LatestRelease
-md $(SolutionDir)LatestRelease
-md $(SolutionDir)LatestRelease\Minecleaner
-xcopy /s /i $(SolutionDir)x64\Release $(SolutionDir)LatestRelease\Minecleaner
-xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)LatestRelease\Minecleaner
-"C:\Program Files\7-Zip\7z.exe" a -tzip "$(SolutionDir)LatestRelease\Minecleaner.zip" "$(SolutionDir)LatestRelease\Minecleaner"</Command>
+      <Command>IF EXIST $(SolutionDir)Release RMDIR /S /Q $(SolutionDir)Release
+md $(SolutionDir)Release
+xcopy /s /i $(SolutionDir)x64\Release\Minecleaner.exe $(SolutionDir)Release
+xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)Release</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
