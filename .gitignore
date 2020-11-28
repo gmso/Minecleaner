@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Specific for "Minecleaner" repo
+LatestRelease/Minecleaner/
+
 # User-specific files
 *.rsuser
 *.suo

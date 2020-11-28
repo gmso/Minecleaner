@@ -6,6 +6,11 @@ struct config
 {
 	config();
 
+	static sf::String version_mayor;
+	static sf::String version_minor;
+	static sf::String version_bugfix;
+	static std::string appName;
+
 	static unsigned int controlPanel_height;
 	//static unsigned int controlPanel_width;
 

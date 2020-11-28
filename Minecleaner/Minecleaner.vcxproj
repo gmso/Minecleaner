@@ -75,12 +75,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,9 +114,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\build\lib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.pdb;sfml-window.pdb;sfml-system.pdb;sfml-main-s.pdb;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\build\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST $(SolutionDir)LatestRelease RMDIR /S /Q $(SolutionDir)LatestRelease
+md $(SolutionDir)LatestRelease
+md $(SolutionDir)LatestRelease\Minecleaner
+xcopy /s /i $(SolutionDir)x64\Release $(SolutionDir)LatestRelease\Minecleaner
+xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)LatestRelease\Minecleaner
+"C:\Program Files\7-Zip\7z.exe" a -tzip "$(SolutionDir)LatestRelease\Minecleaner.zip" "$(SolutionDir)LatestRelease\Minecleaner"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -139,14 +149,24 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\SFML-2.5.1\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics.pdb;sfml-window.pdb;sfml-system.pdb;sfml-main-s.pdb;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\build\lib\Release</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST $(SolutionDir)LatestRelease RMDIR /S /Q $(SolutionDir)LatestRelease
+md $(SolutionDir)LatestRelease
+md $(SolutionDir)LatestRelease\Minecleaner
+xcopy /s /i $(SolutionDir)x64\Release $(SolutionDir)LatestRelease\Minecleaner
+xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)LatestRelease\Minecleaner
+"C:\Program Files\7-Zip\7z.exe" a -tzip "$(SolutionDir)LatestRelease\Minecleaner.zip" "$(SolutionDir)LatestRelease\Minecleaner"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="assets.cpp" />
