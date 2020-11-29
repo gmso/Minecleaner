@@ -9,7 +9,12 @@ public:
 	ControlPanel();
 	~ControlPanel();
 
-	void draw(sf::RenderWindow& window, unsigned int gameState, unsigned int clicks);
+	void draw(
+		sf::RenderWindow& window, 
+		unsigned int gameState, 
+		unsigned int clicks,
+		std::string timePlayed
+	);
 
 	int processLeftClick(int x, int y);
 	void processMousePosition(int x, int y);
@@ -20,4 +25,5 @@ private:
 
 	void drawRestartButton(sf::RenderWindow& window, unsigned int gameState);
 	void drawClickCounter(sf::RenderWindow& window, unsigned int clicks);
+	void drawTimer(sf::RenderWindow& window, std::string timePlayed);
 };

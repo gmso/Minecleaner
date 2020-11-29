@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 #include <SFML/Graphics.hpp>
 #include "MinecleanerBoard.h"
 #include "ControlPanel.h"
@@ -15,11 +17,17 @@ public:
 	void processRightClick(int x, int y);
 	void processMousePosition(int x, int y);
 
-	//bool isRunning();
-	//void processEvent(sf::Event& event);
 private:
-	//sf::RenderWindow window;
 	MinecleanerBoard board;
 	ControlPanel panel;
 	enum class gameState{None,Playing,Lost,Won,Restarting} currentGameState;
+	void updateGameState(gameState newState);
+	bool boardClickingAllowed();
+
+	std::chrono::steady_clock::time_point timerStart;
+	std::chrono::steady_clock::time_point timerEnd;
+	bool timerRunning;
+	void startTimer();
+	void stopTimer();
+	std::string getTimer();
 };

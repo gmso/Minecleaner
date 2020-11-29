@@ -12,7 +12,8 @@ MinecleanerApp::MinecleanerApp()
 	//	config::window::title);
 	//window.setSize(sf::Vector2u(config::window_width,config::window_height));
 	//window.setTitle(config::window_title);
-	currentGameState = MinecleanerApp::gameState::Playing/*None*/;
+	currentGameState = MinecleanerApp::gameState::None;
+	timerRunning = false;
 }
 
 MinecleanerApp::~MinecleanerApp()
@@ -27,7 +28,9 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 	panel.draw(
 		window, 
 		static_cast<unsigned int>(currentGameState),
-		board.getValidClicks());
+		board.getValidClicks(),
+		getTimer()
+		);
 	board.draw(
 		window, 
 		currentGameState == MinecleanerApp::gameState::Lost,
@@ -36,7 +39,7 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 
 void MinecleanerApp::processLeftClick(int x, int y)
 {
-	if (currentGameState == MinecleanerApp::gameState::Playing)
+	if (boardClickingAllowed())
 	{
 		if (x >= config::game_offsetBoard_x && 
 			y >= config::game_offsetBoard_y)
@@ -46,12 +49,13 @@ void MinecleanerApp::processLeftClick(int x, int y)
 				y - config::game_offsetBoard_y))
 			{
 			case MinecleanerBoard::leftClickResult::Mine:
-				currentGameState = MinecleanerApp::gameState::Lost;
+				updateGameState(MinecleanerApp::gameState::Lost);
 				break;
 			case MinecleanerBoard::leftClickResult::CellsCleared:
-				currentGameState = MinecleanerApp::gameState::Won;
+				updateGameState(MinecleanerApp::gameState::Won);
 				break;
 			default:
+				updateGameState(MinecleanerApp::gameState::Playing);
 				break;
 			}
 		}
@@ -62,15 +66,15 @@ void MinecleanerApp::processLeftClick(int x, int y)
 		y <= assets::shapes_button_restart_lowerRight_Y)
 	{
 		//Restart button clicked
-		currentGameState = MinecleanerApp::gameState::Restarting;
+		updateGameState(MinecleanerApp::gameState::Restarting);
 		board.reset();
-		currentGameState = MinecleanerApp::gameState::Playing;
+		updateGameState(MinecleanerApp::gameState::None);
 	}
 }
 
 void MinecleanerApp::processRightClick(int x, int y)
 {
-	if (currentGameState == MinecleanerApp::gameState::Playing)
+	if (boardClickingAllowed())
 	{
 		if (x >= config::game_offsetBoard_x &&
 			y >= config::game_offsetBoard_y)
@@ -85,10 +89,92 @@ void MinecleanerApp::processRightClick(int x, int y)
 void MinecleanerApp::processMousePosition(int x, int y)
 {
 	panel.processMousePosition(x, y);
-	if (currentGameState == MinecleanerApp::gameState::Playing)
+	if (boardClickingAllowed())
 	{
 		board.processMousePosition(x, y);
 	}
+}
+
+void MinecleanerApp::updateGameState(gameState newState)
+{
+	if (currentGameState == MinecleanerApp::gameState::None &&
+		newState == MinecleanerApp::gameState::Playing)
+	{
+		startTimer();
+	}
+	else if (currentGameState == MinecleanerApp::gameState::None &&
+		newState != MinecleanerApp::gameState::Playing)
+	{
+		startTimer();
+		stopTimer();
+	}
+	else if (currentGameState == MinecleanerApp::gameState::Playing &&
+		newState != MinecleanerApp::gameState::Playing)
+	{
+		stopTimer();
+	}
+
+	currentGameState = newState;
+}
+
+bool MinecleanerApp::boardClickingAllowed()
+{
+	return (
+		currentGameState == MinecleanerApp::gameState::None ||
+		currentGameState == MinecleanerApp::gameState::Playing
+		);
+}
+
+void MinecleanerApp::startTimer()
+{
+	timerRunning = true;
+	timerStart = std::chrono::steady_clock::now();
+	timerEnd = timerStart;
+}
+
+void MinecleanerApp::stopTimer()
+{
+	timerRunning = false;
+	timerEnd = std::chrono::steady_clock::now();
+}
+
+std::string MinecleanerApp::getTimer()
+{
+	if (timerRunning)
+	{
+		timerEnd = std::chrono::steady_clock::now();
+	}
+	std::chrono::duration<double> seconds = timerEnd - timerStart;
+
+	unsigned int int_seconds = static_cast<unsigned int>(seconds.count());
+
+	unsigned int int_minutes = int_seconds / 60;
+	std::string str_minutes = std::to_string(int_minutes);
+
+	int_seconds = int_seconds - int_minutes * 60;
+	std::string str_seconds= std::to_string(int_seconds);
+
+	unsigned int int_ms = static_cast<unsigned int>
+		((seconds.count() - static_cast<double>(int_seconds) - static_cast<double>(int_minutes * 60))
+			* 10) ;
+	std::string str_ms = std::to_string(int_ms);
+
+	std::string time = "";
+	if (int_minutes > 0)
+	{
+		time.append(str_minutes + " : ");
+	}
+	time.append(str_seconds);
+	//if (!timerRunning)
+	//{
+		time.append(" ' " + str_ms);
+	//}
+
+	if (currentGameState == MinecleanerApp::gameState::None)
+	{
+		return "0";
+	}
+	return time;
 }
 
 /*bool MinecleanerApp::isRunning()

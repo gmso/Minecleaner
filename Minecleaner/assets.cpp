@@ -42,7 +42,12 @@ sf::RectangleShape assets::shapes_mine_points_4;
 
 sf::ConvexShape assets::shapes_pointer_arrow;
 sf::RectangleShape assets::shapes_pointer_arrowTail;
-sf::RectangleShape assets::shapes_pointer_line;
+
+sf::CircleShape assets::shapes_stopclock_border;
+sf::CircleShape assets::shapes_stopclock_body;
+sf::RectangleShape assets::shapes_stopclock_top_1;
+sf::RectangleShape assets::shapes_stopclock_top_2;
+sf::RectangleShape assets::shapes_stopclock_needle;
 
 unsigned int assets::shapes_button_restart_upperLeft_X = 0;
 unsigned int assets::shapes_button_restart_upperLeft_Y = 0;
@@ -56,6 +61,7 @@ sf::Text assets::cellNumber;
 sf::Text assets::questionMark;
 sf::Text assets::restartButton;
 sf::Text assets::clickCounter;
+sf::Text assets::timerCount;
 
 assets::assets()
 {
@@ -154,6 +160,44 @@ void assets::intialize()
 		config::controlPanel_height / 4 + 9
 	);
 
+	shapes_stopclock_border.setRadius(12);
+	shapes_stopclock_border.setPointCount(50);
+	shapes_stopclock_border.setFillColor(assets::color_grey_lightest);
+	shapes_stopclock_border.setPosition(
+		config::window_width * 3 / 4 - 20,
+		config::controlPanel_height / 4 * 2 + 12
+	);
+
+	shapes_stopclock_body.setRadius(9);
+	shapes_stopclock_body.setPointCount(50);
+	shapes_stopclock_body.setFillColor(assets::color_grey_medium);
+	shapes_stopclock_body.setPosition(
+		config::window_width * 3 / 4 - 17,
+		config::controlPanel_height / 4 * 2 + 15
+	);
+
+	shapes_stopclock_top_1.setSize(sf::Vector2f(3.f, 5.f));
+	shapes_stopclock_top_1.setFillColor(assets::color_grey_lightest);
+	shapes_stopclock_top_1.setPosition(
+		config::window_width * 3 / 4 - 9,
+		config::controlPanel_height / 4 * 2 + 8
+	);
+
+	shapes_stopclock_top_2.setSize(sf::Vector2f(9.f, 3.f));
+	shapes_stopclock_top_2.setFillColor(assets::color_grey_lightest);
+	shapes_stopclock_top_2.setPosition(
+		config::window_width * 3 / 4 - 12,
+		config::controlPanel_height / 4 * 2 + 6
+	);
+
+	shapes_stopclock_needle.setSize(sf::Vector2f(8.f, 3.f));
+	shapes_stopclock_needle.setFillColor(assets::color_grey_lightest);
+	shapes_stopclock_needle.setRotation(45);
+	shapes_stopclock_needle.setPosition(
+		config::window_width * 3 / 4 - 7,
+		config::controlPanel_height / 4 * 2 + 21
+	);
+
 	shapes_button_restart_upperLeft_X =
 		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2 - 4;
 	shapes_button_restart_upperLeft_Y =
@@ -214,6 +258,12 @@ void assets::intialize()
 	clickCounter.setPosition(
 		config::window_width * 3 / 4,
 		config::controlPanel_height / 4
+	);
+
+	timerCount = clickCounter;
+	timerCount.setPosition(
+		config::window_width * 3 / 4,
+		config::controlPanel_height / 4 * 2 + 12
 	);
 
 	assets::restartButton_notHovered();
@@ -278,7 +328,15 @@ void assets::restartButton_gameLost()
 
 void assets::clickCounter_update(unsigned int count)
 {
-	std::string str = "  ";
+	std::string str = "    ";
 	str.append(std::to_string(count));
 	clickCounter.setString(str);
 }
+
+void assets::timer_update(std::string timePlayed)
+{
+	std::string str = "    ";
+	str.append(timePlayed);
+	timerCount.setString(str);
+}
+

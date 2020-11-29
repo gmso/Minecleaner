@@ -10,10 +10,16 @@ ControlPanel::~ControlPanel()
 {
 }
 
-void ControlPanel::draw(sf::RenderWindow& window, unsigned int gameState, unsigned int clicks)
+void ControlPanel::draw(
+	sf::RenderWindow& window, 
+	unsigned int gameState, 
+	unsigned int clicks,
+	std::string timePlayed
+)
 {
 	drawRestartButton(window, gameState);
-	drawClickCounter(window,clicks);
+	drawClickCounter(window, clicks);
+	drawTimer(window, timePlayed);
 }
 
 int ControlPanel::processLeftClick(int x, int y)
@@ -80,5 +86,16 @@ void ControlPanel::drawClickCounter(sf::RenderWindow& window, unsigned int click
 	window.draw(assets::clickCounter);
 	window.draw(assets::shapes_pointer_arrow);
 	window.draw(assets::shapes_pointer_arrowTail);
+}
+
+void ControlPanel::drawTimer(sf::RenderWindow& window, std::string timePlayed)
+{
+	window.draw(assets::shapes_stopclock_border);
+	window.draw(assets::shapes_stopclock_top_1);
+	window.draw(assets::shapes_stopclock_top_2);
+	window.draw(assets::shapes_stopclock_body);
+	window.draw(assets::shapes_stopclock_needle);
+	assets::timer_update(timePlayed);
+	window.draw(assets::timerCount);
 }
 

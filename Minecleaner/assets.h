@@ -44,8 +44,12 @@ struct assets
 
 	static sf::ConvexShape shapes_pointer_arrow;
 	static sf::RectangleShape shapes_pointer_arrowTail;
-	static sf::RectangleShape shapes_pointer_line;
 
+	static sf::CircleShape shapes_stopclock_border;
+	static sf::CircleShape shapes_stopclock_body;
+	static sf::RectangleShape shapes_stopclock_top_1;
+	static sf::RectangleShape shapes_stopclock_top_2;
+	static sf::RectangleShape shapes_stopclock_needle;
 
 	static unsigned int shapes_button_restart_upperLeft_X;
 	static unsigned int shapes_button_restart_upperLeft_Y;
@@ -59,6 +63,7 @@ struct assets
 	static sf::Text questionMark;
 	static sf::Text restartButton;
 	static sf::Text clickCounter;
+	static sf::Text timerCount;
 
 	static void intialize();
 
@@ -68,5 +73,6 @@ struct assets
 	static void restartButton_gameLost();
 
 	static void clickCounter_update(unsigned int count);
+	static void timer_update(std::string timePlayed);
 
 };
