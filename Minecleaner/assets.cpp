@@ -34,6 +34,16 @@ sf::CircleShape assets::shapes_flag_flag;
 sf::CircleShape assets::shapes_flag_flagBorder;
 sf::RectangleShape assets::shapes_flag_pole;
 
+sf::CircleShape assets::shapes_mine_body;
+sf::RectangleShape assets::shapes_mine_points_1;
+sf::RectangleShape assets::shapes_mine_points_2;
+sf::RectangleShape assets::shapes_mine_points_3;
+sf::RectangleShape assets::shapes_mine_points_4;
+
+sf::ConvexShape assets::shapes_pointer_arrow;
+sf::RectangleShape assets::shapes_pointer_arrowTail;
+sf::RectangleShape assets::shapes_pointer_line;
+
 unsigned int assets::shapes_button_restart_upperLeft_X = 0;
 unsigned int assets::shapes_button_restart_upperLeft_Y = 0;
 unsigned int assets::shapes_button_restart_lowerRight_X = 0;
@@ -106,6 +116,44 @@ void assets::intialize()
 		);
 	shapes_flag_pole.setFillColor(assets::color_grey_lightest);
 
+	shapes_mine_body.setRadius(config::game_cellSizeSide / 4.5);
+	shapes_mine_body.setPointCount(50);
+	shapes_mine_body.setFillColor(assets::color_grey_darkest);
+
+	shapes_mine_points_1.setSize(
+		sf::Vector2f(
+			config::game_cellSizeSide * 0.1,
+			config::game_cellSizeSide * 0.6)
+	);
+	shapes_mine_points_1.setFillColor(assets::color_grey_darkest);
+
+	shapes_mine_points_2 = assets::shapes_mine_points_1;
+	shapes_mine_points_2.setRotation(45);
+
+	shapes_mine_points_3 = assets::shapes_mine_points_1;
+	shapes_mine_points_3.setRotation(90);
+
+	shapes_mine_points_4 = assets::shapes_mine_points_1;
+	shapes_mine_points_4.setRotation(135);
+
+	shapes_pointer_arrow.setPointCount(3);
+	shapes_pointer_arrow.setFillColor(assets::color_grey_lightest);
+	shapes_pointer_arrow.setPoint(0, sf::Vector2f(0.f, 0.f));
+	shapes_pointer_arrow.setPoint(1, sf::Vector2f(0.f, 20.f));
+	shapes_pointer_arrow.setPoint(2, sf::Vector2f(12.f, 15.f));
+	shapes_pointer_arrow.setPosition(
+		config::window_width * 3 / 4 - 15,
+		config::controlPanel_height / 4 - 3
+	);
+
+	shapes_pointer_arrowTail.setSize(sf::Vector2f(3.f,15.f));
+	shapes_pointer_arrowTail.setFillColor(assets::color_grey_lightest);
+	shapes_pointer_arrowTail.setRotation(340);
+	shapes_pointer_arrowTail.setPosition(
+		config::window_width * 3 / 4 - 12,
+		config::controlPanel_height / 4 + 9
+	);
+
 	shapes_button_restart_upperLeft_X =
 		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2 - 4;
 	shapes_button_restart_upperLeft_Y =
@@ -161,7 +209,7 @@ void assets::intialize()
 	//restartButton.setStyle(sf::Text::Bold);
 
 	clickCounter.setFont(font);
-	clickCounter.setString("Clicks: ");
+	clickCounter.setString("  ");
 	clickCounter.setCharacterSize(config::pixelCharSize_small); // in pixels, not points!
 	clickCounter.setPosition(
 		config::window_width * 3 / 4,
@@ -230,7 +278,7 @@ void assets::restartButton_gameLost()
 
 void assets::clickCounter_update(unsigned int count)
 {
-	std::string str = "Clicks: ";
+	std::string str = "  ";
 	str.append(std::to_string(count));
 	clickCounter.setString(str);
 }

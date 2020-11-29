@@ -21,6 +21,12 @@ public:
 		size_t c,
 		bool showMines_lost,
 		bool showMines_won);
+	void drawMine(
+		sf::RenderWindow& window,
+		size_t r,
+		size_t c,
+		bool showMines_lost,
+		bool showMines_won);
 	void drawNumber(
 		sf::RenderWindow& window,
 		size_t r,

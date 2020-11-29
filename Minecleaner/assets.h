@@ -36,6 +36,17 @@ struct assets
 	static sf::CircleShape shapes_flag_flagBorder;
 	static sf::RectangleShape shapes_flag_pole;
 
+	static sf::CircleShape shapes_mine_body;
+	static sf::RectangleShape shapes_mine_points_1;
+	static sf::RectangleShape shapes_mine_points_2;
+	static sf::RectangleShape shapes_mine_points_3;
+	static sf::RectangleShape shapes_mine_points_4;
+
+	static sf::ConvexShape shapes_pointer_arrow;
+	static sf::RectangleShape shapes_pointer_arrowTail;
+	static sf::RectangleShape shapes_pointer_line;
+
+
 	static unsigned int shapes_button_restart_upperLeft_X;
 	static unsigned int shapes_button_restart_upperLeft_Y;
 	static unsigned int shapes_button_restart_lowerRight_X;

@@ -114,16 +114,16 @@ void MinecleanerBoard::draw(
 		{
 			drawCell(window, r, c, showMines_lost, showMines_won);
 
+			if ((showMines_lost || showMines_won) &&
+				cells.at(r).at(c).hasMine() &&
+				!cells.at(r).at(c).markIsFlag())
+			{
+				drawMine(window, r, c, showMines_lost, showMines_won);
+			}
+
 			if (cells.at(r).at(c).isRevealed())
 			{
-				if ((showMines_lost || showMines_won) && 
-					cells.at(r).at(c).hasMine())
-				{
-					// draw mine
-				}
-				else if (
-					cells.at(r).at(c).isRevealed() &&
-					cells.at(r).at(c).isNumber())
+				if (cells.at(r).at(c).isNumber())
 				{
 					drawNumber(window, r, c);
 				}
@@ -169,6 +169,61 @@ void MinecleanerBoard::drawCell(
 	);
 
 	window.draw(shape_cell);
+}
+
+void MinecleanerBoard::drawMine(
+	sf::RenderWindow& window,
+	size_t r,
+	size_t c,
+	bool showMines_lost,
+	bool showMines_won)
+{
+	sf::CircleShape mine = assets::shapes_mine_body;
+	sf::RectangleShape bar_1 = assets::shapes_mine_points_1;
+	sf::RectangleShape bar_2 = assets::shapes_mine_points_2;
+	sf::RectangleShape bar_3 = assets::shapes_mine_points_3;
+	sf::RectangleShape bar_4 = assets::shapes_mine_points_4;
+
+	mine.setPosition(
+		config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.225,
+		config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.225
+		+ config::game_offsetBoard_y
+	);
+	bar_1.setPosition(
+		config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.4,
+		config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.15
+		+ config::game_offsetBoard_y
+	);
+	bar_2.setPosition(
+		config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.65,
+		config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.2
+		+ config::game_offsetBoard_y
+	);
+	bar_3.setPosition(
+		config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.75,
+		config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.4
+		+ config::game_offsetBoard_y
+	);
+	bar_4.setPosition(
+		config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.7,
+		config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.62
+		+ config::game_offsetBoard_y
+	);
+
+	if (showMines_won)
+	{
+		mine.setFillColor(assets::color_grey_lightest);
+		bar_1.setFillColor(assets::color_grey_lightest);
+		bar_2.setFillColor(assets::color_grey_lightest);
+		bar_3.setFillColor(assets::color_grey_lightest);
+		bar_4.setFillColor(assets::color_grey_lightest);
+	}
+
+	window.draw(mine);
+	window.draw(bar_1);
+	window.draw(bar_2);
+	window.draw(bar_3);
+	window.draw(bar_4);
 }
 
 void MinecleanerBoard::drawNumber(sf::RenderWindow& window, size_t r,size_t c)

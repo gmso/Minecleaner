@@ -17,11 +17,14 @@ int main()
 {
     assets::intialize();
     MinecleanerApp app;
-          
+
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
     sf::RenderWindow window(
         sf::VideoMode(config::window_width, config::window_height), 
         config::window_title,
-        sf::Style::Titlebar | sf::Style::Close);
+        sf::Style::Titlebar | sf::Style::Close,
+        settings);
 
     while (window.isOpen())
     {

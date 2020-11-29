@@ -78,5 +78,7 @@ void ControlPanel::drawClickCounter(sf::RenderWindow& window, unsigned int click
 {
 	assets::clickCounter_update(clicks);
 	window.draw(assets::clickCounter);
+	window.draw(assets::shapes_pointer_arrow);
+	window.draw(assets::shapes_pointer_arrowTail);
 }
 
