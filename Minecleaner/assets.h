@@ -58,6 +58,9 @@ struct assets
 	static sf::RectangleShape shapes_button_restart;
 	static sf::RectangleShape shapes_button_restart_border;
 
+	static sf::RectangleShape shapes_status_bar;
+	static sf::RectangleShape shapes_status_bar_border;
+
 	static sf::Font font;
 	static sf::Text cellNumber;
 	static sf::Text questionMark;
@@ -71,6 +74,12 @@ struct assets
 	static void restartButton_notHovered();
 	static void restartButton_gameWon();
 	static void restartButton_gameLost();
+
+	static void statusBar_playing();
+	static void statusBar_gameWon();
+	static void statusBar_gameLost();
+	static void statusBar_notPlaying();
+
 
 	static void clickCounter_update(unsigned int count);
 	static void timer_update(std::string timePlayed);

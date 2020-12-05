@@ -26,4 +26,5 @@ private:
 	void drawRestartButton(sf::RenderWindow& window, unsigned int gameState);
 	void drawClickCounter(sf::RenderWindow& window, unsigned int clicks);
 	void drawTimer(sf::RenderWindow& window, std::string timePlayed);
+	void drawStatusBar(sf::RenderWindow& window, unsigned int gameState);
 };

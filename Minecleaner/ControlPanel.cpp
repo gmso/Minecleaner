@@ -20,6 +20,7 @@ void ControlPanel::draw(
 	drawRestartButton(window, gameState);
 	drawClickCounter(window, clicks);
 	drawTimer(window, timePlayed);
+	drawStatusBar(window, gameState);
 }
 
 int ControlPanel::processLeftClick(int x, int y)
@@ -97,5 +98,28 @@ void ControlPanel::drawTimer(sf::RenderWindow& window, std::string timePlayed)
 	window.draw(assets::shapes_stopclock_needle);
 	assets::timer_update(timePlayed);
 	window.draw(assets::timerCount);
+}
+
+void ControlPanel::drawStatusBar(sf::RenderWindow& window, unsigned int gameState)
+{
+	switch (gameState)
+	{
+	case 1: // Playing
+		assets::statusBar_playing();
+		window.draw(assets::shapes_status_bar_border);
+		break;
+	case 2: // Lost
+		assets::statusBar_gameLost();
+		window.draw(assets::shapes_status_bar_border);
+		break;
+	case 3: // Won
+		assets::statusBar_gameWon();
+		window.draw(assets::shapes_status_bar_border);
+		break;
+	default:
+		assets::statusBar_notPlaying();
+		break;
+	}
+	window.draw(assets::shapes_status_bar);
 }
 

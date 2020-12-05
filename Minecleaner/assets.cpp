@@ -56,6 +56,9 @@ unsigned int assets::shapes_button_restart_lowerRight_Y = 0;
 sf::RectangleShape assets::shapes_button_restart;
 sf::RectangleShape assets::shapes_button_restart_border;
 
+sf::RectangleShape assets::shapes_status_bar;
+sf::RectangleShape assets::shapes_status_bar_border;
+
 sf::Font assets::font;
 sf::Text assets::cellNumber;
 sf::Text assets::questionMark;
@@ -225,6 +228,23 @@ void assets::intialize()
 		shapes_button_restart_upperLeft_Y
 	);
 
+	shapes_status_bar.setSize(sf::Vector2f(3,
+		config::controlPanel_restartButtonBorder_height + 10
+	));
+	shapes_status_bar.setFillColor(assets::color_grey_dark);
+	shapes_status_bar.setPosition(
+		config::window_width * 3 / 4 - 40,
+		shapes_button_restart_upperLeft_Y
+	);
+
+	shapes_status_bar_border.setSize(sf::Vector2f(3 + 4,
+		config::controlPanel_restartButtonBorder_height + 10 + 4
+	));
+	shapes_status_bar_border.setFillColor(assets::color_grey_light);
+	shapes_status_bar_border.setPosition(
+		config::window_width * 3 / 4 - 40 - 2,
+		shapes_button_restart_upperLeft_Y - 2
+	);
 
 	if (!font.loadFromFile("segoeui.ttf"))
 	{
@@ -324,6 +344,30 @@ void assets::restartButton_gameLost()
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
 		+ config::controlPanel_restartButtonBorder_height * 0.2
 	);
+}
+
+void assets::statusBar_playing()
+{
+	shapes_status_bar.setFillColor(assets::color_grey_lightest);
+	shapes_status_bar_border.setFillColor(assets::color_grey_light);
+}
+
+void assets::statusBar_gameWon()
+{
+	shapes_status_bar.setFillColor(assets::color_green_medium);
+	//shapes_status_bar_border.setFillColor(assets::color_green_medium);
+}
+
+void assets::statusBar_gameLost()
+{
+	shapes_status_bar.setFillColor(assets::color_red);
+	//shapes_status_bar_border.setFillColor(assets::color_red);
+}
+
+void assets::statusBar_notPlaying()
+{
+	shapes_status_bar.setFillColor(assets::color_grey_light);
+	//shapes_status_bar_border.setFillColor(assets::color_grey_light);
 }
 
 void assets::clickCounter_update(unsigned int count)
