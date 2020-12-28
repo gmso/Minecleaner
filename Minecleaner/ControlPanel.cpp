@@ -4,6 +4,8 @@ ControlPanel::ControlPanel()
 {
 	restartButton_hovered = false;
 	restartButton_overrideUnhovered = false;
+	difficulty = ControlPanel::gameDifficulty::Easy;
+	btnEasy.activate();
 }
 
 ControlPanel::~ControlPanel()
@@ -21,15 +23,49 @@ void ControlPanel::draw(
 	drawClickCounter(window, clicks);
 	drawTimer(window, timePlayed);
 	drawStatusBar(window, gameState);
+	drawGameModes(window);
 }
 
-int ControlPanel::processLeftClick(int x, int y)
+ControlPanel::gameDifficulty ControlPanel::getDifficulty()
 {
-	return 0;
+	return difficulty;
+}
+
+ControlPanel::gameDifficulty ControlPanel::processLeftClick(int x, int y)
+{
+	auto clickEasy = btnEasy.processLeftClick(x, y);
+	auto clickMedium = btnMedium.processLeftClick(x, y);
+	auto clickHard = btnHard.processLeftClick(x, y);
+	toggleGameMode(clickEasy, clickMedium, clickHard);
+
+	switch (difficulty)
+	{
+	case ControlPanel::gameDifficulty::Easy:
+		btnMedium.deactivate();
+		btnHard.deactivate();
+		break;
+	case ControlPanel::gameDifficulty::Medium:
+		btnEasy.deactivate();
+		btnHard.deactivate();
+		break;
+	case ControlPanel::gameDifficulty::Hard:
+		btnEasy.deactivate();
+		btnMedium.deactivate();
+		break;
+	default:
+		break;
+	}
+
+	return difficulty;
 }
 
 void ControlPanel::processMousePosition(int x, int y)
 {
+	auto mouseEasy = btnEasy.processMousePosition(x, y);
+	auto mouseMedium = btnMedium.processMousePosition(x, y);
+	auto mouseHard = btnHard.processMousePosition(x, y);
+	//toggleGameMode(mouseEasy, mouseMedium, mouseHard);
+
 	if (assets::shapes_button_restart_upperLeft_X <= x &&
 		x <= assets::shapes_button_restart_lowerRight_X &&
 		assets::shapes_button_restart_upperLeft_Y <= y &&
@@ -122,4 +158,53 @@ void ControlPanel::drawStatusBar(sf::RenderWindow& window, unsigned int gameStat
 	}
 	window.draw(assets::shapes_status_bar);
 }
+
+void ControlPanel::drawGameModes(sf::RenderWindow& window)
+{
+	btnEasy.draw(window);
+	btnMedium.draw(window);
+	btnHard.draw(window);
+}
+
+ControlPanel::gameDifficulty ControlPanel::toggleGameMode(
+	Button::State Easy, Button::State Medium, Button::State Hard)
+{
+	switch (difficulty)
+	{
+	case ControlPanel::gameDifficulty::Easy:
+		if (Medium == Button::State::Clicked)
+		{
+			difficulty = gameDifficulty::Medium;
+		}
+		else if (Hard == Button::State::Clicked)
+		{
+			difficulty = gameDifficulty::Hard;
+		}
+		break;
+	case ControlPanel::gameDifficulty::Medium:
+		if (Easy == Button::State::Clicked)
+		{
+			difficulty = gameDifficulty::Easy;
+		}
+		else if (Hard == Button::State::Clicked)
+		{
+			difficulty = gameDifficulty::Hard;
+		}
+		break;
+	case ControlPanel::gameDifficulty::Hard:
+		if (Easy == Button::State::Clicked)
+		{
+			difficulty = gameDifficulty::Easy;
+		}
+		else if (Medium == Button::State::Clicked)
+		{
+			difficulty = gameDifficulty::Medium;
+		}
+		break;
+	default:
+		break;
+	}
+	return difficulty;
+}
+
 

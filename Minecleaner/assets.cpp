@@ -12,6 +12,7 @@ sf::Color assets::color_grey_dark = sf::Color::Color(102, 102, 102, 255);
 sf::Color assets::color_grey_darkest = sf::Color::Color(58, 58, 58, 255);
 sf::Color assets::color_black = sf::Color::Black;
 sf::Color assets::color_blue = sf::Color::Color(14, 29, 237, 255);
+//sf::Color assets::color_blue_dark = sf::Color::Color(23, 32, 155, 255);
 sf::Color assets::color_green = sf::Color::Color(44, 170, 52, 255);
 sf::Color assets::color_blue_dark = sf::Color::Color(2, 23, 127, 255);
 sf::Color assets::color_maroon = sf::Color::Color(119, 19, 77, 255);
@@ -21,6 +22,7 @@ sf::Color assets::color_orange= sf::Color::Color(153, 88, 13, 255);
 sf::Color assets::color_red_light = sf::Color::Color(234, 82, 82, 255);
 //sf::Color assets::color_red = sf::Color::Color(237, 51, 14, 255);
 sf::Color assets::color_red = color_red_light;
+sf::Color assets::color_red_dark = sf::Color::Color(147, 26, 26, 255);
 sf::Color assets::color_green_light = sf::Color::Color(125, 242, 82, 255);
 sf::Color assets::color_green_medium = sf::Color::Color(81, 160, 53, 255);
 
@@ -151,7 +153,7 @@ void assets::intialize()
 	shapes_pointer_arrow.setPoint(1, sf::Vector2f(0.f, 20.f));
 	shapes_pointer_arrow.setPoint(2, sf::Vector2f(12.f, 15.f));
 	shapes_pointer_arrow.setPosition(
-		config::window_width * 3 / 4 - 15,
+		config::window_width_easy * 3 / 4 - 15,
 		config::controlPanel_height / 4 - 3
 	);
 
@@ -159,7 +161,7 @@ void assets::intialize()
 	shapes_pointer_arrowTail.setFillColor(assets::color_grey_lightest);
 	shapes_pointer_arrowTail.setRotation(340);
 	shapes_pointer_arrowTail.setPosition(
-		config::window_width * 3 / 4 - 12,
+		config::window_width_easy * 3 / 4 - 12,
 		config::controlPanel_height / 4 + 9
 	);
 
@@ -167,7 +169,7 @@ void assets::intialize()
 	shapes_stopclock_border.setPointCount(50);
 	shapes_stopclock_border.setFillColor(assets::color_grey_lightest);
 	shapes_stopclock_border.setPosition(
-		config::window_width * 3 / 4 - 20,
+		config::window_width_easy * 3 / 4 - 20,
 		config::controlPanel_height / 4 * 2 + 12
 	);
 
@@ -175,21 +177,21 @@ void assets::intialize()
 	shapes_stopclock_body.setPointCount(50);
 	shapes_stopclock_body.setFillColor(assets::color_grey_medium);
 	shapes_stopclock_body.setPosition(
-		config::window_width * 3 / 4 - 17,
+		config::window_width_easy * 3 / 4 - 17,
 		config::controlPanel_height / 4 * 2 + 15
 	);
 
 	shapes_stopclock_top_1.setSize(sf::Vector2f(3.f, 5.f));
 	shapes_stopclock_top_1.setFillColor(assets::color_grey_lightest);
 	shapes_stopclock_top_1.setPosition(
-		config::window_width * 3 / 4 - 9,
+		config::window_width_easy * 3 / 4 - 9,
 		config::controlPanel_height / 4 * 2 + 8
 	);
 
 	shapes_stopclock_top_2.setSize(sf::Vector2f(9.f, 3.f));
 	shapes_stopclock_top_2.setFillColor(assets::color_grey_lightest);
 	shapes_stopclock_top_2.setPosition(
-		config::window_width * 3 / 4 - 12,
+		config::window_width_easy * 3 / 4 - 12,
 		config::controlPanel_height / 4 * 2 + 6
 	);
 
@@ -197,12 +199,12 @@ void assets::intialize()
 	shapes_stopclock_needle.setFillColor(assets::color_grey_lightest);
 	shapes_stopclock_needle.setRotation(45);
 	shapes_stopclock_needle.setPosition(
-		config::window_width * 3 / 4 - 7,
+		config::window_width_easy * 3 / 4 - 7,
 		config::controlPanel_height / 4 * 2 + 21
 	);
 
 	shapes_button_restart_upperLeft_X =
-		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2 - 4;
+		config::window_width_easy / 2 - config::controlPanel_restartButtonBorder_width / 2 - 4;
 	shapes_button_restart_upperLeft_Y =
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2;
 	shapes_button_restart_lowerRight_X =
@@ -215,7 +217,7 @@ void assets::intialize()
 		config::controlPanel_restartButton_height
 		));
 	shapes_button_restart.setPosition(
-		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2,
+		config::window_width_easy / 2 - config::controlPanel_restartButtonBorder_width / 2,
 		config::controlPanel_height / 2 - config::controlPanel_restartButton_height / 2
 		);
 
@@ -233,7 +235,7 @@ void assets::intialize()
 	));
 	shapes_status_bar.setFillColor(assets::color_grey_dark);
 	shapes_status_bar.setPosition(
-		config::window_width * 3 / 4 - 40,
+		config::window_width_easy * 3 / 4 - 40,
 		shapes_button_restart_upperLeft_Y
 	);
 
@@ -242,7 +244,7 @@ void assets::intialize()
 	));
 	shapes_status_bar_border.setFillColor(assets::color_grey_light);
 	shapes_status_bar_border.setPosition(
-		config::window_width * 3 / 4 - 40 - 2,
+		config::window_width_easy * 3 / 4 - 40 - 2,
 		shapes_button_restart_upperLeft_Y - 2
 	);
 
@@ -265,7 +267,7 @@ void assets::intialize()
 	restartButton.setString("Restart");
 	restartButton.setCharacterSize(config::pixelCharSize); // in pixels, not points!
 	restartButton.setPosition(
-		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+		config::window_width_easy / 2 - config::controlPanel_restartButtonBorder_width / 2
 			+ config::controlPanel_restartButtonBorder_width * 0.17,
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
 			+ config::controlPanel_restartButtonBorder_height * 0.2
@@ -276,13 +278,13 @@ void assets::intialize()
 	clickCounter.setString("  ");
 	clickCounter.setCharacterSize(config::pixelCharSize_small); // in pixels, not points!
 	clickCounter.setPosition(
-		config::window_width * 3 / 4,
+		config::window_width_easy * 3 / 4,
 		config::controlPanel_height / 4
 	);
 
 	timerCount = clickCounter;
 	timerCount.setPosition(
-		config::window_width * 3 / 4,
+		config::window_width_easy * 3 / 4,
 		config::controlPanel_height / 4 * 2 + 12
 	);
 
@@ -296,12 +298,12 @@ void assets::restartButton_hovered()
 	shapes_button_restart_border.setFillColor(assets::color_grey_light);
 	restartButton.setFillColor(assets::color_grey_lightest);
 	restartButton.setString("Restart");
-	restartButton.setPosition(
-		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+	/*restartButton.setPosition(
+		config::window_width_easy / 2 - config::controlPanel_restartButtonBorder_width / 2
 		+ config::controlPanel_restartButtonBorder_width * 0.17,
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
 		+ config::controlPanel_restartButtonBorder_height * 0.2
-	);
+	);*/
 }
 
 void assets::restartButton_notHovered()
@@ -310,12 +312,12 @@ void assets::restartButton_notHovered()
 	shapes_button_restart_border.setFillColor(assets::color_grey_dark);
 	restartButton.setFillColor(assets::color_grey_dark);
 	restartButton.setString("Restart");
-	restartButton.setPosition(
-		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+	/*restartButton.setPosition(
+		config::window_width_easy / 2 - config::controlPanel_restartButtonBorder_width / 2
 		+ config::controlPanel_restartButtonBorder_width * 0.17,
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
 		+ config::controlPanel_restartButtonBorder_height * 0.2
-	);
+	);*/
 }
 
 void assets::restartButton_gameWon()
@@ -323,13 +325,13 @@ void assets::restartButton_gameWon()
 	shapes_button_restart.setFillColor(assets::color_green_medium);
 	shapes_button_restart_border.setFillColor(assets::color_grey_light);
 	restartButton.setFillColor(assets::color_grey_lightest);
-	restartButton.setString("You won!");
-	restartButton.setPosition(
-		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+	restartButton.setString("Victory");
+	/*restartButton.setPosition(
+		config::window_width_easy / 2 - config::controlPanel_restartButtonBorder_width / 2
 		+ config::controlPanel_restartButtonBorder_width * 0.09,
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
 		+ config::controlPanel_restartButtonBorder_height * 0.2
-	);
+	);*/
 }
 
 void assets::restartButton_gameLost()
@@ -337,13 +339,13 @@ void assets::restartButton_gameLost()
 	shapes_button_restart.setFillColor(assets::color_red);
 	shapes_button_restart_border.setFillColor(assets::color_grey_light);
 	restartButton.setFillColor(assets::color_grey_lightest);
-	restartButton.setString("You lost");
-	restartButton.setPosition(
-		config::window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+	restartButton.setString("Defeat");
+	/*restartButton.setPosition(
+		config::window_width_easy / 2 - config::controlPanel_restartButtonBorder_width / 2
 		+ config::controlPanel_restartButtonBorder_width * 0.13,
 		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
 		+ config::controlPanel_restartButtonBorder_height * 0.2
-	);
+	);*/
 }
 
 void assets::statusBar_playing()
@@ -382,5 +384,91 @@ void assets::timer_update(std::string timePlayed)
 	std::string str = "    ";
 	str.append(timePlayed);
 	timerCount.setString(str);
+}
+
+void assets::updatePositions(unsigned int newGameMode)
+{
+	auto window_width = config::window_width_easy;
+	switch (newGameMode)
+	{
+	case 0: // Easy
+		//do nothing
+		break;
+	case 1: // Medium
+		window_width = config::window_width_medium;
+		break;
+	case 2: // Hard
+		window_width = config::window_width_hard;
+		break;
+	default:
+		break;
+	}
+
+	shapes_pointer_arrow.setPosition(
+		window_width * 3 / 4 - 15,
+		config::controlPanel_height / 4 - 3
+	);
+	shapes_pointer_arrowTail.setPosition(
+		window_width * 3 / 4 - 12,
+		config::controlPanel_height / 4 + 9
+	);
+	shapes_stopclock_border.setPosition(
+		window_width * 3 / 4 - 20,
+		config::controlPanel_height / 4 * 2 + 12
+	);
+	shapes_stopclock_body.setPosition(
+		window_width * 3 / 4 - 17,
+		config::controlPanel_height / 4 * 2 + 15
+	);
+	shapes_stopclock_top_1.setPosition(
+		window_width * 3 / 4 - 9,
+		config::controlPanel_height / 4 * 2 + 8
+	);
+	shapes_stopclock_top_2.setPosition(
+		window_width * 3 / 4 - 12,
+		config::controlPanel_height / 4 * 2 + 6
+	);
+	shapes_stopclock_needle.setPosition(
+		window_width * 3 / 4 - 7,
+		config::controlPanel_height / 4 * 2 + 21
+	);
+	
+	shapes_button_restart_upperLeft_X =
+		window_width / 2 - config::controlPanel_restartButtonBorder_width / 2 - 4;
+	shapes_button_restart_lowerRight_X =
+		shapes_button_restart_upperLeft_X + config::controlPanel_restartButtonBorder_width;
+
+	shapes_button_restart.setPosition(
+		window_width / 2 - config::controlPanel_restartButtonBorder_width / 2,
+		config::controlPanel_height / 2 - config::controlPanel_restartButton_height / 2
+	);
+
+	shapes_button_restart_border.setPosition(
+		shapes_button_restart_upperLeft_X,
+		shapes_button_restart_upperLeft_Y
+	);
+
+	shapes_status_bar.setPosition(
+		window_width * 3 / 4 - 40,
+		shapes_button_restart_upperLeft_Y
+	);
+	shapes_status_bar_border.setPosition(
+		window_width * 3 / 4 - 40 - 2,
+		shapes_button_restart_upperLeft_Y - 2
+	);
+	restartButton.setPosition(
+		window_width / 2 - config::controlPanel_restartButtonBorder_width / 2
+		+ config::controlPanel_restartButtonBorder_width * 0.17,
+		config::controlPanel_height / 2 - config::controlPanel_restartButtonBorder_height / 2
+		+ config::controlPanel_restartButtonBorder_height * 0.2
+	);
+	clickCounter.setPosition(
+		window_width * 3 / 4,
+		config::controlPanel_height / 4
+	);
+	timerCount.setPosition(
+		window_width * 3 / 4,
+		config::controlPanel_height / 4 * 2 + 12
+	);
 }
 

@@ -4,11 +4,16 @@
 
 MinecleanerBoard::MinecleanerBoard()
 {
-	cells.resize(
-		config::game_cellsVertical,
-		std::vector<Cell>(config::game_cellsHorizontal));
-	initialize(config::game_cellsVertical, config::game_cellsHorizontal);
+	//cells.resize(
+	//	config::game_cellsVertical,
+	//	std::vector<Cell>(config::game_cellsHorizontal));
+	//initialize(config::game_cellsVertical, config::game_cellsHorizontal);
 	validClicks = 0;
+	revealedCells = 0;
+	bombsTotal = config::game_bombs_easy;
+	cellsHorizontal =config::game_cellsHorizontal_easy;
+	cellsVertical = config::game_cellsVertical_easy;
+	cellsTotal = config::game_totalCells_easy;
 }
 
 MinecleanerBoard::~MinecleanerBoard()
@@ -18,9 +23,9 @@ MinecleanerBoard::~MinecleanerBoard()
 void MinecleanerBoard::initialize(unsigned int rows, unsigned int cols)
 {
 	srand(time(0));	//randomize seed for rand()
-	bombsTotal = 
-		std::rand() % (config::game_bombsMaximum - config::game_bombsMinimum) +
-		config::game_bombsMinimum;
+	//bombsTotal = 
+	//	std::rand() % (config::game_bombsMaximum - config::game_bombsMinimum) +
+	//	config::game_bombsMinimum;
 	unsigned int bombsLeft = bombsTotal;
 	while (bombsLeft > 0)
 	{
@@ -91,11 +96,38 @@ void MinecleanerBoard::initialize(unsigned int rows, unsigned int cols)
 	}
 }
 
+void MinecleanerBoard::setLocalConfig(unsigned int diff)
+{
+	switch (diff)
+	{
+	case 0: // Easy
+		bombsTotal = config::game_bombs_easy;
+		cellsHorizontal = config::game_cellsHorizontal_easy;
+		cellsVertical = config::game_cellsVertical_easy;
+		cellsTotal = config::game_totalCells_easy;
+		break;
+	case 1: // Medium
+		bombsTotal = config::game_bombs_medium;
+		cellsHorizontal = config::game_cellsHorizontal_medium;
+		cellsVertical = config::game_cellsVertical_medium;
+		cellsTotal = config::game_totalCells_medium;
+		break;
+	case 2: // Hard
+		bombsTotal = config::game_bombs_hard;
+		cellsHorizontal = config::game_cellsHorizontal_hard;
+		cellsVertical = config::game_cellsVertical_hard;
+		cellsTotal = config::game_totalCells_hard;
+		break;
+	default:
+		break;
+	}
+}
+
 void MinecleanerBoard::hideAllCells()
 {
-	for (size_t r = 0; r < config::game_cellsVertical; r++)
+	for (size_t r = 0; r < cellsVertical; r++)
 	{
-		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+		for (size_t c = 0; c < cellsHorizontal; c++)
 		{
 			cells.at(r).at(c).hide();
 		}
@@ -108,9 +140,9 @@ void MinecleanerBoard::draw(
 	bool showMines_won
 	)
 {
-	for (size_t r = 0; r < config::game_cellsVertical; r++)
+	for (size_t r = 0; r < cellsVertical; r++)
 	{
-		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+		for (size_t c = 0; c < cellsHorizontal; c++)
 		{
 			drawCell(window, r, c, showMines_lost, showMines_won);
 
@@ -314,8 +346,14 @@ void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
 
 MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(int x, int y)
 {
-	const unsigned int colClicked = x / config::game_cellSizeSide;
-	const unsigned int rowClicked = y / config::game_cellSizeSide;
+	const unsigned int colClicked = std::min(
+		static_cast<unsigned int>(x / config::game_cellSizeSide),
+		static_cast<unsigned int>(cells.at(0).size() - 1)
+	);
+	const unsigned int rowClicked = std::min(
+		static_cast<unsigned int>(y / config::game_cellSizeSide),
+		static_cast<unsigned int>(cells.size() - 1)
+	);
 
 	const auto wasRevealed = cells.at(rowClicked).at(colClicked).isRevealed();
 	const auto wasEmpty = cells.at(rowClicked).at(colClicked).isEmpty();
@@ -323,8 +361,8 @@ MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(int x, int 
 	const auto wasFlagged= cells.at(rowClicked).at(colClicked).markIsFlag();
 	
 	MinecleanerBoard::leftClickResult clickResult = MinecleanerBoard::leftClickResult::NoMine;
-	if (colClicked >= config::game_cellsHorizontal ||
-		rowClicked >= config::game_cellsVertical ||
+	if (colClicked >= cellsHorizontal ||
+		rowClicked >= cellsVertical ||
 		(wasRevealed && wasEmpty) ||
 		wasFlagged)
 	{
@@ -356,7 +394,8 @@ MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(int x, int 
 		}
 	}
 
-	if (boardHasBeenCleared())
+	if (boardHasBeenCleared() &&
+		clickResult != MinecleanerBoard::leftClickResult::Mine)
 	{
 		return MinecleanerBoard::leftClickResult::CellsCleared;
 	}
@@ -434,14 +473,14 @@ bool MinecleanerBoard::propagateClickNumberedCell(unsigned int row, unsigned int
 bool MinecleanerBoard::boardHasBeenCleared()
 {
 	unsigned int accum = 0;
-	for (size_t r = 0; r < config::game_cellsVertical; r++)
+	for (size_t r = 0; r < cellsVertical; r++)
 	{
-		for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+		for (size_t c = 0; c < cellsHorizontal; c++)
 		{
 			accum += cells.at(r).at(c).isRevealed();
 		}
 	}
-	return (bombsTotal + accum == config::game_totalCells);
+	return (bombsTotal + accum == cellsTotal);
 }
 
 bool MinecleanerBoard::allAdjacentMinesAreMarked(unsigned int row, unsigned int col)
@@ -543,8 +582,8 @@ void MinecleanerBoard::processRightClick(int x, int y)
 	const unsigned int colClicked = x / config::game_cellSizeSide;
 	const unsigned int rowClicked = y / config::game_cellSizeSide;
 
-	if (colClicked >= config::game_cellsHorizontal ||
-		rowClicked >= config::game_cellsVertical /*||
+	if (colClicked >= cellsHorizontal ||
+		rowClicked >= cellsVertical /*||
 		cells.at(rowClicked).at(colClicked).isRevealed()*/)
 	{
 		return; //click ignored: game continues
@@ -574,14 +613,14 @@ void MinecleanerBoard::processMousePosition(int x, int y)
 	{
 		const unsigned int hoveredCol = std::min(
 			static_cast<unsigned int>((x - config::game_offsetBoard_x) / config::game_cellSizeSide),
-			config::game_cellsHorizontal - 1);
+			cellsHorizontal - 1);
 		const unsigned int hoveredRow = std::min(
 			static_cast<unsigned int>((y - config::game_offsetBoard_y) / config::game_cellSizeSide),
-			config::game_cellsVertical - 1);
+			cellsVertical - 1);
 
-		for (size_t r = 0; r < config::game_cellsVertical; r++)
+		for (size_t r = 0; r < cellsVertical; r++)
 		{
-			for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+			for (size_t c = 0; c < cellsHorizontal; c++)
 			{
 				if (r == hoveredRow && c == hoveredCol)
 				{
@@ -596,9 +635,9 @@ void MinecleanerBoard::processMousePosition(int x, int y)
 	}
 	else
 	{
-		for (size_t r = 0; r < config::game_cellsVertical; r++)
+		for (size_t r = 0; r < cellsVertical; r++)
 		{
-			for (size_t c = 0; c < config::game_cellsHorizontal; c++)
+			for (size_t c = 0; c < cellsHorizontal; c++)
 			{
 				cells.at(r).at(c).unhover();
 			}
@@ -606,14 +645,13 @@ void MinecleanerBoard::processMousePosition(int x, int y)
 	}
 }
 
-void MinecleanerBoard::reset()
+void MinecleanerBoard::reset(unsigned int difficulty)
 {
 	//hideAllCells();
+	setLocalConfig(difficulty);
 	cells.clear();
-	cells.resize(
-		config::game_cellsVertical,
-		std::vector<Cell>(config::game_cellsHorizontal));
-	initialize(config::game_cellsVertical, config::game_cellsHorizontal);
+	cells.resize(cellsVertical, std::vector<Cell>(cellsHorizontal));
+	initialize(cellsVertical, cellsHorizontal);
 	validClicks = 0;
 }
 

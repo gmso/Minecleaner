@@ -46,17 +46,22 @@ public:
 
 	void processMousePosition(int x, int y);
 
-	void reset();
+	void reset(unsigned int difficulty = 0);
 
 	unsigned int getValidClicks();
 
 private:
 	std::vector<std::vector<Cell>> cells;
-	unsigned int bombsTotal;
 	unsigned int revealedCells;
 	unsigned int validClicks;
 
+	unsigned int bombsTotal;
+	unsigned int cellsHorizontal;
+	unsigned int cellsVertical;
+	unsigned int cellsTotal;
+
 	void initialize(unsigned int h, unsigned int w);
+	void setLocalConfig(unsigned int diff);
 	void hideAllCells();
 	void propagateClickEmptyCell(unsigned int row, unsigned int col);
 	bool propagateClickNumberedCell(unsigned int row, unsigned int col);

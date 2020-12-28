@@ -14,6 +14,8 @@ MinecleanerApp::MinecleanerApp()
 	//window.setTitle(config::window_title);
 	currentGameState = MinecleanerApp::gameState::None;
 	timerRunning = false;
+	currentDificulty = panel.getDifficulty();
+	board.reset(static_cast<unsigned int>(currentDificulty));
 }
 
 MinecleanerApp::~MinecleanerApp()
@@ -37,7 +39,7 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 		currentGameState == MinecleanerApp::gameState::Won);
 }
 
-void MinecleanerApp::processLeftClick(int x, int y)
+void MinecleanerApp::processLeftClick(int x, int y, sf::RenderWindow& window)
 {
 	if (boardClickingAllowed())
 	{
@@ -60,14 +62,27 @@ void MinecleanerApp::processLeftClick(int x, int y)
 			}
 		}
 	}
-	if (assets::shapes_button_restart_upperLeft_X <= x &&
+
+	bool changeDifficulty = false;
+	auto newDifficulty = panel.processLeftClick(x, y);
+	if (newDifficulty != currentDificulty)
+	{
+		changeDifficulty = true;
+		currentDificulty = newDifficulty;
+		resizeWindow(window, newDifficulty);
+	}
+
+	if ((assets::shapes_button_restart_upperLeft_X <= x &&
 		x <= assets::shapes_button_restart_lowerRight_X &&
 		assets::shapes_button_restart_upperLeft_Y <= y &&
 		y <= assets::shapes_button_restart_lowerRight_Y)
+		||
+		changeDifficulty)
 	{
 		//Restart button clicked
 		updateGameState(MinecleanerApp::gameState::Restarting);
-		board.reset();
+		board.reset(static_cast<unsigned int>(currentDificulty));
+		assets::updatePositions(static_cast<unsigned int>(currentDificulty));
 		updateGameState(MinecleanerApp::gameState::None);
 	}
 }
@@ -123,6 +138,33 @@ bool MinecleanerApp::boardClickingAllowed()
 		currentGameState == MinecleanerApp::gameState::None ||
 		currentGameState == MinecleanerApp::gameState::Playing
 		);
+}
+
+void MinecleanerApp::resizeWindow(
+	sf::RenderWindow& win, 
+	ControlPanel::gameDifficulty newDiff)
+{
+	sf::FloatRect visibleAreaEasy(0, 0, config::window_width_easy, config::window_height_easy);
+	sf::FloatRect visibleAreaMed(0, 0, config::window_width_medium, config::window_height_medium);
+	sf::FloatRect visibleAreaHard(0, 0, config::window_width_hard, config::window_height_hard);
+
+	switch (newDiff)
+	{
+	case ControlPanel::gameDifficulty::Easy:
+		win.setSize(sf::Vector2u(config::window_width_easy, config::window_height_easy));
+		win.setView(sf::View(visibleAreaEasy));
+		break;
+	case ControlPanel::gameDifficulty::Medium:
+		win.setSize(sf::Vector2u(config::window_width_medium, config::window_height_medium));
+		win.setView(sf::View(visibleAreaMed));
+		break;
+	case ControlPanel::gameDifficulty::Hard:
+		win.setSize(sf::Vector2u(config::window_width_hard, config::window_height_hard));
+		win.setView(sf::View(visibleAreaHard));
+		break;
+	default:
+		break;
+	}
 }
 
 void MinecleanerApp::startTimer()

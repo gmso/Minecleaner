@@ -11,17 +11,48 @@
 #include "config.h"
 
 ///////////////////////////////
+// Helper functions ///////////
+///////////////////////////////
+void resizeWindowIfNeeded(
+    sf::RenderWindow& win, 
+    const MinecleanerApp& app,
+    ControlPanel::gameDifficulty currentDiff
+)
+{
+    auto newDiff = app.getGameDifficulty();
+    if (newDiff != currentDiff)
+    {
+        currentDiff = newDiff;
+        switch (newDiff)
+        {
+        case ControlPanel::gameDifficulty::Easy:
+            win.setSize(sf::Vector2u(config::window_width_easy, config::window_height_easy));
+            break;
+        case ControlPanel::gameDifficulty::Medium:
+            win.setSize(sf::Vector2u(config::window_width_medium, config::window_height_medium));
+            break;
+        case ControlPanel::gameDifficulty::Hard:
+            win.setSize(sf::Vector2u(config::window_width_hard, config::window_height_hard));
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+///////////////////////////////
 // Main routine ///////////////
 ///////////////////////////////
 int main()
 {
     assets::intialize();
     MinecleanerApp app;
+    ControlPanel::gameDifficulty currentDifficulty = ControlPanel::gameDifficulty::Easy;
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(
-        sf::VideoMode(config::window_width, config::window_height), 
+        sf::VideoMode(config::window_width_easy, config::window_height_easy), 
         config::window_title,
         sf::Style::Titlebar | sf::Style::Close,
         settings);
@@ -37,7 +68,7 @@ int main()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    app.processLeftClick(event.mouseButton.x, event.mouseButton.y);
+                    app.processLeftClick(event.mouseButton.x, event.mouseButton.y, window);
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right)
                 {
@@ -50,6 +81,7 @@ int main()
             }
         }
 
+        //resizeWindowIfNeeded(window, app, currentDifficulty);
         window.clear(assets::color_grey_medium);
         app.draw(window);
         window.display();

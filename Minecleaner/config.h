@@ -14,23 +14,37 @@ struct config
 	static unsigned int controlPanel_height;
 	//static unsigned int controlPanel_width;
 
-	static unsigned int game_cellsHorizontal;
-	static unsigned int game_cellsVertical;
+	static unsigned int game_cellsHorizontal_easy;
+	static unsigned int game_cellsVertical_easy;
+	static unsigned int game_cellsHorizontal_medium;
+	static unsigned int game_cellsVertical_medium;
+	static unsigned int game_cellsHorizontal_hard;
+	static unsigned int game_cellsVertical_hard;
 	static float game_cellSizeSide;
 	//static float game_marginSize;
-	static unsigned int game_totalCells;
+	static unsigned int game_totalCells_easy;
+	static unsigned int game_totalCells_medium;
+	static unsigned int game_totalCells_hard;
 	static float game_paddingCell;
 	static int game_offsetBoard_x;
 	static int game_offsetBoard_y;
-	static unsigned int game_bombsMinimum;
-	static unsigned int game_bombsMaximum;
+	//static unsigned int game_bombsMinimum;
+	//static unsigned int game_bombsMaximum;
+	static unsigned int game_bombs_easy;
+	static unsigned int game_bombs_medium;
+	static unsigned int game_bombs_hard;
 
-	static unsigned int window_height;
-	static unsigned int window_width;
+	static unsigned int window_height_easy;
+	static unsigned int window_width_easy;
+	static unsigned int window_height_medium;
+	static unsigned int window_width_medium;
+	static unsigned int window_height_hard;
+	static unsigned int window_width_hard;
 	static sf::String window_title;
 
 	static unsigned int pixelCharSize;
 	static unsigned int pixelCharSize_small;
+	static unsigned int pixelCharSize_smaller;
 
 	static unsigned int controlPanel_restartButton_width;
 	static unsigned int controlPanel_restartButton_height;

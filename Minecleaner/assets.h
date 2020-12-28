@@ -23,6 +23,7 @@ struct assets
 	static sf::Color color_green_dark;
 	static sf::Color color_orange;
 	static sf::Color color_red_light;
+	static sf::Color color_red_dark;
 	static sf::Color color_green_light;
 	static sf::Color color_green_medium;
 
@@ -83,5 +84,7 @@ struct assets
 
 	static void clickCounter_update(unsigned int count);
 	static void timer_update(std::string timePlayed);
+
+	static void updatePositions(unsigned int newGameMode);
 
 };

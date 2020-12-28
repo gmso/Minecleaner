@@ -172,6 +172,7 @@ xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)Release</Command>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MinecleanerApp.cpp" />
     <ClCompile Include="MinecleanerBoard.cpp" />
+    <ClCompile Include="Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assets.h" />
@@ -180,6 +181,7 @@ xcopy /s /i $(SolutionDir)static\Release $(SolutionDir)Release</Command>
     <ClInclude Include="ControlPanel.h" />
     <ClInclude Include="MinecleanerApp.h" />
     <ClInclude Include="MinecleanerBoard.h" />
+    <ClInclude Include="Button.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
