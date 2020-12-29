@@ -13,7 +13,20 @@
 ///////////////////////////////
 // Helper functions ///////////
 ///////////////////////////////
-void resizeWindowIfNeeded(
+void loadIcon(sf::RenderWindow& window)
+{
+    auto image = sf::Image{};
+    if (!image.loadFromFile("Icon.png"))
+    {
+        // Error handling...
+    }
+    else
+    {
+        window.setIcon(image.getSize().x, image.getSize().y, image.getPixelsPtr());
+    }
+}
+
+/*void resizeWindowIfNeeded(
     sf::RenderWindow& win, 
     const MinecleanerApp& app,
     ControlPanel::gameDifficulty currentDiff
@@ -38,7 +51,7 @@ void resizeWindowIfNeeded(
             break;
         }
     }
-}
+}*/
 
 ///////////////////////////////
 // Main routine ///////////////
@@ -56,6 +69,8 @@ int main()
         config::window_title,
         sf::Style::Titlebar | sf::Style::Close,
         settings);
+
+    loadIcon(window);
 
     while (window.isOpen())
     {
