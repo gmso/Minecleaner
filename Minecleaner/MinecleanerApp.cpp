@@ -16,6 +16,7 @@ MinecleanerApp::MinecleanerApp()
 	timerRunning = false;
 	currentDificulty = panel.getDifficulty();
 	board.reset(static_cast<unsigned int>(currentDificulty));
+	livesRemaining = config::game_lives;
 }
 
 MinecleanerApp::~MinecleanerApp()
@@ -31,7 +32,8 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 		window, 
 		static_cast<unsigned int>(currentGameState),
 		board.getValidClicks(),
-		getTimer()
+		getTimer(),
+		livesRemaining
 		);
 	board.draw(
 		window, 
@@ -48,7 +50,8 @@ void MinecleanerApp::processLeftClick(int x, int y, sf::RenderWindow& window)
 		{
 			switch (board.processLeftClick(
 				x - config::game_offsetBoard_x,
-				y - config::game_offsetBoard_y))
+				y - config::game_offsetBoard_y,
+				livesRemaining))
 			{
 			case MinecleanerBoard::leftClickResult::Mine:
 				updateGameState(MinecleanerApp::gameState::Lost);
@@ -56,6 +59,14 @@ void MinecleanerApp::processLeftClick(int x, int y, sf::RenderWindow& window)
 			case MinecleanerBoard::leftClickResult::CellsCleared:
 				updateGameState(MinecleanerApp::gameState::Won);
 				break;
+			case MinecleanerBoard::leftClickResult::Saved:
+				livesRemaining = static_cast<unsigned int>(
+					std::max(
+						static_cast<int>(livesRemaining) - 
+						static_cast<int>(board.getsavedCellsLastClick()), 
+						0)
+					);
+				//break; //break skipped on purpose
 			default:
 				updateGameState(MinecleanerApp::gameState::Playing);
 				break;
@@ -80,10 +91,11 @@ void MinecleanerApp::processLeftClick(int x, int y, sf::RenderWindow& window)
 		changeDifficulty)
 	{
 		//Restart button clicked
-		updateGameState(MinecleanerApp::gameState::Restarting);
-		board.reset(static_cast<unsigned int>(currentDificulty));
-		assets::updatePositions(static_cast<unsigned int>(currentDificulty));
-		updateGameState(MinecleanerApp::gameState::None);
+		restartGame();
+		//updateGameState(MinecleanerApp::gameState::Restarting);
+		//board.reset(static_cast<unsigned int>(currentDificulty));
+		//assets::updatePositions(static_cast<unsigned int>(currentDificulty));
+		//updateGameState(MinecleanerApp::gameState::None);
 	}
 }
 
@@ -108,6 +120,15 @@ void MinecleanerApp::processMousePosition(int x, int y)
 	{
 		board.processMousePosition(x, y);
 	}
+}
+
+void MinecleanerApp::restartGame()
+{
+	updateGameState(MinecleanerApp::gameState::Restarting);
+	board.reset(static_cast<unsigned int>(currentDificulty));
+	assets::updatePositions(static_cast<unsigned int>(currentDificulty));
+	updateGameState(MinecleanerApp::gameState::None);
+	livesRemaining = config::game_lives;
 }
 
 void MinecleanerApp::updateGameState(gameState newState)

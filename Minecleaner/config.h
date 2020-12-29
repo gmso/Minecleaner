@@ -33,6 +33,7 @@ struct config
 	static unsigned int game_bombs_easy;
 	static unsigned int game_bombs_medium;
 	static unsigned int game_bombs_hard;
+	static unsigned int game_lives;
 
 	static unsigned int window_height_easy;
 	static unsigned int window_width_easy;

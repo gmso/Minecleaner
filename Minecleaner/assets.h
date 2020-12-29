@@ -26,6 +26,7 @@ struct assets
 	static sf::Color color_red_dark;
 	static sf::Color color_green_light;
 	static sf::Color color_green_medium;
+	static sf::Color color_yellow;
 
 	static sf::RectangleShape shapes_cell_closed;
 	static sf::RectangleShape shapes_cell_opened;

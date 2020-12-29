@@ -24,6 +24,9 @@ private:
 	ControlPanel panel;
 	enum class gameState{None,Playing,Lost,Won,Restarting} currentGameState;
 	ControlPanel::gameDifficulty currentDificulty;
+	unsigned int livesRemaining;
+
+	void restartGame();
 	void updateGameState(gameState newState);
 	bool boardClickingAllowed();
 	void resizeWindow(

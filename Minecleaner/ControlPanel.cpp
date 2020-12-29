@@ -16,7 +16,8 @@ void ControlPanel::draw(
 	sf::RenderWindow& window, 
 	unsigned int gameState, 
 	unsigned int clicks,
-	std::string timePlayed
+	std::string timePlayed,
+	unsigned int livesRemaining
 )
 {
 	drawRestartButton(window, gameState);
@@ -24,6 +25,7 @@ void ControlPanel::draw(
 	drawTimer(window, timePlayed);
 	drawStatusBar(window, gameState);
 	drawGameModes(window);
+	drawLivesRemaining(window, livesRemaining);
 }
 
 ControlPanel::gameDifficulty ControlPanel::getDifficulty()
@@ -164,6 +166,34 @@ void ControlPanel::drawGameModes(sf::RenderWindow& window)
 	btnEasy.draw(window);
 	btnMedium.draw(window);
 	btnHard.draw(window);
+}
+
+void ControlPanel::drawLivesRemaining(sf::RenderWindow& window, unsigned int livesRemaining)
+{
+	sf::RectangleShape pole = assets::shapes_flag_pole;
+	sf::CircleShape flag = assets::shapes_flag_flag;
+	sf::CircleShape flagBorder = assets::shapes_flag_flagBorder;
+
+	flag.setFillColor(assets::color_yellow);
+
+	for (size_t i = 0; i < livesRemaining; i++)
+	{
+		pole.setPosition(
+			config::controlPanel_height / 20 * 4 + 20 * i + config::game_cellSizeSide * 0.42,
+			60 + config::game_cellSizeSide * 0.2
+		);
+		flag.setPosition(
+			config::controlPanel_height / 20 * 4 + 20 * i + config::game_cellSizeSide * 0.18,
+			60 + config::game_cellSizeSide * 0.5
+		);
+		flagBorder.setPosition(
+			config::controlPanel_height / 20 * 4 + 20 * i + config::game_cellSizeSide * 0.1,
+			60 + config::game_cellSizeSide * 0.57
+		);
+		window.draw(pole);
+		window.draw(flagBorder);
+		window.draw(flag);
+	}
 }
 
 ControlPanel::gameDifficulty ControlPanel::toggleGameMode(

@@ -49,9 +49,17 @@ bool Cell::isEmpty()
 	return (type == Cell::cellType::empty);
 }
 
-bool Cell::reveal()
+bool Cell::reveal(unsigned int livesRemaining)
 {
-	revealed = true;
+	if (livesRemaining > 0 && 
+		(this->hasMine()))
+	{
+		mark = markType::saved;
+	}
+	else
+	{
+		revealed = true;
+	}
 	return (this->hasMine());
 }
 
@@ -176,7 +184,16 @@ void Cell::toggleMark()
 
 bool Cell::markIsFlag()
 {
-	return (mark == Cell::markType::flag);
+	bool isFlag =
+		(mark == Cell::markType::flag) ||
+		(this->markIsSaved());
+	//return (mark == Cell::markType::flag);
+	return isFlag;
+}
+
+bool Cell::markIsSaved()
+{
+	return (mark == Cell::markType::saved);
 }
 
 bool Cell::markIsQuestion()

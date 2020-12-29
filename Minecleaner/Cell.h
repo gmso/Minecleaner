@@ -7,7 +7,7 @@ public:
 	~Cell();
 
 	enum class cellType { empty, number, mine };
-	enum class markType{ none, flag, question};
+	enum class markType{ none, flag, question, saved};
 	bool hasMine();
 	void addMine();
 	void addNumber(
@@ -21,7 +21,7 @@ public:
 		unsigned int rightBottom
 		);
 	bool isRevealed();
-	bool reveal();
+	bool reveal(unsigned int livesRemaining = 0);
 	void hide();
 	void hover();
 	void unhover();
@@ -42,6 +42,7 @@ public:
 	unsigned int getTotalNeighbors();
 	void toggleMark();
 	bool markIsFlag();
+	bool markIsSaved();
 	bool markIsQuestion();
 	bool markIsNone();
 

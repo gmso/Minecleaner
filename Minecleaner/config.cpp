@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 sf::String config::version_mayor = "0";
-sf::String config::version_minor = "3";
+sf::String config::version_minor = "4";
 sf::String config::version_bugfix = "0";
 std::string config::appName = "Minecleaner by gmso";
 
@@ -30,7 +30,8 @@ int config::game_offsetBoard_y = controlPanel_height;
 //unsigned int config::game_bombsMaximum = game_totalCells / 5; //20% of cells are bombs
 unsigned int config::game_bombs_easy = 15;
 unsigned int config::game_bombs_medium= 30;
-unsigned int config::game_bombs_hard= 80;
+unsigned int config::game_bombs_hard = 80;
+unsigned int config::game_lives = 3;
 
 unsigned int config::window_height_easy =
 	config::game_cellsVertical_easy * config::game_cellSizeSide +

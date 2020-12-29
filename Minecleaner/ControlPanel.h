@@ -14,7 +14,8 @@ public:
 		sf::RenderWindow& window, 
 		unsigned int gameState, 
 		unsigned int clicks,
-		std::string timePlayed
+		std::string timePlayed,
+		unsigned int livesRemaining
 	);
 
 	enum class gameDifficulty { Easy, Medium, Hard };
@@ -29,17 +30,17 @@ private:
 	gameDifficulty difficulty;
 
 	Button btnEasy = Button::Button(20,
-		config::controlPanel_height / 20 * 7,
+		config::controlPanel_height / 20 * 4,
 		"E", config::pixelCharSize_small,
 		assets::color_blue_dark, assets::color_grey_light, assets::color_grey_dark);
 
 	Button btnMedium = Button::Button(57,
-		config::controlPanel_height / 20 * 7,
+		config::controlPanel_height / 20 * 4,
 		"M", config::pixelCharSize_small,
 		assets::color_orange, assets::color_grey_light, assets::color_grey_dark);
 
 	Button btnHard = Button::Button(94,
-		config::controlPanel_height / 20 * 7,
+		config::controlPanel_height / 20 * 4,
 		"H", config::pixelCharSize_small,
 		assets::color_red_dark, assets::color_grey_light, assets::color_grey_dark);
 
@@ -48,6 +49,7 @@ private:
 	void drawTimer(sf::RenderWindow& window, std::string timePlayed);
 	void drawStatusBar(sf::RenderWindow& window, unsigned int gameState);
 	void drawGameModes(sf::RenderWindow& window);
+	void drawLivesRemaining(sf::RenderWindow& window, unsigned int livesRemaining);
 
 	gameDifficulty toggleGameMode(
 		Button::State Easy, Button::State Medium, Button::State Hard);

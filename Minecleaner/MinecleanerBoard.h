@@ -38,10 +38,10 @@ public:
 	
 	enum class leftClickResult
 	{
-		NoMine,Mine,CellsCleared
+		NoMine,Mine,CellsCleared,Saved
 	};
 
-	leftClickResult processLeftClick(int x, int y);
+	leftClickResult processLeftClick(int x, int y, unsigned int livesRemaining);
 	void processRightClick(int x, int y);
 
 	void processMousePosition(int x, int y);
@@ -49,11 +49,13 @@ public:
 	void reset(unsigned int difficulty = 0);
 
 	unsigned int getValidClicks();
+	unsigned int getsavedCellsLastClick() { return savedCellsLastClick; }
 
 private:
 	std::vector<std::vector<Cell>> cells;
 	unsigned int revealedCells;
 	unsigned int validClicks;
+	unsigned int savedCellsLastClick;
 
 	unsigned int bombsTotal;
 	unsigned int cellsHorizontal;
@@ -64,13 +66,17 @@ private:
 	void setLocalConfig(unsigned int diff);
 	void hideAllCells();
 	void propagateClickEmptyCell(unsigned int row, unsigned int col);
-	bool propagateClickNumberedCell(unsigned int row, unsigned int col);
+	leftClickResult propagateClickNumberedCell(
+		unsigned int row, unsigned int col, unsigned int livesRemaining);
+	leftClickResult clickedMinedCell(
+		unsigned int row, unsigned int col, unsigned int livesRemaining);
 
 	bool boardHasBeenCleared();
 
 	bool allAdjacentMinesAreMarked(unsigned int row, unsigned int col);
 	unsigned int getAdjacentFlags(unsigned int row, unsigned int col);
 	void flagAllNeighbors(unsigned int row, unsigned int col);
+	void removeAdjacentWrongFlag(unsigned int row, unsigned int col);
 	
 	unsigned int getAdjacentHiddenCells(unsigned int row, unsigned int col);
 };

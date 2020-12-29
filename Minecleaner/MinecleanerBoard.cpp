@@ -14,6 +14,7 @@ MinecleanerBoard::MinecleanerBoard()
 	cellsHorizontal =config::game_cellsHorizontal_easy;
 	cellsVertical = config::game_cellsVertical_easy;
 	cellsTotal = config::game_totalCells_easy;
+	savedCellsLastClick = 0;
 }
 
 MinecleanerBoard::~MinecleanerBoard()
@@ -312,6 +313,11 @@ void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
 		sf::CircleShape flag = assets::shapes_flag_flag;
 		sf::CircleShape flagBorder = assets::shapes_flag_flagBorder;
 
+		if (cells.at(r).at(c).markIsSaved())
+		{
+			flag.setFillColor(assets::color_yellow);
+		}
+
 		pole.setPosition(
 			config::game_cellSizeSide * c + config::game_paddingCell + config::game_cellSizeSide * 0.42,
 			config::game_cellSizeSide * r + config::game_paddingCell + config::game_cellSizeSide * 0.2
@@ -344,8 +350,11 @@ void MinecleanerBoard::drawMark(sf::RenderWindow& window, size_t r, size_t c)
 	}
 }
 
-MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(int x, int y)
+MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(
+	int x, int y, unsigned int livesRemaining)
 {
+	savedCellsLastClick = 0;
+
 	const unsigned int colClicked = std::min(
 		static_cast<unsigned int>(x / config::game_cellSizeSide),
 		static_cast<unsigned int>(cells.at(0).size() - 1)
@@ -371,10 +380,10 @@ MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(int x, int 
 	else 
 	{
 		validClicks += 1;
-		if (cells.at(rowClicked).at(colClicked).reveal())
+		if (cells.at(rowClicked).at(colClicked).reveal(livesRemaining))
 		{
 			//Clicked on cell with mine
-			clickResult = MinecleanerBoard::leftClickResult::Mine;
+			clickResult = clickedMinedCell(rowClicked, colClicked, livesRemaining);
 		}
 		else
 		{
@@ -386,10 +395,7 @@ MinecleanerBoard::leftClickResult MinecleanerBoard::processLeftClick(int x, int 
 			}
 			else if (wasNumber && wasRevealed)
 			{
-				if (propagateClickNumberedCell(rowClicked, colClicked))
-				{
-					clickResult = MinecleanerBoard::leftClickResult::Mine;
-				}
+				clickResult = propagateClickNumberedCell(rowClicked, colClicked, livesRemaining);
 			}
 		}
 	}
@@ -437,14 +443,15 @@ void MinecleanerBoard::propagateClickEmptyCell(unsigned int row, unsigned int co
 	}
 }
 
-bool MinecleanerBoard::propagateClickNumberedCell(unsigned int row, unsigned int col)
+MinecleanerBoard::leftClickResult MinecleanerBoard::propagateClickNumberedCell(
+	unsigned int row, unsigned int col, unsigned int livesRemaining)
 {
 	if (!(allAdjacentMinesAreMarked(row,col)))
 	{
-		return false;
+		return MinecleanerBoard::leftClickResult::NoMine;
 	}
+	
 	unsigned int accumulator = 0;
-
 	for (int adjRow = -1; adjRow < 2; adjRow++)
 	{
 		for (int adjCol = -1; adjCol < 2; adjCol++)
@@ -456,9 +463,17 @@ bool MinecleanerBoard::propagateClickNumberedCell(unsigned int row, unsigned int
 				!(cells.at(row + adjRow).at(col + adjCol).markIsFlag()) //skip flagged cells
 				)
 			{
-				if (cells.at(row + adjRow).at(col + adjCol).reveal())
+				if (cells.at(row + adjRow).at(col + adjCol).reveal(livesRemaining))
 				{
-					accumulator++;
+					if (!(cells.at(row + adjRow).at(col + adjCol).markIsSaved()))
+					{
+						accumulator++;
+					}
+					else
+					{
+						savedCellsLastClick++;
+						removeAdjacentWrongFlag(row, col);
+					}
 				}
 				if (cells.at(row + adjRow).at(col + adjCol).isEmpty())
 				{
@@ -467,7 +482,28 @@ bool MinecleanerBoard::propagateClickNumberedCell(unsigned int row, unsigned int
 			}
 		}
 	}
-	return (accumulator > 0);
+	if (accumulator > livesRemaining)
+	{
+		return MinecleanerBoard::leftClickResult::Mine;
+	}
+	else
+	{
+		return MinecleanerBoard::leftClickResult::Saved;
+	}
+}
+
+MinecleanerBoard::leftClickResult MinecleanerBoard::clickedMinedCell(
+	unsigned int row, unsigned int col, unsigned int livesRemaining)
+{
+	if (livesRemaining > 0)
+	{
+		savedCellsLastClick++;
+		return MinecleanerBoard::leftClickResult::Saved;
+	}
+	else
+	{
+		return MinecleanerBoard::leftClickResult::Mine;
+	}
 }
 
 bool MinecleanerBoard::boardHasBeenCleared()
@@ -552,6 +588,34 @@ void MinecleanerBoard::flagAllNeighbors(unsigned int row, unsigned int col)
 	}
 }
 
+void MinecleanerBoard::removeAdjacentWrongFlag(unsigned int row, unsigned int col)
+{
+	bool flagRemoved = false;
+	for (int adjRow = -1; adjRow < 2; adjRow++)
+	{
+		for (int adjCol = -1; adjCol < 2; adjCol++)
+		{
+			if (
+				!(adjRow == 0 && adjCol == 0) && //skip clicked cell
+				(cells.at(row).at(col).neighborExists(adjRow, adjCol)) && //ignore existing neighbors
+				(cells.at(row + adjRow).at(col + adjCol).markIsFlag()) && //target flagged cells
+				(!(cells.at(row + adjRow).at(col + adjCol).markIsSaved())) //ignore saved cells
+				)
+			{
+				if (!(cells.at(row + adjRow).at(col + adjCol).hasMine()) &&
+					(!flagRemoved))
+				{
+					flagRemoved = true;
+					auto forceReveal = 0;
+					cells.at(row + adjRow).at(col + adjCol).reveal(forceReveal);
+					cells.at(row + adjRow).at(col + adjCol).toggleMark();
+					cells.at(row + adjRow).at(col + adjCol).toggleMark();
+				}
+			}
+		}
+	}
+}
+
 unsigned int MinecleanerBoard::getAdjacentHiddenCells(unsigned int row, unsigned int col)
 {
 	unsigned int accumulator = 0;
@@ -601,7 +665,10 @@ void MinecleanerBoard::processRightClick(int x, int y)
 	}
 	else
 	{
-		cells.at(rowClicked).at(colClicked).toggleMark();
+		if (!(cells.at(rowClicked).at(colClicked).markIsSaved()))
+		{
+			cells.at(rowClicked).at(colClicked).toggleMark();
+		}
 	}
 	
 }

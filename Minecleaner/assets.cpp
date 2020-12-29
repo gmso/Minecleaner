@@ -25,6 +25,7 @@ sf::Color assets::color_red = color_red_light;
 sf::Color assets::color_red_dark = sf::Color::Color(147, 26, 26, 255);
 sf::Color assets::color_green_light = sf::Color::Color(125, 242, 82, 255);
 sf::Color assets::color_green_medium = sf::Color::Color(81, 160, 53, 255);
+sf::Color assets::color_yellow = sf::Color::Color(216, 216, 67, 255);
 
 sf::RectangleShape assets::shapes_cell_closed;
 sf::RectangleShape assets::shapes_cell_opened;
