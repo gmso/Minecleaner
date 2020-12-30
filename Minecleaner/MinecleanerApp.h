@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "MinecleanerBoard.h"
 #include "ControlPanel.h"
+#include "RecordsOverlay.h"
 
 class MinecleanerApp
 {
@@ -22,17 +23,23 @@ public:
 private:
 	MinecleanerBoard board;
 	ControlPanel panel;
-	enum class gameState{None,Playing,Lost,Won,Restarting} currentGameState;
+	RecordsOverlay recordsOverlay;
+	enum class gameState{
+		None,Playing,Lost,Won,Restarting,ViewingRecords} currentGameState;
+	gameState gameStateBeforeRecordsOverlay;
 	ControlPanel::gameDifficulty currentDificulty;
 	unsigned int livesRemaining;
 
 	void restartGame();
 	void updateGameState(gameState newState);
 	bool boardClickingAllowed();
+	bool panelClickingAllowed();
 	void resizeWindow(
 		sf::RenderWindow& win,
 		ControlPanel::gameDifficulty newDiff
 	);
+	void showRecords();
+	void hideRecords();
 
 	std::chrono::steady_clock::time_point timerStart;
 	std::chrono::steady_clock::time_point timerEnd;

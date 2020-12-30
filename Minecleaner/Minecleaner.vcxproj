@@ -175,6 +175,7 @@ xcopy /s /i $(SolutionDir)static\img\Icon.png $(SolutionDir)Release</Command>
     <ClCompile Include="MinecleanerApp.cpp" />
     <ClCompile Include="MinecleanerBoard.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="RecordsOverlay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assets.h" />
@@ -184,6 +185,7 @@ xcopy /s /i $(SolutionDir)static\img\Icon.png $(SolutionDir)Release</Command>
     <ClInclude Include="MinecleanerApp.h" />
     <ClInclude Include="MinecleanerBoard.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="RecordsOverlay.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

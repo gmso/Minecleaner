@@ -99,6 +99,24 @@ Button::State Button::processLeftClick(int x, int y)
 	return currentState;
 }
 
+void Button::setPositionX(int x)
+{
+	posX = x;
+	initialize_background();
+	initialize_text();
+	//posX_BR = x + textSize * textButton.size() * 1.75;
+	//button_border.setPosition(x, posY);
+	//button_background.setPosition(x + 3, posY + 3);
+	//button_text.setPosition(x + 8, posY);
+}
+
+void Button::setPositionY(int y)
+{
+	posY = y;
+	initialize_background();
+	initialize_text();
+}
+
 void Button::initialize_background()
 {
 	//auto maxText = std::max(

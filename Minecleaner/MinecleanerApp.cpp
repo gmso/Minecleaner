@@ -13,6 +13,7 @@ MinecleanerApp::MinecleanerApp()
 	//window.setSize(sf::Vector2u(config::window_width,config::window_height));
 	//window.setTitle(config::window_title);
 	currentGameState = MinecleanerApp::gameState::None;
+	gameStateBeforeRecordsOverlay = MinecleanerApp::gameState::None;
 	timerRunning = false;
 	currentDificulty = panel.getDifficulty();
 	board.reset(static_cast<unsigned int>(currentDificulty));
@@ -39,6 +40,7 @@ void MinecleanerApp::draw(sf::RenderWindow& window)
 		window, 
 		currentGameState == MinecleanerApp::gameState::Lost,
 		currentGameState == MinecleanerApp::gameState::Won);
+	recordsOverlay.draw(window);
 }
 
 void MinecleanerApp::processLeftClick(int x, int y, sf::RenderWindow& window)
@@ -74,28 +76,45 @@ void MinecleanerApp::processLeftClick(int x, int y, sf::RenderWindow& window)
 		}
 	}
 
-	bool changeDifficulty = false;
-	auto newDifficulty = panel.processLeftClick(x, y);
-	if (newDifficulty != currentDificulty)
+	if (recordsOverlay.isDisplayed())
 	{
-		changeDifficulty = true;
-		currentDificulty = newDifficulty;
-		resizeWindow(window, newDifficulty);
+		if (recordsOverlay.processLeftClick(x, y))
+		{
+			// close button clicked
+			hideRecords();
+		}
 	}
 
-	if ((assets::shapes_button_restart_upperLeft_X <= x &&
-		x <= assets::shapes_button_restart_lowerRight_X &&
-		assets::shapes_button_restart_upperLeft_Y <= y &&
-		y <= assets::shapes_button_restart_lowerRight_Y)
-		||
-		changeDifficulty)
+	if (panelClickingAllowed())
 	{
-		//Restart button clicked
-		restartGame();
-		//updateGameState(MinecleanerApp::gameState::Restarting);
-		//board.reset(static_cast<unsigned int>(currentDificulty));
-		//assets::updatePositions(static_cast<unsigned int>(currentDificulty));
-		//updateGameState(MinecleanerApp::gameState::None);
+		bool changeDifficulty = false;
+		auto newDifficulty = panel.processLeftClick(x, y);
+		if (newDifficulty != currentDificulty)
+		{
+			changeDifficulty = true;
+			currentDificulty = newDifficulty;
+			resizeWindow(window, newDifficulty);
+		}
+
+		if ((assets::shapes_button_restart_upperLeft_X <= x &&
+			x <= assets::shapes_button_restart_lowerRight_X &&
+			assets::shapes_button_restart_upperLeft_Y <= y &&
+			y <= assets::shapes_button_restart_lowerRight_Y)
+			||
+			changeDifficulty)
+		{
+			//Restart button clicked
+			restartGame();
+			//updateGameState(MinecleanerApp::gameState::Restarting);
+			//board.reset(static_cast<unsigned int>(currentDificulty));
+			//assets::updatePositions(static_cast<unsigned int>(currentDificulty));
+			//updateGameState(MinecleanerApp::gameState::None);
+		}
+
+		if (panel.processRecordsClick(x,y))
+		{
+			showRecords();
+		}
 	}
 }
 
@@ -115,18 +134,29 @@ void MinecleanerApp::processRightClick(int x, int y)
 
 void MinecleanerApp::processMousePosition(int x, int y)
 {
-	panel.processMousePosition(x, y);
+	if (panelClickingAllowed())
+	{
+		panel.processMousePosition(x, y);
+	}
 	if (boardClickingAllowed())
 	{
 		board.processMousePosition(x, y);
+	}
+	if (recordsOverlay.isDisplayed())
+	{
+		recordsOverlay.processMousePosition(x, y);
 	}
 }
 
 void MinecleanerApp::restartGame()
 {
 	updateGameState(MinecleanerApp::gameState::Restarting);
+
 	board.reset(static_cast<unsigned int>(currentDificulty));
 	assets::updatePositions(static_cast<unsigned int>(currentDificulty));
+	panel.updatePositions(static_cast<unsigned int>(currentDificulty));
+	recordsOverlay.updatePosition(static_cast<unsigned int>(currentDificulty));
+
 	updateGameState(MinecleanerApp::gameState::None);
 	livesRemaining = config::game_lives;
 }
@@ -139,15 +169,24 @@ void MinecleanerApp::updateGameState(gameState newState)
 		startTimer();
 	}
 	else if (currentGameState == MinecleanerApp::gameState::None &&
-		newState != MinecleanerApp::gameState::Playing)
+		(newState == MinecleanerApp::gameState::Lost ||
+		newState == MinecleanerApp::gameState::Won ||
+		newState == MinecleanerApp::gameState::Restarting)
+		)
 	{
 		startTimer();
 		stopTimer();
 	}
 	else if (currentGameState == MinecleanerApp::gameState::Playing &&
-		newState != MinecleanerApp::gameState::Playing)
+		newState != MinecleanerApp::gameState::Playing &&
+		newState != MinecleanerApp::gameState::ViewingRecords)
 	{
 		stopTimer();
+	}
+
+	if (newState != MinecleanerApp::gameState::ViewingRecords)
+	{
+		gameStateBeforeRecordsOverlay = newState;
 	}
 
 	currentGameState = newState;
@@ -158,6 +197,13 @@ bool MinecleanerApp::boardClickingAllowed()
 	return (
 		currentGameState == MinecleanerApp::gameState::None ||
 		currentGameState == MinecleanerApp::gameState::Playing
+		);
+}
+
+bool MinecleanerApp::panelClickingAllowed()
+{
+	return (
+		currentGameState != MinecleanerApp::gameState::ViewingRecords
 		);
 }
 
@@ -186,6 +232,18 @@ void MinecleanerApp::resizeWindow(
 	default:
 		break;
 	}
+}
+
+void MinecleanerApp::showRecords()
+{
+	updateGameState(MinecleanerApp::gameState::ViewingRecords);
+	recordsOverlay.display();
+}
+
+void MinecleanerApp::hideRecords()
+{
+	updateGameState(gameStateBeforeRecordsOverlay);
+	recordsOverlay.hide();
 }
 
 void MinecleanerApp::startTimer()
@@ -233,7 +291,9 @@ std::string MinecleanerApp::getTimer()
 		time.append(" ' " + str_ms);
 	//}
 
-	if (currentGameState == MinecleanerApp::gameState::None)
+	if (currentGameState == MinecleanerApp::gameState::None ||
+		(currentGameState == MinecleanerApp::gameState::ViewingRecords &&
+			gameStateBeforeRecordsOverlay == MinecleanerApp::gameState::None))
 	{
 		return "0";
 	}

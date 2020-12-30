@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "assets.h"
 #include "Button.h"
@@ -22,7 +22,10 @@ public:
 	gameDifficulty getDifficulty();
 
 	gameDifficulty processLeftClick(int x, int y);
+	bool processRecordsClick(int x, int y);
 	void processMousePosition(int x, int y);
+
+	void updatePositions(unsigned int newGameMode);
 
 private:
 	bool restartButton_hovered;
@@ -44,12 +47,18 @@ private:
 		"H", config::pixelCharSize_small,
 		assets::color_red_dark, assets::color_grey_light, assets::color_grey_dark);
 
+	Button btnRecords= Button::Button(config::window_width_easy - 50,
+		config::controlPanel_height / 20 * 4,
+		"+", config::pixelCharSize_small,
+		assets::color_grey_darkest, assets::color_grey_light, assets::color_grey_dark);
+
 	void drawRestartButton(sf::RenderWindow& window, unsigned int gameState);
 	void drawClickCounter(sf::RenderWindow& window, unsigned int clicks);
 	void drawTimer(sf::RenderWindow& window, std::string timePlayed);
 	void drawStatusBar(sf::RenderWindow& window, unsigned int gameState);
 	void drawGameModes(sf::RenderWindow& window);
 	void drawLivesRemaining(sf::RenderWindow& window, unsigned int livesRemaining);
+	void drawButtonRecords(sf::RenderWindow& window);
 
 	gameDifficulty toggleGameMode(
 		Button::State Easy, Button::State Medium, Button::State Hard);

@@ -26,7 +26,10 @@ public:
 
 	void draw(sf::RenderWindow& window);
 	State processMousePosition(int x, int y);
-	State processLeftClick(int x, int y);	
+	State processLeftClick(int x, int y);
+
+	void setPositionX(int x);
+	void setPositionY(int y);
 
 private:
 	float posX;

@@ -26,6 +26,7 @@ void ControlPanel::draw(
 	drawStatusBar(window, gameState);
 	drawGameModes(window);
 	drawLivesRemaining(window, livesRemaining);
+	drawButtonRecords(window);
 }
 
 ControlPanel::gameDifficulty ControlPanel::getDifficulty()
@@ -61,11 +62,22 @@ ControlPanel::gameDifficulty ControlPanel::processLeftClick(int x, int y)
 	return difficulty;
 }
 
+bool ControlPanel::processRecordsClick(int x, int y)
+{
+	auto clickRecords = btnRecords.processLeftClick(x, y);
+	if (clickRecords == Button::State::Clicked)
+	{
+		btnRecords.deactivate(); //so button is deactivated after closing records overlay
+	}
+	return (clickRecords == Button::State::Clicked);
+}
+
 void ControlPanel::processMousePosition(int x, int y)
 {
 	auto mouseEasy = btnEasy.processMousePosition(x, y);
 	auto mouseMedium = btnMedium.processMousePosition(x, y);
 	auto mouseHard = btnHard.processMousePosition(x, y);
+	auto mouseRecords = btnRecords.processMousePosition(x, y);
 	//toggleGameMode(mouseEasy, mouseMedium, mouseHard);
 
 	if (assets::shapes_button_restart_upperLeft_X <= x &&
@@ -196,6 +208,11 @@ void ControlPanel::drawLivesRemaining(sf::RenderWindow& window, unsigned int liv
 	}
 }
 
+void ControlPanel::drawButtonRecords(sf::RenderWindow& window)
+{
+	btnRecords.draw(window);
+}
+
 ControlPanel::gameDifficulty ControlPanel::toggleGameMode(
 	Button::State Easy, Button::State Medium, Button::State Hard)
 {
@@ -235,6 +252,27 @@ ControlPanel::gameDifficulty ControlPanel::toggleGameMode(
 		break;
 	}
 	return difficulty;
+}
+
+void ControlPanel::updatePositions(unsigned int newGameMode)
+{
+	auto window_width = config::window_width_easy;
+	switch (newGameMode)
+	{
+	case 0: // Easy
+		//do nothing
+		break;
+	case 1: // Medium
+		window_width = config::window_width_medium;
+		break;
+	case 2: // Hard
+		window_width = config::window_width_hard;
+		break;
+	default:
+		break;
+	}
+
+	btnRecords.setPositionX(window_width - 50);
 }
 
 

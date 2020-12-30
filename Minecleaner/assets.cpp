@@ -7,6 +7,7 @@ sf::Color assets::color_white = sf::Color::White;
 sf::Color assets::color_grey_lightest = sf::Color::Color(226, 226, 226, 255);
 sf::Color assets::color_grey_light = sf::Color::Color(183, 183, 183, 255);
 sf::Color assets::color_grey_medium = sf::Color::Color(147, 147, 147, 255);
+sf::Color assets::color_grey_medium_semitransparent = sf::Color::Color(147, 147, 147, 180);
 sf::Color assets::color_grey_medium_dark = sf::Color::Color(125, 125, 125, 255);
 sf::Color assets::color_grey_dark = sf::Color::Color(102, 102, 102, 255);
 sf::Color assets::color_grey_darkest = sf::Color::Color(58, 58, 58, 255);
@@ -61,6 +62,11 @@ sf::RectangleShape assets::shapes_button_restart_border;
 
 sf::RectangleShape assets::shapes_status_bar;
 sf::RectangleShape assets::shapes_status_bar_border;
+
+sf::RectangleShape assets::shapes_records_background_overlay;
+sf::RectangleShape assets::shapes_records_background_box;
+sf::RectangleShape assets::shapes_records_background_box_border;
+
 
 sf::Font assets::font;
 sf::Text assets::cellNumber;
@@ -249,6 +255,32 @@ void assets::intialize()
 		shapes_button_restart_upperLeft_Y - 2
 	);
 
+	shapes_records_background_overlay.setSize(sf::Vector2f(
+		config::window_width_easy, config::window_height_easy
+	));
+	shapes_records_background_overlay.setFillColor(assets::color_grey_medium_semitransparent);
+	shapes_records_background_overlay.setPosition(0,0);
+
+	shapes_records_background_box.setSize(sf::Vector2f(
+		config::window_width_easy - 100, config::window_height_easy - 80
+	));
+	shapes_records_background_box.setFillColor(assets::color_grey_dark);
+	shapes_records_background_box.setPosition(
+		config::window_width_easy / 2 - ((config::window_width_easy - 100) / 2),
+		config::window_height_easy / 2 - ((config::window_height_easy - 80) / 2)
+	);
+
+	shapes_records_background_box_border.setSize(sf::Vector2f(
+		config::window_width_easy - 80, config::window_height_easy - 60
+	));
+	shapes_records_background_box_border.setFillColor(assets::color_grey_medium_dark);
+	shapes_records_background_box_border.setPosition(
+		config::window_width_easy / 2 - ((config::window_width_easy - 80) / 2),
+		config::window_height_easy / 2 - ((config::window_height_easy - 60) / 2)
+	);
+
+
+
 	if (!font.loadFromFile("segoeui.ttf"))
 	{
 		// error...
@@ -390,6 +422,7 @@ void assets::timer_update(std::string timePlayed)
 void assets::updatePositions(unsigned int newGameMode)
 {
 	auto window_width = config::window_width_easy;
+	auto window_height = config::window_height_easy;
 	switch (newGameMode)
 	{
 	case 0: // Easy
@@ -397,9 +430,11 @@ void assets::updatePositions(unsigned int newGameMode)
 		break;
 	case 1: // Medium
 		window_width = config::window_width_medium;
+		window_height = config::window_height_medium;
 		break;
 	case 2: // Hard
 		window_width = config::window_width_hard;
+		window_height = config::window_height_hard;
 		break;
 	default:
 		break;
@@ -470,6 +505,23 @@ void assets::updatePositions(unsigned int newGameMode)
 	timerCount.setPosition(
 		window_width * 3 / 4,
 		config::controlPanel_height / 4 * 2 + 12
+	);
+
+	shapes_records_background_overlay.setSize(sf::Vector2f(
+		window_width, window_height
+	));
+
+	//shapes_records_background_box.setSize(sf::Vector2f(
+	//	window_width - 200, window_height - 100
+	//));
+	shapes_records_background_box.setPosition(
+		window_width / 2 - ((config::window_width_easy - 100) / 2),
+		window_height / 2 - ((config::window_height_easy - 80) / 2)
+	);
+
+	shapes_records_background_box_border.setPosition(
+		window_width / 2 - ((config::window_width_easy - 80) / 2),
+		window_height / 2 - ((config::window_height_easy - 60) / 2)
 	);
 }
 

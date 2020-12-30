@@ -10,6 +10,7 @@ struct assets
 	static sf::Color color_grey_lightest;
 	static sf::Color color_grey_light;
 	static sf::Color color_grey_medium;
+	static sf::Color color_grey_medium_semitransparent;
 	static sf::Color color_grey_medium_dark;
 	static sf::Color color_grey_dark;
 	static sf::Color color_grey_darkest;
@@ -62,6 +63,10 @@ struct assets
 
 	static sf::RectangleShape shapes_status_bar;
 	static sf::RectangleShape shapes_status_bar_border;
+
+	static sf::RectangleShape shapes_records_background_overlay;
+	static sf::RectangleShape shapes_records_background_box;
+	static sf::RectangleShape shapes_records_background_box_border;
 
 	static sf::Font font;
 	static sf::Text cellNumber;
