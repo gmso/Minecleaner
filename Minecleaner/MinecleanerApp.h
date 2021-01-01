@@ -6,6 +6,7 @@
 #include "MinecleanerBoard.h"
 #include "ControlPanel.h"
 #include "RecordsOverlay.h"
+#include "RecordsFile.h"
 
 class MinecleanerApp
 {
@@ -24,6 +25,7 @@ private:
 	MinecleanerBoard board;
 	ControlPanel panel;
 	RecordsOverlay recordsOverlay;
+	RecordsFile myRecordsFile;
 	enum class gameState{
 		None,Playing,Lost,Won,Restarting,ViewingRecords} currentGameState;
 	gameState gameStateBeforeRecordsOverlay;

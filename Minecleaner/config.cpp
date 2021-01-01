@@ -3,7 +3,7 @@
 
 sf::String config::version_mayor = "0";
 sf::String config::version_minor = "5";
-sf::String config::version_bugfix = "0";
+sf::String config::version_bugfix = "1";
 std::string config::appName = "Minecleaner by gmso";
 
 unsigned int config::controlPanel_height = 100;

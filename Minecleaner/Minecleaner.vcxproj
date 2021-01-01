@@ -91,6 +91,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -108,6 +109,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,6 +134,7 @@ xcopy /s /i $(SolutionDir)static\img\Icon.png $(SolutionDir)Release</Command>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,6 +152,7 @@ xcopy /s /i $(SolutionDir)static\img\Icon.png $(SolutionDir)Release</Command>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\Cpp\Libraries\SFML\SFML-2.5.1\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,6 +179,7 @@ xcopy /s /i $(SolutionDir)static\img\Icon.png $(SolutionDir)Release</Command>
     <ClCompile Include="MinecleanerApp.cpp" />
     <ClCompile Include="MinecleanerBoard.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="RecordsFile.cpp" />
     <ClCompile Include="RecordsOverlay.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +190,7 @@ xcopy /s /i $(SolutionDir)static\img\Icon.png $(SolutionDir)Release</Command>
     <ClInclude Include="MinecleanerApp.h" />
     <ClInclude Include="MinecleanerBoard.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="RecordsFile.h" />
     <ClInclude Include="RecordsOverlay.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
