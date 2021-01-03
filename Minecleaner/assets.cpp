@@ -11,22 +11,27 @@ sf::Color assets::color_grey_medium_semitransparent = sf::Color::Color(147, 147,
 sf::Color assets::color_grey_medium_dark = sf::Color::Color(125, 125, 125, 255);
 sf::Color assets::color_grey_dark = sf::Color::Color(102, 102, 102, 255);
 sf::Color assets::color_grey_darkest = sf::Color::Color(58, 58, 58, 255);
+sf::Color assets::color_grey_darkest_semitransparent = sf::Color::Color(58, 58, 58, 220);
 sf::Color assets::color_black = sf::Color::Black;
 sf::Color assets::color_blue = sf::Color::Color(14, 29, 237, 255);
 //sf::Color assets::color_blue_dark = sf::Color::Color(23, 32, 155, 255);
 sf::Color assets::color_green = sf::Color::Color(44, 170, 52, 255);
 sf::Color assets::color_blue_dark = sf::Color::Color(2, 23, 127, 255);
+sf::Color assets::color_blue_dark_semitransparent = sf::Color::Color(2, 23, 127, 180);
 sf::Color assets::color_maroon = sf::Color::Color(119, 19, 77, 255);
 sf::Color assets::color_cyan = sf::Color::Color(23, 173, 158, 255);
 sf::Color assets::color_green_dark = sf::Color::Color(8, 94, 57, 255);
-sf::Color assets::color_orange= sf::Color::Color(153, 88, 13, 255);
+sf::Color assets::color_orange = sf::Color::Color(198, 122, 35, 255);
+sf::Color assets::color_orange_semitransparent = sf::Color::Color(198, 122, 35, 180);
 sf::Color assets::color_red_light = sf::Color::Color(234, 82, 82, 255);
 //sf::Color assets::color_red = sf::Color::Color(237, 51, 14, 255);
 sf::Color assets::color_red = color_red_light;
 sf::Color assets::color_red_dark = sf::Color::Color(147, 26, 26, 255);
+sf::Color assets::color_red_dark_semitransparent = sf::Color::Color(147, 26, 26, 180);
 sf::Color assets::color_green_light = sf::Color::Color(125, 242, 82, 255);
 sf::Color assets::color_green_medium = sf::Color::Color(81, 160, 53, 255);
 sf::Color assets::color_yellow = sf::Color::Color(216, 216, 67, 255);
+sf::Color assets::color_yellow_semitransparent = sf::Color::Color(216, 216, 67, 120);
 
 sf::RectangleShape assets::shapes_cell_closed;
 sf::RectangleShape assets::shapes_cell_opened;
@@ -262,12 +267,12 @@ void assets::intialize()
 	shapes_records_background_overlay.setPosition(0,0);
 
 	shapes_records_background_box.setSize(sf::Vector2f(
-		config::window_width_easy - 100, config::window_height_easy - 80
+		config::window_width_easy - 100, config::window_height_easy - 10
 	));
 	shapes_records_background_box.setFillColor(assets::color_grey_dark);
 	shapes_records_background_box.setPosition(
 		config::window_width_easy / 2 - ((config::window_width_easy - 100) / 2),
-		config::window_height_easy / 2 - ((config::window_height_easy - 80) / 2)
+		config::window_height_easy / 2 - ((config::window_height_easy - 10) / 2)
 	);
 
 	shapes_records_background_box_border.setSize(sf::Vector2f(
@@ -516,7 +521,7 @@ void assets::updatePositions(unsigned int newGameMode)
 	//));
 	shapes_records_background_box.setPosition(
 		window_width / 2 - ((config::window_width_easy - 100) / 2),
-		window_height / 2 - ((config::window_height_easy - 80) / 2)
+		window_height / 2 - ((config::window_height_easy - 10) / 2)
 	);
 
 	shapes_records_background_box_border.setPosition(
@@ -525,3 +530,14 @@ void assets::updatePositions(unsigned int newGameMode)
 	);
 }
 
+void assets::centerText(sf::Text& floatRect,
+	float X_UL, float Y_UL,
+	float X_BR, float Y_BR)
+{
+	auto boundingRect = floatRect.getGlobalBounds();
+	auto center_X = X_BR - ((X_BR - X_UL) / 2);
+	auto center_Y = Y_BR - ((Y_BR - Y_UL) / 2);
+	floatRect.setPosition(
+		center_X - boundingRect.width / 2.0f,
+		center_Y - boundingRect.height);
+}

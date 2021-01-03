@@ -14,20 +14,25 @@ struct assets
 	static sf::Color color_grey_medium_dark;
 	static sf::Color color_grey_dark;
 	static sf::Color color_grey_darkest;
+	static sf::Color color_grey_darkest_semitransparent;
 	static sf::Color color_black;
 	static sf::Color color_red;
 	static sf::Color color_blue;
 	static sf::Color color_green;
 	static sf::Color color_blue_dark;
+	static sf::Color color_blue_dark_semitransparent;
 	static sf::Color color_maroon;
 	static sf::Color color_cyan;
 	static sf::Color color_green_dark;
 	static sf::Color color_orange;
+	static sf::Color color_orange_semitransparent;
 	static sf::Color color_red_light;
 	static sf::Color color_red_dark;
+	static sf::Color color_red_dark_semitransparent;
 	static sf::Color color_green_light;
 	static sf::Color color_green_medium;
 	static sf::Color color_yellow;
+	static sf::Color color_yellow_semitransparent;
 
 	static sf::RectangleShape shapes_cell_closed;
 	static sf::RectangleShape shapes_cell_opened;
@@ -92,5 +97,10 @@ struct assets
 	static void timer_update(std::string timePlayed);
 
 	static void updatePositions(unsigned int newGameMode);
+
+	static void centerText(sf::Text& floatRect,
+		float X_UL, float Y_UL,
+		float X_BR, float Y_BR);
+
 
 };

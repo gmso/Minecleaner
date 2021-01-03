@@ -5,6 +5,7 @@
 
 # Specific for "Minecleaner" repo
 LatestRelease/Minecleaner/
+*.recs
 
 # User-specific files
 *.rsuser

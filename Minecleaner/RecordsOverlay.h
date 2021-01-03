@@ -31,10 +31,19 @@ private:
 
 	Button btnClose = Button::Button(
 		config::window_width_easy / 2 + ((config::window_width_easy - 100) / 2) - 45,
-		config::window_height_easy / 2 - ((config::window_height_easy - 80) / 2) + 10,
+		config::window_height_easy / 2 - ((config::window_height_easy - 10) / 2) + 10,
 		"x", config::pixelCharSize_small,
 		assets::color_red, assets::color_grey_dark, assets::color_grey_light);
 
-	std::vector<sf::Shape> recordsTable;
+	std::vector<sf::RectangleShape> recordsTable;
+	std::vector<sf::CircleShape> recordsTable_Circle;
+	std::vector<sf::ConvexShape> recordsTable_Convex;
+	sf::CircleShape localFlagShape;
+	void initializeRecordsTable();
 
+	std::vector<sf::Text> textOfTable;
+	void initializeTextOfTable();
+
+	template <class T>
+	std::string timeAsStr(T timeInMs);
 };

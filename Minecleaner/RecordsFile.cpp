@@ -26,7 +26,7 @@ void RecordsFile::saveRecord(std::string gameMode, unsigned long time, unsigned 
 		auto c_BestLives = allRecords[gameMode]["c_BestLives"]["c_Lives"];
 
 		if ((time < a_BestTime) ||
-			((time == a_BestTime) && (clicks < b_BestClicks || lives < c_BestLives) ||
+			((time == a_BestTime) && (clicks < b_BestClicks || lives > c_BestLives) ||
 			(a_BestTime == static_cast<unsigned long>(config::game_valueInvalidRecord)) /*empty record*/)
 			)
 		{
@@ -37,7 +37,7 @@ void RecordsFile::saveRecord(std::string gameMode, unsigned long time, unsigned 
 		}
 
 		if ((clicks < b_BestClicks) ||
-			((clicks == b_BestClicks) && (time < a_BestTime || lives < c_BestLives) ||
+			((clicks == b_BestClicks) && (time < a_BestTime || lives > c_BestLives) ||
 			(b_BestClicks == static_cast<unsigned long>(config::game_valueInvalidRecord)) /*empty record*/)
 			)
 		{
@@ -47,7 +47,7 @@ void RecordsFile::saveRecord(std::string gameMode, unsigned long time, unsigned 
 			newRecordAcheived = true;
 		}
 
-		if ((lives < c_BestLives) ||
+		if ((lives > c_BestLives) ||
 			((lives == c_BestLives) && (time < a_BestTime || clicks < b_BestClicks) ||
 			(c_BestLives == static_cast<unsigned long>(config::game_valueInvalidRecord)) /*empty record*/)
 			)
