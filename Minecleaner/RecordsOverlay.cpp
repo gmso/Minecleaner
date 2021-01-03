@@ -7,6 +7,7 @@ RecordsOverlay::RecordsOverlay()
 	posY = config::window_height_easy / 2 - ((config::window_height_easy - 80) / 2);
 	posX_BR = posX + config::window_width_easy - 100;
 	posY_BR = posY + config::window_height_easy - 80;
+	lastValidRecords.assign(config::game_recordedRecordValues, 0);
 }
 
 RecordsOverlay::~RecordsOverlay()
@@ -41,9 +42,10 @@ bool RecordsOverlay::processLeftClick(int x, int y)
 	return (clickClose == Button::State::Clicked);
 }
 
-void RecordsOverlay::display()
+void RecordsOverlay::display(std::vector<unsigned long> records)
 {
 	displayed = true;
+	lastValidRecords.assign(records.begin(), records.end());
 }
 
 void RecordsOverlay::hide()

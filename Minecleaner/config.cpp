@@ -3,7 +3,7 @@
 
 sf::String config::version_mayor = "0";
 sf::String config::version_minor = "5";
-sf::String config::version_bugfix = "1";
+sf::String config::version_bugfix = "2";
 std::string config::appName = "Minecleaner by gmso";
 
 unsigned int config::controlPanel_height = 100;
@@ -32,6 +32,9 @@ unsigned int config::game_bombs_easy = 15;
 unsigned int config::game_bombs_medium= 30;
 unsigned int config::game_bombs_hard = 80;
 unsigned int config::game_lives = 3;
+unsigned int config::game_valueInvalidRecord = config::game_lives + 2;
+unsigned int config::game_recordedRecordValues = 27;
+
 
 unsigned int config::window_height_easy =
 	config::game_cellsVertical_easy * config::game_cellSizeSide +

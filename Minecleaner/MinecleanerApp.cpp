@@ -60,6 +60,11 @@ void MinecleanerApp::processLeftClick(int x, int y, sf::RenderWindow& window)
 				break;
 			case MinecleanerBoard::leftClickResult::CellsCleared:
 				updateGameState(MinecleanerApp::gameState::Won);
+				myRecordsFile.saveRecord(
+					getGameDifficulty(),
+					getTimerMilliseconds(),
+					static_cast<unsigned long>(board.getValidClicks()),
+					static_cast<unsigned long>(livesRemaining));
 				break;
 			case MinecleanerBoard::leftClickResult::Saved:
 				livesRemaining = static_cast<unsigned int>(
@@ -234,10 +239,30 @@ void MinecleanerApp::resizeWindow(
 	}
 }
 
+std::string MinecleanerApp::getGameDifficulty()
+{
+	std::string diff;
+	switch (currentDificulty)
+	{
+	case ControlPanel::gameDifficulty::Easy:
+		diff = "Easy";
+		break;
+	case ControlPanel::gameDifficulty::Medium:
+		diff = "Medium";
+		break;
+	case ControlPanel::gameDifficulty::Hard:
+		diff = "Hard";
+		break;
+	default:
+		break;
+	}
+	return diff;
+}
+
 void MinecleanerApp::showRecords()
 {
 	updateGameState(MinecleanerApp::gameState::ViewingRecords);
-	recordsOverlay.display();
+	recordsOverlay.display(myRecordsFile.getRecords());
 }
 
 void MinecleanerApp::hideRecords()
@@ -298,6 +323,16 @@ std::string MinecleanerApp::getTimer()
 		return "0";
 	}
 	return time;
+}
+
+unsigned long MinecleanerApp::getTimerMilliseconds()
+{
+	std::chrono::duration<double, std::milli> 
+		time_span = timerEnd - timerStart;
+
+	unsigned long ulong_ms = static_cast<unsigned long>(time_span.count());
+
+	return ulong_ms;
 }
 
 /*bool MinecleanerApp::isRunning()

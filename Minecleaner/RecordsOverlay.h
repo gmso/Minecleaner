@@ -15,7 +15,7 @@ public:
 	void processMousePosition(int x, int y);
 	bool processLeftClick(int x, int y);
 
-	void display();
+	void display(std::vector<unsigned long> records);
 	void hide();
 	bool isDisplayed();
 
@@ -27,9 +27,14 @@ private:
 	int posY;
 	int posX_BR;
 	int posY_BR;
+	std::vector<unsigned long> lastValidRecords;
+
 	Button btnClose = Button::Button(
 		config::window_width_easy / 2 + ((config::window_width_easy - 100) / 2) - 45,
 		config::window_height_easy / 2 - ((config::window_height_easy - 80) / 2) + 10,
 		"x", config::pixelCharSize_small,
 		assets::color_red, assets::color_grey_dark, assets::color_grey_light);
+
+	std::vector<sf::Shape> recordsTable;
+
 };

@@ -40,6 +40,7 @@ private:
 		sf::RenderWindow& win,
 		ControlPanel::gameDifficulty newDiff
 	);
+	std::string getGameDifficulty();
 	void showRecords();
 	void hideRecords();
 
@@ -49,4 +50,5 @@ private:
 	void startTimer();
 	void stopTimer();
 	std::string getTimer();
+	unsigned long getTimerMilliseconds();
 };
