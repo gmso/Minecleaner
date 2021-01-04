@@ -5,7 +5,7 @@ RecordsFile::RecordsFile()
 {
 	fileNamePermanent = "your.recs";
 	fileNameTemprorary = "your.recs.txt";
-	key = '/';
+	key = 'P';
 	initializeRecords();
 }
 
