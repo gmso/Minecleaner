@@ -245,13 +245,13 @@ std::string MinecleanerApp::getGameDifficulty()
 	switch (currentDificulty)
 	{
 	case ControlPanel::gameDifficulty::Easy:
-		diff = "Easy";
+		diff = "a_Easy";
 		break;
 	case ControlPanel::gameDifficulty::Medium:
-		diff = "Medium";
+		diff = "b_Medium";
 		break;
 	case ControlPanel::gameDifficulty::Hard:
-		diff = "Hard";
+		diff = "c_Hard";
 		break;
 	default:
 		break;

@@ -5,7 +5,7 @@ RecordsFile::RecordsFile()
 {
 	fileNamePermanent = "your.recs";
 	fileNameTemprorary = "your.recs.txt";
-	key = 'P';
+	key = '/';
 	initializeRecords();
 }
 
@@ -17,9 +17,9 @@ void RecordsFile::saveRecord(std::string gameMode, unsigned long time, unsigned 
 {
 	bool newRecordAcheived = false;
 
-	if (gameMode == "Easy" ||
-		gameMode == "Medium" || 
-		gameMode == "Hard" )
+	if (gameMode == "a_Easy" ||
+		gameMode == "b_Medium" || 
+		gameMode == "c_Hard" )
 	{
 		auto a_BestTime = allRecords[gameMode]["a_BestTime"]["a_Time"];
 		auto b_BestClicks = allRecords[gameMode]["b_BestClicks"]["b_Clicks"];
@@ -148,9 +148,9 @@ void RecordsFile::loadEmptyRecords()
 		{"c_BestLives",emptyRecord}
 	};
 	allRecords = {
-		{"Easy",difficulty} ,
-		{"Medium",difficulty} ,
-		{"Hard",difficulty} 
+		{"a_Easy",difficulty} ,
+		{"b_Medium",difficulty} ,
+		{"c_Hard",difficulty} 
 	};
 }
 
@@ -208,33 +208,33 @@ bool RecordsFile::validateFileContent(const std::vector<std::string>& fileLines)
 void RecordsFile::absorbFileContent(std::vector<std::string> fileLines)
 {
 	char* end;
-	allRecords["Easy"]["a_BestTime"]["a_Time"] = std::strtoul(fileLines.at(0).c_str(),&end,10);
-	allRecords["Easy"]["a_BestTime"]["b_Clicks"] = std::strtoul(fileLines.at(1).c_str(),&end,10);
-	allRecords["Easy"]["a_BestTime"]["c_Lives"] = std::strtoul(fileLines.at(2).c_str(),&end,10);
-	allRecords["Easy"]["b_BestClicks"]["a_Time"] = std::strtoul(fileLines.at(3).c_str(),&end,10);
-	allRecords["Easy"]["b_BestClicks"]["b_Clicks"] = std::strtoul(fileLines.at(4).c_str(),&end,10);
-	allRecords["Easy"]["b_BestClicks"]["c_Lives"] = std::strtoul(fileLines.at(5).c_str(),&end,10);
-	allRecords["Easy"]["c_BestLives"]["a_Time"] = std::strtoul(fileLines.at(6).c_str(),&end,10);
-	allRecords["Easy"]["c_BestLives"]["b_Clicks"] = std::strtoul(fileLines.at(7).c_str(),&end,10);
-	allRecords["Easy"]["c_BestLives"]["c_Lives"] = std::strtoul(fileLines.at(8).c_str(),&end,10);
-	allRecords["Medium"]["a_BestTime"]["a_Time"] = std::strtoul(fileLines.at(9).c_str(),&end,10);
-	allRecords["Medium"]["a_BestTime"]["b_Clicks"] = std::strtoul(fileLines.at(10).c_str(),&end,10);
-	allRecords["Medium"]["a_BestTime"]["c_Lives"] = std::strtoul(fileLines.at(11).c_str(),&end,10);
-	allRecords["Medium"]["b_BestClicks"]["a_Time"] = std::strtoul(fileLines.at(12).c_str(),&end,10);
-	allRecords["Medium"]["b_BestClicks"]["b_Clicks"] = std::strtoul(fileLines.at(13).c_str(),&end,10);
-	allRecords["Medium"]["b_BestClicks"]["c_Lives"] = std::strtoul(fileLines.at(14).c_str(),&end,10);
-	allRecords["Medium"]["c_BestLives"]["a_Time"] = std::strtoul(fileLines.at(15).c_str(),&end,10);
-	allRecords["Medium"]["c_BestLives"]["b_Clicks"] = std::strtoul(fileLines.at(16).c_str(),&end,10);
-	allRecords["Medium"]["c_BestLives"]["c_Lives"] = std::strtoul(fileLines.at(17).c_str(),&end,10);
-	allRecords["Hard"]["a_BestTime"]["a_Time"] = std::strtoul(fileLines.at(18).c_str(),&end,10);
-	allRecords["Hard"]["a_BestTime"]["b_Clicks"] = std::strtoul(fileLines.at(19).c_str(),&end,10);
-	allRecords["Hard"]["a_BestTime"]["c_Lives"] = std::strtoul(fileLines.at(20).c_str(),&end,10);
-	allRecords["Hard"]["b_BestClicks"]["a_Time"] = std::strtoul(fileLines.at(21).c_str(),&end,10);
-	allRecords["Hard"]["b_BestClicks"]["b_Clicks"] = std::strtoul(fileLines.at(22).c_str(),&end,10);
-	allRecords["Hard"]["b_BestClicks"]["c_Lives"] = std::strtoul(fileLines.at(23).c_str(),&end,10);
-	allRecords["Hard"]["c_BestLives"]["a_Time"] = std::strtoul(fileLines.at(24).c_str(),&end,10);
-	allRecords["Hard"]["c_BestLives"]["b_Clicks"] = std::strtoul(fileLines.at(25).c_str(),&end,10);
-	allRecords["Hard"]["c_BestLives"]["c_Lives"] = std::strtoul(fileLines.at(26).c_str(),&end,10);
+	allRecords["a_Easy"]["a_BestTime"]["a_Time"] = std::strtoul(fileLines.at(0).c_str(),&end,10);
+	allRecords["a_Easy"]["a_BestTime"]["b_Clicks"] = std::strtoul(fileLines.at(1).c_str(),&end,10);
+	allRecords["a_Easy"]["a_BestTime"]["c_Lives"] = std::strtoul(fileLines.at(2).c_str(),&end,10);
+	allRecords["a_Easy"]["b_BestClicks"]["a_Time"] = std::strtoul(fileLines.at(3).c_str(),&end,10);
+	allRecords["a_Easy"]["b_BestClicks"]["b_Clicks"] = std::strtoul(fileLines.at(4).c_str(),&end,10);
+	allRecords["a_Easy"]["b_BestClicks"]["c_Lives"] = std::strtoul(fileLines.at(5).c_str(),&end,10);
+	allRecords["a_Easy"]["c_BestLives"]["a_Time"] = std::strtoul(fileLines.at(6).c_str(),&end,10);
+	allRecords["a_Easy"]["c_BestLives"]["b_Clicks"] = std::strtoul(fileLines.at(7).c_str(),&end,10);
+	allRecords["a_Easy"]["c_BestLives"]["c_Lives"] = std::strtoul(fileLines.at(8).c_str(),&end,10);
+	allRecords["b_Medium"]["a_BestTime"]["a_Time"] = std::strtoul(fileLines.at(9).c_str(),&end,10);
+	allRecords["b_Medium"]["a_BestTime"]["b_Clicks"] = std::strtoul(fileLines.at(10).c_str(),&end,10);
+	allRecords["b_Medium"]["a_BestTime"]["c_Lives"] = std::strtoul(fileLines.at(11).c_str(),&end,10);
+	allRecords["b_Medium"]["b_BestClicks"]["a_Time"] = std::strtoul(fileLines.at(12).c_str(),&end,10);
+	allRecords["b_Medium"]["b_BestClicks"]["b_Clicks"] = std::strtoul(fileLines.at(13).c_str(),&end,10);
+	allRecords["b_Medium"]["b_BestClicks"]["c_Lives"] = std::strtoul(fileLines.at(14).c_str(),&end,10);
+	allRecords["b_Medium"]["c_BestLives"]["a_Time"] = std::strtoul(fileLines.at(15).c_str(),&end,10);
+	allRecords["b_Medium"]["c_BestLives"]["b_Clicks"] = std::strtoul(fileLines.at(16).c_str(),&end,10);
+	allRecords["b_Medium"]["c_BestLives"]["c_Lives"] = std::strtoul(fileLines.at(17).c_str(),&end,10);
+	allRecords["c_Hard"]["a_BestTime"]["a_Time"] = std::strtoul(fileLines.at(18).c_str(),&end,10);
+	allRecords["c_Hard"]["a_BestTime"]["b_Clicks"] = std::strtoul(fileLines.at(19).c_str(),&end,10);
+	allRecords["c_Hard"]["a_BestTime"]["c_Lives"] = std::strtoul(fileLines.at(20).c_str(),&end,10);
+	allRecords["c_Hard"]["b_BestClicks"]["a_Time"] = std::strtoul(fileLines.at(21).c_str(),&end,10);
+	allRecords["c_Hard"]["b_BestClicks"]["b_Clicks"] = std::strtoul(fileLines.at(22).c_str(),&end,10);
+	allRecords["c_Hard"]["b_BestClicks"]["c_Lives"] = std::strtoul(fileLines.at(23).c_str(),&end,10);
+	allRecords["c_Hard"]["c_BestLives"]["a_Time"] = std::strtoul(fileLines.at(24).c_str(),&end,10);
+	allRecords["c_Hard"]["c_BestLives"]["b_Clicks"] = std::strtoul(fileLines.at(25).c_str(),&end,10);
+	allRecords["c_Hard"]["c_BestLives"]["c_Lives"] = std::strtoul(fileLines.at(26).c_str(),&end,10);
 }
 
 void RecordsFile::saveRecordsInFile()
